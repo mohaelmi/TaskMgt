@@ -1,20 +1,20 @@
 const fs = require('fs');
 const express = require('express');
 const router = express.Router();
-const {tasks, users} = require('../data.js')
+const {tasksData, users} = require('../data.js')
 
 
 
-// get all tasks 
+// get all tasksData 
 router.get('/', (req, res) => {
-  res.json(tasks);
+  res.json(tasksData);
 
 });
 
-// get tasks for specific user 
+// get tasksData for specific user 
 router.get('/:id', (req, res) => {
 
-  const data = tasks.filter(task => task.userId === Number(req.params.id))
+  const data = tasksData.filter(task => task.userId === Number(req.params.id))
   res.json(data);
 
 });
@@ -23,8 +23,20 @@ router.get('/:id', (req, res) => {
 router.post("/new", (req, res) => {
 
   const newTask = req.body
-  tasks.push(newTask)
+  tasksData.push(newTask)
   res.json({message: "added successfully!!"});
+  
+});
+
+
+// edit a new task 
+router.get("/edit/:id", (req, res) => {
+  const id = parseInt(req.params.id)
+  const task = tasksData.find(task => task.id === id)
+  if(task) { 
+    res.json(task)
+  }
+  res.json({message: "task not found"});
   
 });
 
