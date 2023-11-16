@@ -1,4 +1,4 @@
-import axios from "axios";
+import toast from "react-hot-toast"
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { uid } from "uid";
@@ -9,9 +9,9 @@ function NewTask({createTask}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title } = e.target.elements
-    
-    if(title.value < 1) {
-      return toast.error("please enter valid task!")
+
+    if(!title.value) {
+      return toast.error("please insert valid task!");
     }
     const task = {
       userId: 6,
