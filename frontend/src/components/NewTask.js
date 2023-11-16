@@ -1,19 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { uid } from "uid";
 
 function NewTask({createTask}) {
-  // const [task, setTask] = useState({
-  //   id: "",
-  //   name: "",
-  //   status: "active", //can also be in progress or closed
-  // });
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.elements)
     const { title } = e.target.elements
-
+    
+    if(title.value < 1) {
+      return toast.error("please enter valid task!")
+    }
     const task = {
       userId: 6,
       title:      title.value, 
@@ -22,12 +21,11 @@ function NewTask({createTask}) {
       duration:    "80 minutes",
       importance_level: "low" 
     }
-
+    
     createTask(task)
 
   };
 
-  // console.log("tasks", task);
 
   return (
     <form onSubmit={handleSubmit}>
