@@ -8,6 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const taskRoutes = require('./routes/taskRoutes');
+const cors = require("cors")
 const authRoutes = require('./routes/authRoutes');
 
 const PORT = process.env.PORT || 8080;
@@ -15,7 +16,8 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
+app.use(cors())
 // The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));

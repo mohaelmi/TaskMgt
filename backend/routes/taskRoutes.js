@@ -22,7 +22,9 @@ router.get('/:id', (req, res) => {
 // add a new task 
 router.post("/new", (req, res) => {
 
-  const newTask = req.body
+  console.log(req.body);
+  const id = tasksData.length + 1
+  const newTask = { ...req.body, id }
   tasksData.push(newTask)
   res.json({message: "added successfully!!"});
   
