@@ -3,7 +3,7 @@ const tasksData = [
       id: 1,
       userId: 5,
       title:       "doing laundry",  
-      description: "description", 
+      description: "details for the task", 
       start_time:      "1:00pm",   
       duration:    "30 minutes",
       importance_level: "high"  
@@ -13,7 +13,7 @@ const tasksData = [
       id: 2,
       userId: 5,
       title:       "cooking",
-      description: "description", 
+      description: "details for the task", 
       start_time:      "5:00pm",   
       duration:    "15 minutes",
       importance_level: "high"  
@@ -23,7 +23,7 @@ const tasksData = [
     id: 3,
     userId: 8,
     title:       "watch movie",
-    description: "description",   
+    description: "details for the task",   
     start_time:      "7:00pm",   
     duration:    "45 minutes",
     importance_level: "low"  

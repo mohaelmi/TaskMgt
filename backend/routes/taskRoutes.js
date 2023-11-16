@@ -41,5 +41,19 @@ router.get("/edit/:id", (req, res) => {
 });
 
 
+// delete a task 
+// /delete?id --query
+router.get("/delete/:id", (req, res) => {
+
+  const id = parseInt(req.params.id)
+  tasksData.map((task, idx, tasksData) => {
+    if(task.id === id) {
+      tasksData.splice(idx, 1)
+    }
+  })
+  res.json({tasksData, message: "task deleted successfully!!"});
+  
+});
+
 
 module.exports = router;

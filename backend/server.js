@@ -29,7 +29,7 @@ const taskRoutes = require("./routes/taskRoutes");
 
 
 //api/tasks endpoint
-app.use("/api/tasks/", taskRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // /api/users endpoint
 //app.use("/users", userRoutes);
