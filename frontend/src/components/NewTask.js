@@ -1,7 +1,6 @@
 import toast from "react-hot-toast"
 import React, { useState } from "react";
-import toast from "react-hot-toast";
-import { uid } from "uid";
+// import { uid } from "uid";
 
 function NewTask({createTask}) {
 
