@@ -2,8 +2,12 @@ import { useReducer, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+
 const ACTIONS = {
   SET_TASK_DATA: "SET_PHOTO_DATA",
+  DELETE_TASK: "DELETE_TASK",
+  CREAT_TASK: "CREATE_TASK",
+  SHOW_EDIT_COMPONENT: "SHOW_EDIT_COMPONENT",
 };
 
 const reducer = (state, action) => {
@@ -18,6 +22,40 @@ const reducer = (state, action) => {
       return {
         ...state,
         taskData: action.payload,
+      };
+
+      case ACTIONS.CREAT_TASK:
+        return {
+          ...state,
+          taskData: [...state.taskData, action.payload],
+        };
+
+    case ACTIONS.SHOW_EDIT_COMPONENT:
+      const paylaodIsCurrentTask = action.payload === state.taskToEdit
+      // hide edit
+      if(paylaodIsCurrentTask) {
+        //hide edit component and make taskToEdit in the state null
+        return {
+          ...state,
+          showEdit: false,
+          taskToEdit: null,
+        };
+      }
+
+      if(!paylaodIsCurrentTask && state.taskToEdit !== null) {
+        //update edit component and let taskToEdit state stay true
+        return {
+          ...state,
+          taskToEdit: action.payload,
+        };
+      }
+
+
+      // for first time action being triggered set showEdit true and taskToEdit to paylaod
+      return {
+        ...state,
+        showEdit: true,
+        taskToEdit: action.payload,
       };
 
     // case ACTIONS.NEW_TASK:
@@ -36,6 +74,8 @@ const reducer = (state, action) => {
 export const useApplicationData = () => {
   const initialState = {
     taskData: [],
+    taskToEdit: null,
+    showEdit: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -57,9 +97,9 @@ export const useApplicationData = () => {
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
+        dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
-        // dispatch({ type: ACTIONS.NEW_TASK, payload: // set update data from server  ) });
-        toast.success(res.data.message)
+        toast.success(res.data.message);
       })
       .catch((error) => console.log(error));
   };
@@ -69,9 +109,34 @@ export const useApplicationData = () => {
       .get(`/api/tasks/delete/${id}`)
       .then((res) => {
         dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasksData });
+        fetchTasks();
+        toast.success(res.data.message);
       })
       .catch((error) => console.log(error));
   };
 
-  return [state, createTask, handleDeleteTask];
+  const showEditComponent = (id) => {
+    // console.log(id);
+    axios
+      .get(`/api/tasks/edit/${id}`)
+      .then((res) => {
+        // console.log(res.data.title);
+        dispatch({
+          type: ACTIONS.SHOW_EDIT_COMPONENT,
+          payload: res.data.title,
+        });
+      })
+      .catch((error) => console.log(error));
+  
+  };
+
+  // axios
+  // .get(`/api/tasks/edit/${id}`)
+  // .then((res) => {
+  //   console.log(res.data.title);
+  //   dispatch({ type: ACTIONS.SHOW_EDIT_COMPONENT, payload: res.data.title });
+  // })
+  // .catch((error) => console.log(error));
+
+  return [state, createTask, handleDeleteTask, showEditComponent];
 };

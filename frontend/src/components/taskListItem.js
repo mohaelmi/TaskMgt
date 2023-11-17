@@ -2,7 +2,7 @@ import React from 'react'
 import Header from './Header';
 import TaskCard from './TaskCard';
 
-function TaskListItemm({status, tasks, todos, inprogress, done, deleteTask}) {
+function TaskListItem({status, tasks, todos, inprogress, done, deleteTask, showEditComponent}) {
   // console.log(status);
   let text = "todos"
   let tasksToMap = todos;
@@ -19,10 +19,10 @@ function TaskListItemm({status, tasks, todos, inprogress, done, deleteTask}) {
   return (
     <div className='w-64'>
       <Header text= {text}  count = {tasksToMap.length} bg = "bg-slate-500" />
-      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)}/> ) }
+      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} showEditComponent ={() => showEditComponent(task.id)}/> ) }
       {/* list */}
     </div>
   )
 }
 
-export default TaskListItemm
+export default TaskListItem

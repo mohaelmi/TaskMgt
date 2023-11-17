@@ -1,6 +1,6 @@
 import React from "react";
 
-function TaskCard({ task, tasks, deleteTask }) {
+function TaskCard({ task, tasks, deleteTask, showEditComponent }) {
   return (
     <div className={`relative p-4 mt-8 shadow-md rounded-md cursor-grab`}>
       <p className="font-bold">{task.title}</p>
@@ -26,7 +26,7 @@ function TaskCard({ task, tasks, deleteTask }) {
         </svg>
       </button>
 
-      <button className="absolute bottom-1 right-8 text-slate-500">
+      <button onClick={showEditComponent} className="absolute bottom-1 right-8 text-slate-500">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

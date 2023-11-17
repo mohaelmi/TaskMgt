@@ -44,6 +44,7 @@ function TaskList(props) {
           inprogress={progress}
           done={done}
           deleteTask={props.deleteTask}
+          showEditComponent = {props.showEditComponent}
         />
       ))}
     </div>
