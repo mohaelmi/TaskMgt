@@ -9,22 +9,32 @@ import EditTask from "./components/EditTask";
 
 
 function App() {
-  const [state, createTask, handleDeleteTask, showEditComponent] = useApplicationData();
+  
+  const [tasks, setTasks ] = useState([])
 
-  // console.log("task app", state.taskToEdit);
+  useEffect(() => {
+  axios.get('/api/tasks/')
+  .then(res => {
+    setTasks(res.data)
+    console.log(res.data);
+  })
+  .catch(error => console.log(error))
+  }, [])
 
-  return (
-    <>
-      <Toaster />
-      <div className="bg-slate-200 w-9/12 flex flex-col justify-center items-center pt-5 pb-10 mx-auto gap-16 rounded-md">
-        <NewTask createTask={createTask} />
-        {/* <p>tasklist is below</p> */}
-        {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
-        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} showEditComponent = {showEditComponent} />
-        { state.showEdit && <EditTask taskToEdit = {state.taskToEdit}  /> }
-      </div>
-    </>
-  );
+  const handleDeleteTask = (id) => {
+  axios.get(`/api/tasks/delete/${id}`)
+  .then(res => {
+    console.log(res.data.tasksData);
+    setTasks(res.data.tasksData)
+  })
+  .catch( error => console.log(error))
+  }
+
+  return <div className="App"> 
+    <h1>final magic app starts here!!</h1>
+  
+    <TaskList  tasks = {tasks}  deleteTask = {handleDeleteTask}/>
+  </div>;
 }
 
 export default App;
