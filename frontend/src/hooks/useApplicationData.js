@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 
 export const useApplicationData = () => {
   const initialState = {
-    taskData: []
+    taskData: [],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 

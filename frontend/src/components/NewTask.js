@@ -18,7 +18,8 @@ function NewTask({createTask}) {
       description: "details for the task", 
       start_time:      "1:20pm",   
       duration:    "80 minutes",
-      importance_level: "low" 
+      importance_level: "low",
+      status: "todos"
     }
     
     createTask(task)
