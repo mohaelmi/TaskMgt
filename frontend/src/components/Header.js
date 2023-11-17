@@ -37,10 +37,9 @@ const Header = () => {
             sx={{ paddingLeft: '30%' }}
           >
             <Tab label='About Us' />
-            <Tab label='Contact' />
             <Tab label='Tasks' />
           </Tabs>
-          <Person2Icon href='#' sx={{ marginLeft: '27%' }} />
+          <Person2Icon href='#' sx={{ marginLeft: '1%' }} />
           <Button
             sx={{ marginLeft: 'auto', color: 'black' }}
             variant='outlined'
