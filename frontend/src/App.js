@@ -6,7 +6,6 @@ import { useApplicationData } from './hooks/useApplicationData';
 import TaskList from './components/TaskList';
 import NewTask from './components/NewTask';
 import EditTask from './components/EditTask';
-import NavBar from './components/Header';
 import Header from './components/Header';
 
 function App() {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import TaskListItem from "./taskListItem";
+import React, { useEffect, useState } from 'react';
+import TaskListItem from './taskListItem';
 
 // import axios from 'axios';
 
@@ -10,16 +10,16 @@ function TaskList(props) {
   // console.log(props.tasks);
 
   useEffect(() => {
-    const filteredTodos = props.tasks.filter((task) => task.status === "todos");
-    const filteredin = props.tasks.filter((task) => task.status === "progress");
-    const filteredDone = props.tasks.filter((task) => task.status === "done");
+    const filteredTodos = props.tasks.filter((task) => task.status === 'todos');
+    const filteredin = props.tasks.filter((task) => task.status === 'progress');
+    const filteredDone = props.tasks.filter((task) => task.status === 'done');
 
     setTodos(filteredTodos);
     setin(filteredin);
     setDone(filteredDone);
   }, [props.tasks]);
 
-  const statuses = ["up_coming", "progress", "done"];
+  const statuses = ['up_coming', 'progress', 'done'];
 
   // const renderTasks = () => {
   //   return statuses?.map((status, index) => (
@@ -34,7 +34,7 @@ function TaskList(props) {
   // };
 
   return (
-    <div className="flex gap-16">
+    <div className='flex gap-16'>
       {statuses?.map((status, index) => (
         <TaskListItem
           key={index}
@@ -44,7 +44,7 @@ function TaskList(props) {
           inprogress={progress}
           done={done}
           deleteTask={props.deleteTask}
-          showEditComponent = {props.showEditComponent}
+          showEditComponent={props.showEditComponent}
         />
       ))}
     </div>
@@ -55,8 +55,7 @@ function TaskList(props) {
 
 export default TaskList;
 
-{
-  /* <section className="vh-100" style={{backgroundColor: "#eee"}}>
+/* <section className="vh-100" style={{backgroundColor: "#eee"}}>
 <div className="container py-5 h-100">
   <div className="row d-flex justify-content-center align-items-center h-100">
     <div className="col-md-12 col-xl-10">
@@ -93,4 +92,3 @@ export default TaskList;
   </div>
 </div>
 </section> */
-}
