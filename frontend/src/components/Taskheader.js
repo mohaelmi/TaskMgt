@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import React from 'react'
-import React from 'react'
 
 function Header({text, count, bg}) {
 

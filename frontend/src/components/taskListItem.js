@@ -1,4 +1,3 @@
-import React from 'react';
 import React from 'react'
 import Taskheader from './Taskheader';
 import TaskCard from './TaskCard';
