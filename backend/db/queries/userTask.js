@@ -1,44 +1,115 @@
-// taskQueries.js
+// backend/db/queries/userTask.js
+const db = require('../database');
 
-const createTask = `
-  INSERT INTO tasks (UserID, Title, Category, Description, Status, PriorityLevel, ImportanceLevel, DueDate)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-  RETURNING *;
-`;
+const createTask = (userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime) => {
+  const query = `
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, PriorityLevel, ImportanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    RETURNING *;
+  `;
+  const values = [userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime];
 
-const setActualStartTime = `
-  UPDATE tasks
-  SET ActualStartTime = $1
-  WHERE TaskID = $2
-  RETURNING *;
-`;
+  return db.query(query, values)
+    .then(result => result.rows[0])
+    .catch(error => {
+      console.error('Error creating task:', error);
+      throw new Error('Error creating task');
+    });
+};
 
-const setActualEndTime = `
-  UPDATE tasks
-  SET ActualEndTime = $1
-  WHERE TaskID = $2
-  RETURNING *;
-`;
+// Example 
+// createTask( 3,"tasktitle" ,'General', 'Description of Task 1', 'closed', 'High', 'High', '08:00:00','09:00:00','10:30:00','11:00:00')
+//   .then(task => {
+//     console.log('Created Task:', task);
+//     // Use the returned task or ID for further testing
+//   })
+//   .catch(error => {
+//     console.error('Error creating task:', error);
+//   });
 
-const editTask = `
-  UPDATE tasks
-  SET Title = $1, Category = $2, Description = $3, Status = $4, PriorityLevel = $5, ImportanceLevel = $6, DueDate = $7
-  WHERE TaskID = $8
-  RETURNING *;
-`;
-const getUserById = `
-  SELECT * FROM users
-  WHERE UserID = $1;
-`;
-const getTasksByUserId = `
-  SELECT * FROM tasks
-  WHERE UserID = $1;
-`;
+
+
+const setActualStartTime = (startTime, taskId) => {
+  const query = `
+    UPDATE tasks
+    SET ActualStartTime = $1
+    WHERE id = $2
+    RETURNING *;
+  `;
+  const values = [startTime, taskId];
+
+  return db.query(query, values)
+    .then(result => result.rows[0])
+    .catch(() => {
+      throw new Error('Error setting actual start time');
+    });
+};
+//Example:
+
+
+// setActualStartTime('09:00:00', 4)
+//   .then(updatedTask => {
+//     console.log('Updated Task:', updatedTask);
+//     // Use the updated task data or ID for further operations
+//   })
+//   .catch(error => {
+//     console.error('Error:', error.message);
+//   });
+
+const setActualEndTime = (endTime, taskId) => {
+  const query = `
+    UPDATE tasks
+    SET ActualEndTime = $1
+    WHERE id = $2
+    RETURNING *;
+  `;
+  const values = [endTime, taskId];
+
+  return db.query(query, values)
+    .then(result => result.rows[0])
+    .catch(() => {
+      throw new Error('Error setting actual end time');
+    });
+};
+//Examp;e
+// setActualEndTime('11:00:00', 4)
+//   .then(updatedTask => {
+//     console.log('Updated Task:', updatedTask);
+//     // Use the updated task data or ID for further operations
+//   })
+//   .catch(error => {
+//     console.error('Error:', error.message);
+//   });
+
+const getTasksByUserId = (userId) => {
+  const query = `
+    SELECT *
+    FROM tasks
+    WHERE UserID = $1;
+  `;
+  const values = [userId];
+
+  return db.query(query, values)
+    .then(result => result.rows)
+    .catch(() => {
+      throw new Error('Error fetching tasks for the user');
+    });
+};
+//Example:
+// getTasksByUserId(1)
+//   .then(tasks => {
+//     console.log('Tasks:', tasks);
+//     // Use the retrieved tasks data as needed
+//   })
+//   .catch(error => {
+//     console.error('Error:', error.message);
+//   });
+
+
+
 module.exports = {
   createTask,
   setActualStartTime,
   setActualEndTime,
-  editTask,
-  getUserById,
   getTasksByUserId,
 };
