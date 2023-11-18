@@ -26,5 +26,32 @@ router.post("/new", (req, res) => {
         res.status(500).json({ error: 'Error adding a new task' });
       });
   });
-  
+ // Set actual start time for a task
+router.post('/setStartTime/:taskId', (req, res) => {
+    const { startTime } = req.body;
+    const { taskId } = req.params;
+
+    setActualStartTime(startTime, taskId)
+        .then(() => {
+            res.json({ message: "Actual start time updated successfully" });
+        })
+        .catch(() => {
+            res.status(500).json({ error: 'Error updating actual start time' });
+        });
+});
+
+// Set actual end time for a task
+router.post('/setEndTime/:taskId', (req, res) => {
+    const { endTime } = req.body;
+    const { taskId } = req.params;
+
+    setActualEndTime(endTime, taskId)
+        .then(() => {
+            res.json({ message: "Actual end time updated successfully" });
+        })
+        .catch(() => {
+            res.status(500).json({ error: 'Error updating actual end time' });
+        });
+
+});
   module.exports = router;

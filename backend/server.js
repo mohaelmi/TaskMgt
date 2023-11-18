@@ -10,7 +10,7 @@ const morgan = require('morgan');
 const taskRoutes = require('./routes/taskRoutes');
 const cors = require("cors")
 const authRoutes = require('./routes/authRoutes');
-
+const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
 const app = express();
 
@@ -34,7 +34,7 @@ app.use(
 //api/tasks endpoint
 app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', authRoutes);
-
+app.use('/api/sam', Routes);
 // /api/users endpoint
 //app.use("/users", userRoutes);
 
