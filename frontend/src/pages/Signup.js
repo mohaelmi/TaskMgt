@@ -27,7 +27,7 @@ const SignUp = () => {
           <TextField
             type={'text'}
             margin='normal'
-            id='outlined-basic'
+            id='username'
             label='UserName'
             variant='outlined'
             sx={{
@@ -37,7 +37,7 @@ const SignUp = () => {
           <TextField
             type={'email'}
             margin='normal'
-            id='outlined-basic'
+            id='email'
             label='Email'
             variant='outlined'
             sx={{
@@ -47,7 +47,7 @@ const SignUp = () => {
           <TextField
             type={'password'}
             margin='normal'
-            id='outlined-basic'
+            id='password'
             label='Password'
             variant='outlined'
             sx={{
