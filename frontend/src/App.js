@@ -1,12 +1,11 @@
-import "./App.css";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Toaster } from "react-hot-toast";
-import { useApplicationData } from "./hooks/useApplicationData";
-import TaskList from "./components/TaskList";
-import NewTask from "./components/NewTask";
-import EditTask from "./components/EditTask";
-import NavBar from './components/Header';
+import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import { useApplicationData } from './hooks/useApplicationData';
+import TaskList from './components/TaskList';
+import NewTask from './components/NewTask';
+import EditTask from './components/EditTask';
 import Header from './components/Header';
 
 
