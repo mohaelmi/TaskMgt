@@ -16,6 +16,7 @@ const Header = () => {
           color: 'black',
           borderBottom: '1px solid #ccc',
           boxShadow: '0px 0px 2px #ccc',
+          height: '60px',
         }}
       >
         <Toolbar>
@@ -52,8 +53,12 @@ const Header = () => {
               to='/about'
               textColor='inherit'
             />
-            {/* <Tab label='Tasks' component={RouterLink} to='/task' textColor='inherit'
-           /> */}
+            <Tab
+              label='Tasks'
+              component={RouterLink}
+              to='/task'
+              textColor='inherit'
+            />
             <Tab
               label='Profile'
               component={RouterLink}

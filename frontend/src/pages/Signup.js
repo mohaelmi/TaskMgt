@@ -1,15 +1,22 @@
 import React from 'react';
 import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    // Navigate to the login page
+    navigate('/login');
+  };
   return (
-    <div>
+    <div style={{ paddingTop: '5%' }}>
       <CssBaseline />
       <form>
         <Box
           display='flex'
           flexDirection={'column'}
-          maxWidth={400}
+          maxWidth={500}
           alignItems={'center'}
           justifyContent={'center'}
           margin='auto'
@@ -20,8 +27,13 @@ const SignUp = () => {
           boxShadow={'5px 5px 10px #ccc'}
           sx={{ ':hover': { boxShadow: '10px 10px 20px #ccc' } }}
         >
-          <Typography marginBottom={1} variant='h4' textAlign='center'>
-            SignUp
+          <Typography
+            marginBottom={1}
+            variant='h4'
+            textAlign='center'
+            marginTop={5}
+          >
+            Create an Account
           </Typography>
 
           <TextField
@@ -63,18 +75,34 @@ const SignUp = () => {
               ':hover': { backgroundColor: 'darkGrey' },
             }}
           >
-            Submit
+            SignUp
           </Button>
+
+          <Typography
+            textAlign='center'
+            color='primary'
+            sx={{
+              marginTop: 2,
+              fontStyle: 'italic',
+              variant: 'p',
+              fontWeight: 'lighter',
+            }}
+          >
+            --- OR ---
+          </Typography>
 
           <Button
             variant='standard'
             sx={{
               marginTop: 2,
+              marginBottom: 5,
               borderRadius: 3,
+              backgroundColor: ' #D9DDDC',
               Color: 'black',
-              ':hover': { backgroundColor: 'lightGrey' },
+              ':hover': { backgroundColor: 'white' },
               fontWeight: 'bold',
             }}
+            onClick={handleLoginClick}
           >
             Login
           </Button>
