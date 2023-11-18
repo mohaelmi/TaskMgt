@@ -24,29 +24,27 @@ const reducer = (state, action) => {
         taskData: action.payload,
       };
 
-      case ACTIONS.CREAT_TASK:
-        return {
-          ...state,
-          taskData: [...state.taskData, action.payload],
-        };
 
     case ACTIONS.SHOW_EDIT_COMPONENT:
-      const paylaodIsCurrentTask = action.payload === state.taskToEdit
+      // console.log("paylaod id", typeof state.taskToEdit.id);
+      const paylaodIsCurrentTask = action.payload.id === state.taskToEdit.id
+            
       // hide edit
       if(paylaodIsCurrentTask) {
+        console.log("hide task");
         //hide edit component and make taskToEdit in the state null
         return {
           ...state,
           showEdit: false,
-          taskToEdit: null,
+          taskToEdit: {...state.taskToEdit, id: null},
         };
       }
 
-      if(!paylaodIsCurrentTask && state.taskToEdit !== null) {
+      if(!paylaodIsCurrentTask && state.taskToEdit.id !== null ) {
         //update edit component and let taskToEdit state stay true
         return {
           ...state,
-          taskToEdit: action.payload,
+          taskToEdit: { ...action.payload },
         };
       }
 
@@ -74,7 +72,7 @@ const reducer = (state, action) => {
 export const useApplicationData = () => {
   const initialState = {
     taskData: [],
-    taskToEdit: null,
+    taskToEdit: {id: null},
     showEdit: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -97,7 +95,7 @@ export const useApplicationData = () => {
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
-        dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
+        // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
         toast.success(res.data.message);
       })
@@ -109,7 +107,7 @@ export const useApplicationData = () => {
       .get(`/api/tasks/delete/${id}`)
       .then((res) => {
         dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasksData });
-        fetchTasks();
+        // fetchTasks();
         toast.success(res.data.message);
       })
       .catch((error) => console.log(error));
@@ -123,7 +121,7 @@ export const useApplicationData = () => {
         // console.log(res.data.title);
         dispatch({
           type: ACTIONS.SHOW_EDIT_COMPONENT,
-          payload: res.data.title,
+          payload: res.data,
         });
       })
       .catch((error) => console.log(error));

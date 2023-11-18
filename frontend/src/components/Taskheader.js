@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Header({text, count, bg}) {
+function Taskheader({text, count, bg}) {
 
   return (
     <div className={`${bg} flex items-center h-12 pl-4 rounded-md uppercase text-sm text-white`}>
@@ -10,4 +10,4 @@ function Header({text, count, bg}) {
   )
 }
 
-export default Header
+export default Taskheader

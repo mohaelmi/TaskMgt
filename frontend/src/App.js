@@ -11,7 +11,7 @@ import EditTask from "./components/EditTask";
 function App() {
   const [state, createTask, handleDeleteTask, showEditComponent] = useApplicationData();
 
-  // console.log("task app", state.taskToEdit);
+
 
   return (
     <>
