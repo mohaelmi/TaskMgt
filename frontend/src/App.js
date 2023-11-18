@@ -10,27 +10,9 @@ import NavBar from './components/Header';
 import Header from './components/Header';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [state, createTask, handleDeleteTask, showEditComponent] = useApplicationData();
 
-  useEffect(() => {
-    axios
-      .get('/api/tasks/')
-      .then((res) => {
-        setTasks(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  const handleDeleteTask = (id) => {
-    axios
-      .get(`/api/tasks/delete/${id}`)
-      .then((res) => {
-        console.log(res.data.tasksData);
-        setTasks(res.data.tasksData);
-      })
-      .catch((error) => console.log(error));
-  };
+  // console.log("task app", state.taskToEdit);
 
   return (
     <div className='App'>

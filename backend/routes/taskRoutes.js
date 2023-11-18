@@ -23,9 +23,10 @@ router.get('/:id', (req, res) => {
 router.post("/new", (req, res) => {
 
   console.log(req.body);
-  const id = tasksData.length + 1
+  const id =  Math.floor(Math.random(6) * 100) 
   const newTask = { ...req.body, id }
   tasksData.push(newTask)
+  console.log(tasksData);  //tasksData.length + 1
   res.json({message: "task added successfully!!"});
   
 });
@@ -37,8 +38,10 @@ router.get("/edit/:id", (req, res) => {
   const task = tasksData.find(task => task.id === id)
   if(task) { 
     res.json(task)
+  }else {
+    res.json({message: "task not found"});
+
   }
-  res.json({message: "task not found"});
   
 });
 

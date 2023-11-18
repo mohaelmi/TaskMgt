@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from './Header';
+import React from 'react'
+import Taskheader from './Taskheader';
 import TaskCard from './TaskCard';
 
 function TaskListItem({
@@ -26,17 +27,8 @@ function TaskListItem({
   }
   return (
     <div className='w-64'>
-      <Header text={text} count={tasksToMap.length} bg='bg-slate-500' />
-      {tasksToMap.length > 0 &&
-        tasksToMap.map((task) => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            tasks={tasks}
-            deleteTask={() => deleteTask(task.id)}
-            showEditComponent={() => showEditComponent(task.id)}
-          />
-        ))}
+      <Taskheader text= {text}  count = {tasksToMap.length} bg = "bg-slate-500" />
+      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} showEditComponent ={() => showEditComponent(task.id)}/> ) }
       {/* list */}
     </div>
   );
