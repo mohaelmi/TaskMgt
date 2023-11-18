@@ -1,5 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: whitesmoke;
+}
+
 .App {
   text-align: center;
+  background-color: whitesmoke;
 }
 
 .App-logo {
