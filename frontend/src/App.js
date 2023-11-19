@@ -10,9 +10,9 @@ import Header from './components/Header';
 
 
 function App() {
-  const [state, createTask, handleDeleteTask, showEditComponent] = useApplicationData();
+  const [state, createTask, handleDeleteTask, showEditTask, toggleModal] = useApplicationData();
 
-
+console.log(state.showModel);
 
   return (
     <>
@@ -22,8 +22,8 @@ function App() {
         <NewTask createTask={createTask} />
         {/* <p>tasklist is below</p> */}
         {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
-        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} showEditComponent = {showEditComponent} />
-        { state.showEdit && <EditTask taskToEdit = {state.taskToEdit}  /> }
+        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} openModal = {toggleModal} showEditTask = {showEditTask} />
+        {state.showModel && <EditTask taskToEdit = {state.taskToEdit} closeModal= {toggleModal} /> }
       </div>
     </>
   );

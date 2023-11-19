@@ -48,23 +48,23 @@ const Header = () => {
           </Typography>
           <div style={{ paddingLeft: '30%' }}>
             <Tab
-              label='About Us'
+              label='Analytics'
               component={RouterLink}
               to='/about'
               textColor='inherit'
             />
             <Tab
-              label='Tasks'
+              label='My Tasks'
               component={RouterLink}
               to='/task'
               textColor='inherit'
             />
-            <Tab
+            {/* <Tab
               label='Profile'
               component={RouterLink}
               to='/profile'
               textColor='inherit'
-            />
+            /> */}
           </div>
           {/* <Person2Icon href='#' sx={{ marginLeft: '1%' }} /> */}
           <Button
