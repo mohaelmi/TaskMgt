@@ -1,7 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { createTask,setActualStartTime,setActualEndTime,getTasksByUserId,} = require('../db/queries/userTask');
-
+const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUserId,} = require('../db/queries/userTask');
+// Get all tasks
+router.get('/task', (req, res) => {
+    try {
+      getAllTasks()
+        .then(tasks => {
+          res.json(tasks);
+        })
+        .catch(error => {
+          console.error('Error fetching tasks:', error);
+          res.status(500).json({ error: 'Error fetching tasks' });
+        });
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+      res.status(500).json({ error: 'Error fetching tasks' });
+    }
+  });
+  
+  
 // Get tasksData for a specific user
 router.get('/:id', (req, res) => {
     const userId = req.params.id;

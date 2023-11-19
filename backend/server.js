@@ -34,14 +34,16 @@ app.use(
 //api/tasks endpoint
 app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/sam', Routes);
+app.use('/api', Routes);
 // /api/users endpoint
 //app.use("/users", userRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
 });
-
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from server!' });
+});
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

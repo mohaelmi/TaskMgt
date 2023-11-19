@@ -1,21 +1,13 @@
 
 const { Pool } = require('pg');
-
-
-// const dbParams = {
-//   host: process.env.PGHOST,
-//   user: process.env.PGUSER,
-//   password: process.env.PGPASSWORD,
-//   port: process.env.PGPORT,
-//   database: 'postgres', // Default database for creating other databases
-// };
+require('dotenv').config();
 
 const dbParams = {
-  host:"localhost",
-  user: "labber",
-  password: "labber",
-  port: 5432,
-  database:'taskmanager', // Default database for creating other databases
+  host: process.env.PGHOST,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE, 
 };
 
 const db = new Pool(dbParams);

@@ -1,6 +1,19 @@
 // backend/db/queries/userTask.js
 const db = require('../database');
 
+const getAllTasks = () => {
+  const query = `
+    SELECT * FROM tasks;
+  `;
+
+  return db.query(query)
+    .then(result => result.rows)
+    .catch(error => {
+      console.error('Error fetching tasks:', error);
+      throw new Error('Error fetching tasks');
+    });
+};
+
 const createTask = (userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime) => {
   const query = `
     INSERT INTO tasks (UserID, Title, Category, Description, Status, PriorityLevel, ImportanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
@@ -108,6 +121,7 @@ const getTasksByUserId = (userId) => {
 
 
 module.exports = {
+  getAllTasks,
   createTask,
   setActualStartTime,
   setActualEndTime,
