@@ -10,7 +10,7 @@ const morgan = require('morgan');
 const taskRoutes = require('./routes/taskRoutes');
 const cors = require("cors")
 const authRoutes = require('./routes/authRoutes');
-
+const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
 const app = express();
 
@@ -34,14 +34,16 @@ app.use(
 //api/tasks endpoint
 app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', authRoutes);
-
+app.use('/api', Routes);
 // /api/users endpoint
 //app.use("/users", userRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
 });
-
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from server!' });
+});
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
