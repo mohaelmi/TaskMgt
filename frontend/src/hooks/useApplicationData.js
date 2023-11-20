@@ -2,12 +2,12 @@ import { useReducer, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-
 const ACTIONS = {
   SET_TASK_DATA: "SET_PHOTO_DATA",
   DELETE_TASK: "DELETE_TASK",
   CREAT_TASK: "CREATE_TASK",
-  SHOW_EDIT_COMPONENT: "SHOW_EDIT_COMPONENT",
+  SHOW_EDIT_TASK: "SHOW_EDIT_TASK",
+  SELECT_TASK: "SELECT_TASK",
 };
 
 const reducer = (state, action) => {
@@ -24,36 +24,47 @@ const reducer = (state, action) => {
         taskData: action.payload,
       };
 
-
-    case ACTIONS.SHOW_EDIT_COMPONENT:
-      // console.log("paylaod id", typeof state.taskToEdit.id);
-      const paylaodIsCurrentTask = action.payload.id === state.taskToEdit.id
-            
-      // hide edit
-      if(paylaodIsCurrentTask) {
-        console.log("hide task");
-        //hide edit component and make taskToEdit in the state null
-        return {
-          ...state,
-          showEdit: false,
-          taskToEdit: {...state.taskToEdit, id: null},
-        };
-      }
-
-      if(!paylaodIsCurrentTask && state.taskToEdit.id !== null ) {
-        //update edit component and let taskToEdit state stay true
-        return {
-          ...state,
-          taskToEdit: { ...action.payload },
-        };
-      }
-
-
-      // for first time action being triggered set showEdit true and taskToEdit to paylaod
+    case ACTIONS.SELECT_TASK:
       return {
         ...state,
-        showEdit: true,
-        taskToEdit: action.payload,
+        showModel: action.payload,
+      };
+
+    case ACTIONS.SHOW_EDIT_TASK:
+  
+      // const paylaodIsCurrentTask = action.payload.id === state.taskToEdit.id;
+      if(!action.payload) {
+        return {
+          ...state,
+          showModel: null,
+          taskToEdit: {}
+        };
+      }
+
+      // hide edit
+      // if(paylaodIsCurrentTask) {
+      //   console.log("hide task");
+      //   //hide edit component and make taskToEdit in the state null
+      //   return {
+      //     ...state,
+      //     showEdit: false,
+      //     taskToEdit: {...state.taskToEdit, id: null},
+      //   };
+      // }
+
+      // if(!paylaodIsCurrentTask && state.taskToEdit.id !== null ) {
+      //   //update edit component and let taskToEdit state stay true
+      //   return {
+      //     ...state,
+      //     taskToEdit: { ...action.payload },
+      //   };
+      // }
+
+      // for first time action being triggered set showModel id and taskToEdit to paylaod
+      return {
+        ...state,
+        showModel: action.payload.id,
+        taskToEdit: action.payload
       };
 
     // case ACTIONS.NEW_TASK:
@@ -72,8 +83,8 @@ const reducer = (state, action) => {
 export const useApplicationData = () => {
   const initialState = {
     taskData: [],
-    taskToEdit: {id: null},
-    showEdit: false,
+    taskToEdit: {},
+    showModel: null,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -81,8 +92,8 @@ export const useApplicationData = () => {
     axios
       .get("/api/tasks/")
       .then((res) => {
-        dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
         // console.log(res.data);
+        dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
   };
@@ -92,6 +103,7 @@ export const useApplicationData = () => {
   }, []);
 
   const createTask = (task) => {
+    console.log("delete task", task);
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
@@ -106,35 +118,36 @@ export const useApplicationData = () => {
     axios
       .get(`/api/tasks/delete/${id}`)
       .then((res) => {
-        dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasksData });
-        // fetchTasks();
+        // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
+        fetchTasks();
         toast.success(res.data.message);
       })
       .catch((error) => console.log(error));
   };
 
-  const showEditComponent = (id) => {
-    // console.log(id);
+  const updatedTask = (task) => {
+    // console.log("updated task", task)
     axios
-      .get(`/api/tasks/edit/${id}`)
-      .then((res) => {
-        // console.log(res.data.title);
-        dispatch({
-          type: ACTIONS.SHOW_EDIT_COMPONENT,
-          payload: res.data,
-        });
-      })
-      .catch((error) => console.log(error));
-  
+    .post(`/api/tasks/edit`, task)
+    .then((res) => {
+      // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
+     toast.success(res.data.message);
+      state.showModel = null
+      fetchTasks();
+      console.log(res.data);
+    })
+   .catch((error) => console.log(error));
   };
 
-  // axios
-  // .get(`/api/tasks/edit/${id}`)
-  // .then((res) => {
-  //   console.log(res.data.title);
-  //   dispatch({ type: ACTIONS.SHOW_EDIT_COMPONENT, payload: res.data.title });
-  // })
-  // .catch((error) => console.log(error));
+  const toggleModal = (task) => {
+    // state.showModel = id;
+    dispatch({
+      type: ACTIONS.SHOW_EDIT_TASK,
+      payload: task,
+    });
+    
+  };
 
-  return [state, createTask, handleDeleteTask, showEditComponent];
+
+  return [state, createTask, handleDeleteTask, updatedTask, toggleModal];
 };

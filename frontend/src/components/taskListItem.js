@@ -9,7 +9,8 @@ function TaskListItem({
   inprogress,
   done,
   deleteTask,
-  showEditComponent,
+  openModal,
+  showEditTask
 }) {
   // console.log(status);
   let text = 'todos';
@@ -24,10 +25,11 @@ function TaskListItem({
     text = 'Completed';
     tasksToMap = done;
   }
+ 
   return (
     <div className='w-64'>
       <Taskheader text= {text}  count = {tasksToMap.length} bg = "bg-slate-500" />
-      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} showEditComponent ={() => showEditComponent(task.id)}/> ) }
+      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} /> ) }
       {/* list */}
     </div>
   );
