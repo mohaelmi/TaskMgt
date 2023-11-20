@@ -103,6 +103,7 @@ export const useApplicationData = () => {
   }, []);
 
   const createTask = (task) => {
+    console.log("delete task", task);
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
@@ -124,21 +125,29 @@ export const useApplicationData = () => {
       .catch((error) => console.log(error));
   };
 
-  const showEditTask = (id) => {
-    // use it post edited task
+  const updatedTask = (task) => {
+    // console.log("updated task", task)
+    axios
+    .post(`/api/tasks/edit`, task)
+    .then((res) => {
+      // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
+     toast.success(res.data.message);
+      state.showModel = null
+      fetchTasks();
+      console.log(res.data);
+    })
+   .catch((error) => console.log(error));
   };
 
   const toggleModal = (task) => {
     // state.showModel = id;
-
-
-      dispatch({
-        type: ACTIONS.SHOW_EDIT_TASK,
-        payload: task,
-      });
+    dispatch({
+      type: ACTIONS.SHOW_EDIT_TASK,
+      payload: task,
+    });
     
   };
 
 
-  return [state, createTask, handleDeleteTask, showEditTask, toggleModal];
+  return [state, createTask, handleDeleteTask, updatedTask, toggleModal];
 };

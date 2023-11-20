@@ -10,7 +10,7 @@ import Header from './components/Header';
 
 
 function App() {
-  const [state, createTask, handleDeleteTask, showEditTask, toggleModal] = useApplicationData();
+  const [state, createTask, handleDeleteTask, updateTask, toggleModal] = useApplicationData();
 
 
 
@@ -22,8 +22,8 @@ function App() {
         <NewTask createTask={createTask} />
         {/* <p>tasklist is below</p> */}
         {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
-        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} openModal = {toggleModal} showEditTask = {showEditTask} />
-        {state.showModel && <EditTask taskToEdit = {state.taskToEdit} closeModal= {toggleModal} /> }
+        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} openModal = {toggleModal}  />
+        {state.showModel && <EditTask taskToEdit = {state.taskToEdit} closeModal= {toggleModal}  updateTask = {updateTask}/> }
       </div>
     </>
   );

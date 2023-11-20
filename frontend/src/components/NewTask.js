@@ -14,7 +14,7 @@ function NewTask({createTask}) {
     }
 
     const task = {
-      UserID: 1, 
+      userId: 1, 
       title: title.value, //"Play soccer", 
       category: "Leisure", 
       description: "play soccer with some friends", 

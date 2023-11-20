@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUserId, deletTask} = require('../db/queries/userTask');
+const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUserId, deletTask, updateTask} = require('../db/queries/userTask');
 // Get all tasks
 router.get('/', (req, res) => {
     try {
@@ -65,6 +65,26 @@ router.get("/delete/:id", (req, res) => {
   });
   
 });
+
+// post update task
+router.post("/edit", (req, res) => {
+  
+  // const id = req.params.id
+  const updatedTask = req.body
+  // res.json("heey edit/id route working")
+  console.log(updatedTask);
+
+  updateTask(updatedTask)
+  .then(task => {
+    // console.log(tasks);
+    res.json({task, message: "task updated successfully!!"})
+  })
+  .catch(error => {
+    res.status(500).json({ error, error: 'Error deleting tasks' });
+  });
+  
+});
+
 
  // Set actual start time for a task
 router.post('/setStartTime/:taskId', (req, res) => {

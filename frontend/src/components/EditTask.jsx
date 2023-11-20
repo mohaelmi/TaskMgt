@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function EditTask({ taskId, taskToEdit, closeModal }) {
+function EditTask({ taskId, taskToEdit, closeModal, updateTask }) {
   // console.log("task to edit", taskToEdit);
   const [task, setTask] = useState(taskToEdit);
 
@@ -11,7 +11,8 @@ function EditTask({ taskId, taskToEdit, closeModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // const { title, description } = e.target.elements
-    console.log("updated title", task.title);
+    // console.log("updated title", task);
+    updateTask(task)
     
   };
 
