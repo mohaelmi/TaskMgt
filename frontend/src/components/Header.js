@@ -6,6 +6,8 @@ import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
 import Profile from '../pages/Profile';
+import TaskListItem from './taskListItem';
+import TaskList from './TaskList';
 
 const Header = () => {
   return (
@@ -15,7 +17,7 @@ const Header = () => {
           background: 'white',
           color: 'black',
           borderBottom: '1px solid #ccc',
-          boxShadow: '0px 0px 2px #ccc',
+          boxShadow: '0px 0px 4px #ccc',
           height: '60px',
         }}
       >
@@ -91,7 +93,7 @@ const Header = () => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </React.Fragment>
   );
