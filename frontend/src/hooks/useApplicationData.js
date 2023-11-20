@@ -92,8 +92,8 @@ export const useApplicationData = () => {
     axios
       .get("/api/tasks/")
       .then((res) => {
-        dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
         // console.log(res.data);
+        dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
   };
@@ -117,25 +117,15 @@ export const useApplicationData = () => {
     axios
       .get(`/api/tasks/delete/${id}`)
       .then((res) => {
-        dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasksData });
-        // fetchTasks();
+        // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
+        fetchTasks();
         toast.success(res.data.message);
       })
       .catch((error) => console.log(error));
   };
 
   const showEditTask = (id) => {
-    // console.log(id);
-    // axios
-    //   .get(`/api/tasks/edit/${id}`)
-    //   .then((res) => {
-    //     // console.log(res.data.title);
-    //     dispatch({
-    //       type: ACTIONS.SHOW_EDIT_TASK,
-    //       payload: res.data,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
+    // use it post edited task
   };
 
   const toggleModal = (task) => {
@@ -149,13 +139,6 @@ export const useApplicationData = () => {
     
   };
 
-  // axios
-  // .get(`/api/tasks/edit/${id}`)
-  // .then((res) => {
-  //   console.log(res.data.title);
-  //   dispatch({ type: ACTIONS.SHOW_EDIT_COMPONENT, payload: res.data.title });
-  // })
-  // .catch((error) => console.log(error));
 
   return [state, createTask, handleDeleteTask, showEditTask, toggleModal];
 };

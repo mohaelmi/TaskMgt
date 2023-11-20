@@ -12,15 +12,22 @@ function NewTask({createTask}) {
     if(!title.value) {
       return toast.error("please insert valid task!");
     }
+
     const task = {
-      userId: 6,
-      title:      title.value, 
-      description: "details for the task", 
-      start_time:      "1:20pm",   
-      duration:    "80 minutes",
-      importance_level: "low",
-      status: "todos"
+      UserID: 1, 
+      title: title.value, //"Play soccer", 
+      category: "Leisure", 
+      description: "play soccer with some friends", 
+      status: "Todo", 
+      priorityLevel: "Medium", 
+      importanceLevel: "Medium", 
+      dueDate: "20:00:00", 
+      estimatedStartTime: '15:00:00', 
+      estimatedEndTime: '16:00:00', 
+      actualStartTime: null, 
+      actualEndTime: null
     }
+
     
     createTask(task)
 

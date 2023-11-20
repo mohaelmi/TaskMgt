@@ -24,7 +24,7 @@ CREATE TABLE tasks (
     EstimatedEndTime TIME,
     ActualStartTime TIME,
     ActualEndTime TIME,
-    FOREIGN KEY (UserID) REFERENCES users(id)
+    FOREIGN KEY (UserID) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Creating the 'notifications' table
@@ -35,6 +35,6 @@ CREATE TABLE notifications (
     NotificationType VARCHAR(20),
     NotificationDate TIME,
     Message TEXT,
-    FOREIGN KEY (UserID) REFERENCES users(id),
-    FOREIGN KEY (TaskID) REFERENCES tasks(id)
+    FOREIGN KEY (UserID) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (TaskID) REFERENCES tasks(id) ON DELETE CASCADE
 );

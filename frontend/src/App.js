@@ -12,7 +12,7 @@ import Header from './components/Header';
 function App() {
   const [state, createTask, handleDeleteTask, showEditTask, toggleModal] = useApplicationData();
 
-console.log(state.showModel);
+
 
   return (
     <>

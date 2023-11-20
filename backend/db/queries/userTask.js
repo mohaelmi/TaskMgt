@@ -69,6 +69,16 @@ const setActualStartTime = (startTime, taskId) => {
 //     console.error('Error:', error.message);
 //   });
 
+//Delete task as a user
+const deletTask = (taskId) => {
+  return db
+    .query("DELETE FROM tasks WHERE id = $1 RETURNING *;", [taskId])
+    .then((result) => {
+      console.log("in queries:", result.rows);
+      return  result.rows;
+    });
+};
+
 const setActualEndTime = (endTime, taskId) => {
   const query = `
     UPDATE tasks
@@ -126,4 +136,5 @@ module.exports = {
   setActualStartTime,
   setActualEndTime,
   getTasksByUserId,
+  deletTask,
 };

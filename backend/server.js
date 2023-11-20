@@ -32,9 +32,9 @@ app.use(
 );
 
 //api/tasks endpoint
-app.use('/api/tasks', taskRoutes);
+// app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api', Routes);
+app.use('/api/tasks', Routes);
 // /api/users endpoint
 //app.use("/users", userRoutes);
 

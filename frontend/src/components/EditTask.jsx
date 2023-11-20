@@ -11,13 +11,12 @@ function EditTask({ taskId, taskToEdit, closeModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // const { title, description } = e.target.elements
-    // setTask({...task, title: title.value, description: description.value})
     console.log("updated title", task.title);
-    console.log("updated description", task.description);
+    
   };
 
-  // console.log("task", task);
-  // console.log(taskToEdit);
+  // console.log("task", task.estimatedStartTime);
+
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
       <div className="relative p-4 w-full max-w-md max-h-full">
@@ -45,7 +44,6 @@ function EditTask({ taskId, taskToEdit, closeModal }) {
             {/* <span className="sr-only">Close modal</span> */}
           </button>
           <div className="p-4 md:p-5 text-center">
-
             {/* content starts here */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10">
               <div className="">
@@ -72,7 +70,7 @@ function EditTask({ taskId, taskToEdit, closeModal }) {
                 </label>
                 <input
                   type="text"
-                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1"
+                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-14 w-64 px-1"
                   name="description"
                   value={task.description}
                   onChange={(e) =>
@@ -85,15 +83,16 @@ function EditTask({ taskId, taskToEdit, closeModal }) {
                   className="text-gray-700 text-sm font-bold mb-2 mr-6"
                   htmlFor="start_level"
                 >
-                  Start Level
+                  Start time
                 </label>
                 <input
-                  type="text"
+                  type="date"
+                  id="task_start"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
-                  name="start_level"
-                  value={task.importance_level}
+                  name="task_start"
+                  value={task.estimatedStartTime}
                   onChange={(e) =>
-                    setTask({ ...task, importance_level: e.target.value })
+                    setTask({ ...task, estimatedStartTime: e.target.value })
                   }
                 />
               </div>

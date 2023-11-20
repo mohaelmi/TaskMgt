@@ -1,11 +1,12 @@
 import React from "react";
 
 function TaskCard({ task, tasks, deleteTask, openModel, showEditComponent }) {
+
   return (
-    <div className={`relative p-4 mt-8 shadow-md rounded-md cursor-grab`}>
+    <div className={`relative pb-8 p-4 mt-8 shadow-md rounded-md cursor-grab `}>
       <p className="font-bold">{task.title}</p>
       <p>{task.description}</p>
-      <p className="absolute bottom-20 right-1 w-10 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importance_level} </p>
+      <p className="absolute bottom-20 right-1 w-16 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importancelevel} </p>
       <button
         onClick={deleteTask}
         className="absolute bottom-1 right-1 text-slate-500"
