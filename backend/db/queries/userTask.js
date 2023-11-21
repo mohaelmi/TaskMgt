@@ -144,90 +144,6 @@ const getTasksByUserId = (userId) => {
 //   });
 
 
-//  get user by userid
-const getUserById = (id) => {
-  const query = `
-    SELECT *
-    FROM users
-    WHERE id = $1;
-  `;
-  const values = [id];
-
-  return db.query(query, values)
-    .then(result => result.rows[0])
-    .catch(error => {
-      console.error('Error fetching user by ID:', error);
-      throw new Error('Error fetching user by ID');
-    });
-};
-//Example:
-// getUserById(1)
-//   .then(user => {
-//     if (user) {
-//       console.log('User found:', user);
-//     } else {
-//       console.log('User not found');
-//     }
-//   })
-//   .catch(error => {
-//     console.error('Error:', error.message);
-//   });
-
-// create a new user
-const createUser = (username, email, password) => {
-  const query = `
-    INSERT INTO users (username, email, password)
-    VALUES ($1, $2, $3)
-    RETURNING *;
-  `;
-  const values = [username, email, password];
-
-  return db.query(query, values)
-    .then(result => result.rows[0])
-    .catch(error => {
-      console.error('Error creating user:', error);
-      throw new Error('Error creating user');
-    });
-};
-
-
-//Example 
-// createUser('sama','test@example.com', 'password123')
-//   .then(newUser => {
-//     console.log('New user created:', newUser);
-//   })
-//   .catch(error => {
-//     console.error('Error creating user:', error.message);
-//   });
-
-// get user by email
-const getUserByEmail = (email) => {
-  const query = `
-    SELECT *
-    FROM users
-    WHERE email = $1;
-  `;
-  const values = [email];
-
-  return db.query(query, values)
-    .then(result => result.rows[0])
-    .catch(error => {
-      console.error('Error fetching user by email:', error);
-      throw new Error('Error fetching user by email');
-    });
-};
-
-// getUserByEmail('test@example.com')
-//   .then(user => {
-//     if (user) {
-//       console.log('User found:', user);
-//     } else {
-//       console.log('User not found');
-//     }
-//   })
-//   .catch(error => {
-//     console.error('Error:', error.message);
-//   });
 
 module.exports = {
   getAllTasks,
@@ -237,8 +153,4 @@ module.exports = {
   getTasksByUserId,
   deletTask,
   updateTask,
-  createUser,
-  getUserByEmail,
-  getUserById,
-  
 };

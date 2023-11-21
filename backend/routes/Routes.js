@@ -1,19 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUserId, deletTask, updateTask,createUser,getUserByEmail,getUserById} = require('../db/queries/userTask');
-// const { ensureAuthenticated } = require('../middlewares/authMiddleware');
-
-// Middleware to check if user is authenticated
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next(); // Proceed to the next middleware or route handler
-  }
-  res.status(401).json({ error: 'Unauthorized' });
-};
-
-
-
+const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUserId, deletTask, updateTask} = require('../db/queries/userTask');
 // Get all tasks
 router.get('/', (req, res) => {
     try {
@@ -32,7 +19,7 @@ router.get('/', (req, res) => {
   });
   
   // Get task based on user id
-  router.get('/:id', ensureAuthenticated, (req, res) => {
+router.get('/:id', (req, res) => {
   const userId = req.params.id;
 
   getTasksByUserId(userId)
@@ -49,7 +36,7 @@ router.get('/', (req, res) => {
 
 
 // Add a new task
-router.post('/new', ensureAuthenticated, (req, res) => {
+router.post("/new", (req, res) => {
   // console.log(req.body);
     const { userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime } = req.body;
   
@@ -65,7 +52,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
 
 // delete a task 
 // /delete?id --query
-router.get('/delete/:id', ensureAuthenticated, (req, res) => {
+router.get("/delete/:id", (req, res) => {
   
   const id = req.params.id
   deletTask(id)
@@ -80,7 +67,7 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
 });
 
 // post update task
-router.post('/edit', ensureAuthenticated, (req, res) => {
+router.post("/edit", (req, res) => {
   
   // const id = req.params.id
   const updatedTask = req.body
@@ -100,7 +87,7 @@ router.post('/edit', ensureAuthenticated, (req, res) => {
 
 
  // Set actual start time for a task
- router.post('/setStartTime/:taskId', ensureAuthenticated, (req, res) => {
+router.post('/setStartTime/:taskId', (req, res) => {
     const { startTime } = req.body;
     const { taskId } = req.params;
 
@@ -114,7 +101,7 @@ router.post('/edit', ensureAuthenticated, (req, res) => {
 });
 
 // Set actual end time for a task
-router.post('/setEndTime/:taskId', ensureAuthenticated, (req, res) => {
+router.post('/setEndTime/:taskId', (req, res) => {
     const { endTime } = req.body;
     const { taskId } = req.params;
 
