@@ -70,12 +70,16 @@ const SignUp = () => {
             variant='contained'
             sx={{
               marginTop: 3,
-              borderRadius: 3,
-              backgroundColor: 'black',
-              ':hover': { backgroundColor: 'darkGrey' },
+              height: 50,
+              backgroundColor: '#28282B',
+              width: '80%',
+              ':hover': { backgroundColor: '#0C0908' },
+
+              fontWeight: 800,
+              letterSpacing: '.3rem',
             }}
           >
-            SignUp
+            Sign Up
           </Button>
 
           <Typography
@@ -85,7 +89,6 @@ const SignUp = () => {
               marginTop: 2,
               fontStyle: 'italic',
               variant: 'p',
-              fontWeight: 'lighter',
             }}
           >
             --- OR ---
