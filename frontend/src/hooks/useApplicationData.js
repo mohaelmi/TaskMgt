@@ -8,6 +8,8 @@ const ACTIONS = {
   CREAT_TASK: "CREATE_TASK",
   SHOW_EDIT_TASK: "SHOW_EDIT_TASK",
   SELECT_TASK: "SELECT_TASK",
+  SHOW_MODAL_CREATE_TASK: "SHOW_MODAL_CREATE_TASK",
+  EDIT_TASK: "EDIT_TASK",
 };
 
 const reducer = (state, action) => {
@@ -27,44 +29,46 @@ const reducer = (state, action) => {
     case ACTIONS.SELECT_TASK:
       return {
         ...state,
-        showModel: action.payload,
+        showModal: action.payload,
+      };
+
+    // case ACTIONS.EDIT_TASK:
+    // //  console.log("payload", action.payload)
+    // //  console.log("state", state.taskData)
+
+    //  const found = state.taskData.find((task) => task.id === action.payload.id)
+    //  const tasks = state.taskData.filter((task) => {
+    //   if(task.id === found.id) {
+    //     return found
+    //   }
+    //   return task
+    //  })
+    // //  console.log("## updated tasks", tasks);
+    //   return {
+    //     ...state,
+    //     taskData: tasks,
+    //   };
+
+    case ACTIONS.SHOW_MODAL_CREATE_TASK:
+      return {
+        ...state,
+        showCreateModal: action.payload,
       };
 
     case ACTIONS.SHOW_EDIT_TASK:
-  
-      // const paylaodIsCurrentTask = action.payload.id === state.taskToEdit.id;
-      if(!action.payload) {
+      if (!action.payload) {
         return {
           ...state,
-          showModel: null,
-          taskToEdit: {}
+          showModal: false,
+          taskToEdit: {},
         };
       }
 
-      // hide edit
-      // if(paylaodIsCurrentTask) {
-      //   console.log("hide task");
-      //   //hide edit component and make taskToEdit in the state null
-      //   return {
-      //     ...state,
-      //     showEdit: false,
-      //     taskToEdit: {...state.taskToEdit, id: null},
-      //   };
-      // }
-
-      // if(!paylaodIsCurrentTask && state.taskToEdit.id !== null ) {
-      //   //update edit component and let taskToEdit state stay true
-      //   return {
-      //     ...state,
-      //     taskToEdit: { ...action.payload },
-      //   };
-      // }
-
-      // for first time action being triggered set showModel id and taskToEdit to paylaod
+      // for first time action being triggered set showModal id and taskToEdit to paylaod
       return {
         ...state,
-        showModel: action.payload.id,
-        taskToEdit: action.payload
+        showModal: action.payload.id,
+        taskToEdit: action.payload,
       };
 
     // case ACTIONS.NEW_TASK:
@@ -84,7 +88,8 @@ export const useApplicationData = () => {
   const initialState = {
     taskData: [],
     taskToEdit: {},
-    showModel: null,
+    showModal: false,
+    showCreateModal: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -126,28 +131,37 @@ export const useApplicationData = () => {
   };
 
   const updatedTask = (task) => {
-    // console.log("updated task", task)
+    console.log("updated task", task);
     axios
-    .post(`/api/tasks/edit`, task)
-    .then((res) => {
-      // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
-     toast.success(res.data.message);
-      state.showModel = null
-      fetchTasks();
-      console.log(res.data);
-    })
-   .catch((error) => console.log(error));
+      .post(`/api/tasks/edit`, task)
+      .then((res) => {
+        // dispatch({ type: ACTIONS.EDIT_TASK, payload: task });
+        toast.success(res.data.message);
+        state.showModal = null;
+        fetchTasks();
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
   };
 
   const toggleModal = (task) => {
-    // state.showModel = id;
+    // state.showModal = id;
     dispatch({
       type: ACTIONS.SHOW_EDIT_TASK,
       payload: task,
     });
-    
   };
 
+  const createToggleModal = (value) => {
+    dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK, payload: value });
+  };
 
-  return [state, createTask, handleDeleteTask, updatedTask, toggleModal];
+  return [
+    state,
+    createTask,
+    handleDeleteTask,
+    updatedTask,
+    toggleModal,
+    createToggleModal,
+  ];
 };

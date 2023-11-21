@@ -84,7 +84,7 @@ const updateTask = (task) => {
   const {title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime } = task
   console.log("task id in the query", task.id);
   return db
-    .query(`UPDATE tasks SET Title=$1 WHERE id = $2 RETURNING *;`, [title, task.id])
+    .query(`UPDATE tasks SET Title=$1 WHERE id=$2 RETURNING *;`, [title, task.id])
     .then((result) => {
       console.log("in queries:", result.rows);
       return  result.rows;

@@ -1,63 +1,75 @@
-import React from 'react';
-import { Link as RouterLink, Route, Routes } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
-import TodayIcon from '@mui/icons-material/Today';
-import SignUp from '../pages/Signup';
-import Login from '../pages/Login';
-import AboutUs from '../pages/AboutUs';
-import Profile from '../pages/Profile';
+import React from "react";
+import { Link as RouterLink, Route, Routes } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Tab, Button } from "@mui/material";
+import TodayIcon from "@mui/icons-material/Today";
+import SignUp from "../pages/Signup";
+import Login from "../pages/Login";
+import AboutUs from "../pages/AboutUs";
+import Profile from "../pages/Profile";
+import CreateTask from "../pages/CreateTask";
 
-const Header = () => {
+
+const Header = ({openModal}) => {
+
   return (
     <React.Fragment>
       <AppBar
         sx={{
-          background: 'white',
-          color: 'black',
-          borderBottom: '1px solid #ccc',
-          boxShadow: '0px 0px 2px #ccc',
-          height: '60px',
+          background: "white",
+          color: "black",
+          borderBottom: "1px solid #ccc",
+          boxShadow: "0px 0px 2px #ccc",
+          height: "60px",
         }}
       >
         <Toolbar>
           <TodayIcon>
             <RouterLink
-              to='/'
-              style={{ textDecoration: 'none', color: 'inherit' }}
+              to="/"
+              style={{ textDecoration: "none", color: "inherit" }}
             ></RouterLink>
           </TodayIcon>
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             <RouterLink
-              to='/'
-              style={{ textDecoration: 'none', color: 'inherit' }}
+              to="/"
+              style={{ textDecoration: "none", color: "inherit" }}
             >
               TaskMgt
             </RouterLink>
           </Typography>
-          <div style={{ paddingLeft: '30%' }}>
+          <div style={{ paddingLeft: "30%" }}>
             <Tab
-              label='Analytics'
+              label="Summary"
               component={RouterLink}
-              to='/about'
-              textColor='inherit'
+              to="/about"
+              textColor="inherit"
             />
-            <Tab
-              label='My Tasks'
+            <button onClick={() => openModal(true)} textColor="inherit"> 
+              Add Task 
+            </button>
+            {/* <Tab
+              label="Add New Task"
               component={RouterLink}
-              to='/task'
-              textColor='inherit'
+              to="/"
+              textColor="inherit"
+            /> */}
+            <Tab
+              label="My Tasks"
+              component={RouterLink}
+              to="/task"
+              textColor="inherit"
             />
             {/* <Tab
               label='Profile'
@@ -68,30 +80,31 @@ const Header = () => {
           </div>
           {/* <Person2Icon href='#' sx={{ marginLeft: '1%' }} /> */}
           <Button
-            sx={{ marginLeft: 'auto', color: 'black' }}
-            variant='outlined'
+            sx={{ marginLeft: "auto", color: "black" }}
+            variant="outlined"
             component={RouterLink}
-            to='/login'
+            to="/login"
             // color='inherit'
           >
             Login
           </Button>
           <Button
             component={RouterLink}
-            to='/signup'
+            to="/signup"
             // color='inherit'
-            sx={{ marginLeft: '20px', color: 'black' }}
-            variant='outlined'
+            sx={{ marginLeft: "20px", color: "black" }}
+            variant="outlined"
           >
             SignUp
           </Button>
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/about' element={<AboutUs />} />
-        <Route path='profile' element={<Profile />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="/new" element={<CreateTask />}  />
       </Routes>
     </React.Fragment>
   );
