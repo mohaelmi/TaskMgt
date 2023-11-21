@@ -21,10 +21,10 @@ function NewTask({createTask}) {
       status: "Todo", 
       priorityLevel: "Medium", 
       importanceLevel: "Medium", 
-      dueDate: "20:00:00", 
+      dueDate: "20:00:00",
       estimatedStartTime: '15:00:00', 
       estimatedEndTime: '16:00:00', 
-      actualStartTime: null, 
+      actualStartTime: null,
       actualEndTime: null
     }
 

@@ -89,7 +89,7 @@ router.post('/edit', ensureAuthenticated, (req, res) => {
 
   updateTask(updatedTask)
   .then(task => {
-    // console.log(tasks);
+    console.log("returned from query:", task);
     res.json({task, message: "task updated successfully!!"})
   })
   .catch(error => {
