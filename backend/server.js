@@ -70,7 +70,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-app.use('/tasks', Routes);
+app.use('/api/tasks', Routes);
 
 
 
