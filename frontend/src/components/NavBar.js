@@ -8,7 +8,7 @@ import AboutUs from '../pages/AboutUs';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import Person2Icon from '@mui/icons-material/Person2';
-import Logout from '../pages/Logout';
+
 import Analytics from '../pages/Analytics';
 
 const BeforeLogin = () => {
@@ -145,7 +145,7 @@ const BeforeLogin = () => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='/logout' element={<Logout />} />
+        {/* <Route path='/logout' element={<Logout />} /> */}
         <Route path='/tasks' element={<AboutUs />} />
         <Route path='/analytics' element={<Analytics />} />
       </Routes>
