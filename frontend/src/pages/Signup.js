@@ -43,7 +43,7 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ paddingTop: '5%' }}>
+    <div style={{ paddingTop: '5%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>
@@ -64,13 +64,16 @@ const SignUp = () => {
       <form onSubmit={handleSubmit}>
         <Box
           display='flex'
-          flexDirection='column'
-          alignItems='center'
+          flexDirection={'column'}
           maxWidth={500}
+          alignItems={'center'}
+          justifyContent={'center'}
           margin='auto'
+          marginTop={5}
+          marginBottom={5}
           padding={3}
           borderRadius={2}
-          boxShadow='5px 5px 10px #ccc'
+          boxShadow={'5px 5px 10px #ccc'}
           sx={{ ':hover': { boxShadow: '10px 10px 20px #ccc' } }}
         >
           <Typography

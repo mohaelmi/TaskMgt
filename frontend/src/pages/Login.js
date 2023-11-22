@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ paddingTop: '5%' }}>
+    <div style={{ paddingTop: '5%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>

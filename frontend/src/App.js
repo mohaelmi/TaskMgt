@@ -10,7 +10,14 @@ import Header from './components/Header';
 import CreateTask from './pages/CreateTask';
 
 function App() {
-  const [state, createTask, handleDeleteTask, updateTask, toggleModal, createToggleModal] = useApplicationData();
+  const [
+    state,
+    createTask,
+    handleDeleteTask,
+    updateTask,
+    toggleModal,
+    createToggleModal,
+  ] = useApplicationData();
 
   // console.log("## show model", state.showCreateModal)
 
@@ -18,13 +25,25 @@ function App() {
     <>
       <Toaster />
       <Header openModal={createToggleModal} />
-      <div className="bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md">
+      <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
         {/* <NewTask createTask={createTask} /> */}
         {/* <p>tasklist is below</p> */}
         {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
-        {state.showCreateModal && <CreateTask  closeModal = {createToggleModal} createTask={createTask} /> }
-        <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} openModal = {toggleModal}  />
-        {state.showModal && <EditTask taskToEdit = {state.taskToEdit} closeModal= {toggleModal}  updateTask = {updateTask}/> }
+        {state.showCreateModal && (
+          <CreateTask closeModal={createToggleModal} createTask={createTask} />
+        )}
+        <TaskList
+          tasks={state.taskData}
+          deleteTask={handleDeleteTask}
+          openModal={toggleModal}
+        />
+        {state.showModal && (
+          <EditTask
+            taskToEdit={state.taskToEdit}
+            closeModal={toggleModal}
+            updateTask={updateTask}
+          />
+        )}
       </div>
     </>
   );

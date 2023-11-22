@@ -5,21 +5,14 @@ import TodayIcon from '@mui/icons-material/Today';
 import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
-import { Link } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
 import Person2Icon from '@mui/icons-material/Person2';
-import Logout from '../pages/Logout';
+// import Logout from '../pages/Logout';
 import Analytics from '../pages/Analytics';
+import TaskList from './TaskList';
 
-const BeforeLogin = ({ openModal }) => {
-  const { isLoggedIn } = useAuth();
+const NavBar = ({ openModal }) => {
   return (
     <React.Fragment>
-      {isLoggedIn ? (
-        <Link to='/logout'>Logout</Link>
-      ) : (
-        <Link to='/login'>Login</Link>
-      )}
       <AppBar
         sx={{
           background: 'white',
@@ -51,7 +44,7 @@ const BeforeLogin = ({ openModal }) => {
               TaskMgt
             </RouterLink>
           </Typography>
-          <div style={{ paddingLeft: '30%' }}>
+          <div style={{ paddingLeft: '20%' }}>
             <Tab
               label='About Us'
               component={RouterLink}
@@ -101,10 +94,6 @@ const BeforeLogin = ({ openModal }) => {
               }}
             />
 
-            <button onClick={() => openModal(true)} textColor='inherit'>
-              Add Task
-            </button>
-
             <Person2Icon
               href='#'
               // sx={{ marginLeft: '1%' }}
@@ -114,6 +103,23 @@ const BeforeLogin = ({ openModal }) => {
               textColor='inherit'
             />
           </div>
+          <Button
+            variant='text'
+            textColor='inherit'
+            onClick={() => openModal(true)}
+            sx={{
+              color: '#656565',
+              textTransform: 'none',
+              marginTop: '2px',
+              fontSize: '1rem',
+              '&:hover': {
+                fontWeight: 'bold',
+                textDecoration: 'none',
+              },
+            }}
+          >
+            Add Task
+          </Button>
 
           <Button
             sx={{ marginLeft: 'auto', color: 'black', borderRadius: '10px' }}
@@ -149,11 +155,11 @@ const BeforeLogin = ({ openModal }) => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='/logout' element={<Logout />} />
-        <Route path='/tasks' element={<AboutUs />} />
+        {/* <Route path='/logout' element={<Logout />} /> */}
+        <Route path='/tasks' element={<TaskList />} />
         <Route path='/analytics' element={<Analytics />} />
       </Routes>
     </React.Fragment>
   );
 };
-export default BeforeLogin;
+export default NavBar;
