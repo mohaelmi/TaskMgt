@@ -79,12 +79,12 @@ const deletTask = (taskId) => {
     });
 };
 
-//update task as a user
+//update task as a user //check later
 const updateTask = (task) => {
   const {title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime } = task
   console.log("task id in the query", task.id);
   return db
-    .query(`UPDATE tasks SET Title=$1 WHERE id = $2 RETURNING *;`, [title, task.id])
+    .query(`UPDATE tasks SET Title=$1 WHERE id=$2 RETURNING *;`, [title, task.id])
     .then((result) => {
       console.log("in queries:", result.rows);
       return  result.rows;
@@ -210,7 +210,10 @@ const getUserByEmail = (email) => {
   const values = [email];
 
   return db.query(query, values)
-    .then(result => result.rows[0])
+    .then(result => { 
+      console.log("query", result.rows[0]);
+      return result.rows[0]
+    })
     .catch(error => {
       console.error('Error fetching user by email:', error);
       throw new Error('Error fetching user by email');
