@@ -11,7 +11,7 @@ import Person2Icon from "@mui/icons-material/Person2";
 import Logout from "../pages/Logout";
 import Analytics from "../pages/Analytics";
 
-const BeforeLogin = () => {
+const BeforeLogin = ({openModal}) => {
   const { isLoggedIn } = useAuth();
   return (
     <React.Fragment>

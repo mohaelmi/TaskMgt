@@ -5,12 +5,12 @@ import { AuthProvider } from './AuthProvider';
 
 
 
-const Header = () => {
+const Header = ({openModal}) => {
 
   return (
     <React.Fragment>
       <AuthProvider>
-        <NavBar />
+        <NavBar openModal={openModal}/>
       </AuthProvider>
     </React.Fragment>
   );

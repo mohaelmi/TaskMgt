@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <Toaster />
-      <Header  />
+      <Header openModal={createToggleModal} />
       <div className="bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md">
         {/* <NewTask createTask={createTask} /> */}
         {/* <p>tasklist is below</p> */}

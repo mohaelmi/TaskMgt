@@ -36,7 +36,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     }else {
       
       callback(task)
-      closeModal(null)
+      closeModal(null)  
     }
 
     console.log("before update",taskToEdit);
@@ -114,7 +114,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                   Start time
                 </label>
                 <input
-                  type="date"
+                  type="time"
                   id="task_start"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
                   name="task_start"
