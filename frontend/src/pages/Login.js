@@ -39,6 +39,7 @@ const Login = () => {
       );
       console.log(response.data);
       setSuccess(true);
+      navigate('/tasks');
     } catch (error) {
       console.error('Login failed:', error.response.data);
       setErrMsg('Login failed. Please check your credentials.');
@@ -56,7 +57,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>

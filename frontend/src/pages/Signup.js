@@ -1,18 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const userRef = useRef();
   const emailRef = useRef();
-  // const [user, setUser] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [pwd, setPwd] = useState('');
   const [enteredValues, setEnteredValues] = useState({
     username: '',
     email: '',
-    pwd: '',
+    password: '',
   });
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
@@ -27,8 +25,16 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(enteredValues);
-    setSuccess(true);
+    try {
+      const response = await axios.post('/signup', enteredValues);
+      const { user, user_id } = response.data;
+      console.log('signup', user);
+      setSuccess(true);
+      navigate('/tasks');
+    } catch (error) {
+      setErrMsg('Error signing up. Please try again.');
+      console.error('Signup error:', error.message);
+    }
   };
 
   const handleInputChange = (identifier, value) => {
@@ -43,7 +49,7 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ paddingTop: '5%', paddingBottom: '5%' }}>
+    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>
@@ -116,7 +122,7 @@ const SignUp = () => {
             label='Password'
             variant='outlined'
             fullWidth
-            onChange={(e) => handleInputChange('pwd', e.target.value)}
+            onChange={(e) => handleInputChange('password', e.target.value)}
             required
           />
 
