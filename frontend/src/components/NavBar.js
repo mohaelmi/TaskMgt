@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, Route, Routes } from 'react-router-dom';
+import { Link as RouterLink, Route, Routes, Navigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
 import TodayIcon from '@mui/icons-material/Today';
 import SignUp from '../pages/Signup';
@@ -10,7 +10,12 @@ import Person2Icon from '@mui/icons-material/Person2';
 import Analytics from '../pages/Analytics';
 import TaskList from './TaskList';
 
-const NavBar = ({ openModal }) => {
+const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
+  const logout = () => {
+    userLogOut()
+    Navigate('/login')
+
+  }
   return (
     <React.Fragment>
       <AppBar
@@ -146,17 +151,18 @@ const NavBar = ({ openModal }) => {
             component={RouterLink}
             to='/logout'
             // color='inherit'
+            onClick={logout}
           >
             Logout
           </Button>
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp userSignup={userSignup} />} />
+        <Route path='/login' element={<Login userLogin= {userLogin}/>} />
         <Route path='/about' element={<AboutUs />} />
         {/* <Route path='/logout' element={<Logout />} /> */}
-        <Route path='/tasks' element={<TaskList />} />
+         <Route path='/' element={ <TaskList    />} />
         <Route path='/analytics' element={<Analytics />} />
       </Routes>
     </React.Fragment>

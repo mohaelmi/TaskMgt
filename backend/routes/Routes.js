@@ -14,34 +14,41 @@ const ensureAuthenticated = (req, res, next) => {
 
 
 
-// Get all tasks
-router.get('/', (req, res) => {
-    try {
-      getAllTasks()
+// // Get all tasks
+// router.get('/', (req, res) => {
+  
+//     try {
+//       getAllTasks()
+//         .then(tasks => {
+//           res.json(tasks);
+//         })
+//         .catch(error => {
+//           console.error('Error fetching tasks:', error);
+//           res.status(500).json({ error: 'Error fetching tasks' });
+//         });
+//     } catch (error) {
+//       console.error('Error fetching tasks:', error);
+//       res.status(500).json({ error: 'Error fetching tasks' });
+//     }
+//   });
+  
+  // Get task based on user id
+  router.get('/', (req, res) => {
+    const userId = req.session.user_id;
+    console.log("dddddd", userId);
+    if(!userId) {
+      res.json([]);
+    } else {
+
+      getTasksByUserId(userId)
         .then(tasks => {
           res.json(tasks);
         })
         .catch(error => {
-          console.error('Error fetching tasks:', error);
-          res.status(500).json({ error: 'Error fetching tasks' });
+          res.status(500).json({ error: 'Error fetching tasks for the user' });
         });
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-      res.status(500).json({ error: 'Error fetching tasks' });
     }
-  });
-  
-  // Get task based on user id
-  router.get('/:id', (req, res) => {
-  const userId = req.params.id;
 
-  getTasksByUserId(userId)
-    .then(tasks => {
-      res.json(tasks);
-    })
-    .catch(error => {
-      res.status(500).json({ error: 'Error fetching tasks for the user' });
-    });
 });
 
 

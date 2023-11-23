@@ -11,6 +11,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
+const bcrypt = require('bcrypt');
 const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -46,6 +47,7 @@ app.post('/login', (req, res) => {
   getUserByEmail(email)
     .then((user) => {
       req.session.user_id = user.id;
+
       console.log('session id', req.session.user_id);
       res.json({ user, user_id: req.session.user_id });
     })
@@ -72,7 +74,8 @@ app.post('/signup', (req, res) => {
 app.get('/logout', (req, res) => {
   req.session.user_id = null;
   //res.render("index", {user: null});
-  res.redirect('/login');
+  // res.redirect('/login');
+  res.json({messge: "logout"})
 });
 
 app.get('/', (req, res) => {

@@ -8,7 +8,7 @@ import AuthContext from '../components/AuthProvider';
 // import axios from '../api/axios';
 // const LOGIN_URL = '/'
 
-const Login = () => {
+const Login = ({userLogin}) => {
   // const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const userRef = useRef();
@@ -18,7 +18,7 @@ const Login = () => {
   // const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
-  const [enteredValues, setEnteredValues] = useState({
+  const [userInfo, setUserInfo] = useState({
     email: '',
     pwd: '',
   });
@@ -29,17 +29,20 @@ const Login = () => {
 
   useEffect(() => {
     setErrMsg('');
-  }, [enteredValues]);
+  }, [userInfo]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
-    console.log(enteredValues);
+    console.log("Login", userInfo);
+    const {email, pwd} = userInfo;
+    userLogin(email, pwd)
+    navigate('/');
     // setUserEmail('');
     // setPwd('');
-    setSuccess(true);
+    // setSuccess(true);
   };
   const handleInputChange = (identifier, value) => {
-    setEnteredValues((prevValues) => ({
+    setUserInfo((prevValues) => ({
       ...prevValues,
       [identifier]: value,
     }));
@@ -97,7 +100,7 @@ const Login = () => {
                 label='Enter your email'
                 variant='outlined'
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                value={enteredValues.email}
+                value={userInfo.email}
                 required
                 sx={{
                   width: '80%',
@@ -111,7 +114,7 @@ const Login = () => {
                 variant='outlined'
                 required
                 onChange={(e) => handleInputChange('pwd', e.target.value)}
-                value={enteredValues.pwd}
+                value={userInfo.pwd}
                 sx={{
                   width: '80%',
                 }}

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
+const SignUp = ({userSignup}) => {
   const navigate = useNavigate();
   const userRef = useRef();
   const emailRef = useRef();
@@ -12,7 +12,7 @@ const SignUp = () => {
   const [enteredValues, setEnteredValues] = useState({
     username: '',
     email: '',
-    pwd: '',
+    password: '',
   });
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
@@ -25,9 +25,11 @@ const SignUp = () => {
     setErrMsg('');
   }, [enteredValues]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(enteredValues);
+
+    userSignup(enteredValues)
     setSuccess(true);
   };
 
@@ -116,7 +118,7 @@ const SignUp = () => {
             label='Password'
             variant='outlined'
             fullWidth
-            onChange={(e) => handleInputChange('pwd', e.target.value)}
+            onChange={(e) => handleInputChange('password', e.target.value)}
             required
           />
 
