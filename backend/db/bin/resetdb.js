@@ -1,48 +1,50 @@
-const { Pool } = require('pg');
 const fs = require('fs');
+const { Pool } = require('pg');
 const path = require('path');
 require('dotenv').config();
 
-const dbParams = {
-  host: process.env.PGHOST,
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-  database: 'postgres', // Default database for creating other databases
-};
+const dbName = process.env.PGDATABASE;
 
 async function resetDatabase() {
-  const dbName = process.env.PGDATABASE; 
+  const params = {
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+    database: 'postgres', // Default database for creating other databases
+  };
 
-  try {
-    // Create a pool using the dbParams configuration
-    const pool = new Pool(dbParams);
+  console.log(params);
+  const pool = new Pool(params);
 
-    // Check if the database exists
-    const checkDbQuery = `SELECT 1 FROM pg_database WHERE datname = $1`;
-    const checkResult = await pool.query(checkDbQuery, [dbName]);
+  // Check if the database exists
+  const checkDbQuery = `SELECT 1 FROM pg_database WHERE datname = $1`;
+  const checkResult = await pool.query(checkDbQuery, [dbName]);
 
-    if (checkResult.rows.length === 0) {
-      // If the database doesn't exist, create it
-      const createDbQuery = `CREATE DATABASE ${dbName}`;
-      await pool.query(createDbQuery);
-    }
-
-    // Connect to the specific database
-    const dbConnection = new Pool({ ...dbParams, database: dbName });
-
-    // Read SQL files
-    const tablesSQL = fs.readFileSync(path.join(__dirname, '../../db/schema/tables.sql'), 'utf8');
-    const seedsSQL = fs.readFileSync(path.join(__dirname, '../../db/schema/seeds.sql'), 'utf8');
-
-    // Run SQL queries
-    await dbConnection.query(tablesSQL);
-    await dbConnection.query(seedsSQL);
-
-    console.log('Database reset completed!');
-  } catch (error) {
-    console.error('Error resetting database:', error);
+  if (checkResult.rows.length === 0) {
+    // If the database doesn't exist, create it
+    const createDbQuery = `CREATE DATABASE ${dbName}`;
+    await pool.query(createDbQuery);
   }
+
+  // Connect to the specific database
+  const db = new Pool({ ...pool, database: dbName });
+
+  // Read SQL files
+  const tablesSQL = fs.readFileSync(
+    path.join(__dirname, '../../db/schema/tables.sql'),
+    'utf8'
+  );
+  const seedsSQL = fs.readFileSync(
+    path.join(__dirname, '../../db/schema/seeds.sql'),
+    'utf8'
+  );
+
+  // Run SQL queries
+  await db.query(tablesSQL);
+  await db.query(seedsSQL);
+
+  console.log('Database reset completed!');
 }
 
 resetDatabase();

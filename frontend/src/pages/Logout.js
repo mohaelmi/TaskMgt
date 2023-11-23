@@ -1,23 +1,15 @@
-import React from 'react';
-import { Button, CssBaseline } from '@mui/material';
+import axios from 'axios';
 
-const Logout = () => {
-  return (
-    <div style={{ paddingTop: '5%' }}>
-      <CssBaseline />
-      <form>
-        <Button
-          variant='contained'
-          sx={{
-            marginTop: 3,
-            borderRadius: 3,
-            backgroundColor: 'black',
-            ':hover': { backgroundColor: 'darkGrey' },
-          }}
-        ></Button>
-      </form>
-    </div>
-  );
+const logout = async () => {
+  try {
+    await axios.get('http://localhost:8080/logout');
+
+    return true; // Indicate successful logout
+  } catch (error) {
+    console.error('Logout failed:', error.response.data);
+
+    return false; // Indicate failed logout
+  }
 };
 
-export default Logout;
+export default logout;

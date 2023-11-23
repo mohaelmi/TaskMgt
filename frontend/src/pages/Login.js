@@ -3,10 +3,8 @@ import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
+import axios from 'axios';
 import AuthContext from '../components/AuthProvider';
-
-// import axios from '../api/axios';
-// const LOGIN_URL = '/'
 
 const Login = () => {
   // const { setAuth } = useContext(AuthContext);
@@ -14,10 +12,14 @@ const Login = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState('');
-  const [pwd, setPwd] = useState('');
+  // const [userEmail, setUserEmail] = useState('');
+  // const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
+  const [enteredValues, setEnteredValues] = useState({
+    email: '',
+    password: '',
+  });
 
   useEffect(() => {
     userRef.current.focus();
@@ -25,24 +27,37 @@ const Login = () => {
 
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd]);
+  }, [enteredValues]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user, pwd);
-    setUser('');
-    setPwd('');
-    setSuccess(true);
-    // Additional logic can be added here for handling form submission
+    console.log(enteredValues);
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/login',
+        enteredValues
+      );
+      console.log(response.data);
+      setSuccess(true);
+      navigate('/tasks');
+    } catch (error) {
+      console.error('Login failed:', error.response.data);
+      setErrMsg('Login failed. Please check your credentials.');
+    }
   };
-
+  const handleInputChange = (identifier, value) => {
+    setEnteredValues((prevValues) => ({
+      ...prevValues,
+      [identifier]: value,
+    }));
+  };
   const handleSignupClick = () => {
     // Navigate to the signup page
     navigate('/signup');
   };
 
   return (
-    <div style={{ paddingTop: '5%' }}>
+    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>
@@ -88,8 +103,8 @@ const Login = () => {
                 ref={userRef}
                 label='Enter your email'
                 variant='outlined'
-                onChange={(e) => setUser(e.target.value)}
-                value={user}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                value={enteredValues.email}
                 required
                 sx={{
                   width: '80%',
@@ -102,8 +117,8 @@ const Login = () => {
                 label='Password'
                 variant='outlined'
                 required
-                onChange={(e) => setPwd(e.target.value)}
-                value={pwd}
+                onChange={(e) => handleInputChange('password', e.target.value)}
+                value={enteredValues.password}
                 sx={{
                   width: '80%',
                 }}

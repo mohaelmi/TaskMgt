@@ -1,4 +1,3 @@
-
 const { Pool } = require('pg');
 require('dotenv').config();
 
@@ -11,7 +10,5 @@ const dbParams = {
 };
 
 const db = new Pool(dbParams);
-
-db.connect();
 
 module.exports = db;

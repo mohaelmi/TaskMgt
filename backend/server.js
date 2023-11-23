@@ -4,19 +4,19 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const morgan = require('morgan');
-const cors = require("cors")
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
 const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const userQueries = require('./db/queries/userTask'); 
+const { getUserByEmail, createUser } = require('./db/queries/userTask');
 
 app.set('view engine', 'ejs');
 
-app.use(morgan("dev"));
-app.use(cors())
+app.use(morgan('dev'));
+app.use(cors());
 // The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,13 +31,13 @@ app.use(
   })
 );
 // Register a new user
-app.post('/register', async (req, res) => {
+app.post('/register', (req, res) => {
   const { username,email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
   try {
     // Call the createUser query function to add a new user to the database
-    const newUser = await userQueries.createUser(username, email, hashedPassword);
+    const newUser = userQueries.createUser(username, email, hashedPassword);
     res.status(201).json({ message: 'User registered successfully', newUser });
   } catch (error) {
     console.error('Error registering user:', error);
@@ -46,12 +46,12 @@ app.post('/register', async (req, res) => {
 });
 // userQueries.hashExistingUsersPasswords();
 // Login route
-app.post('/login', async (req, res) => {
+app.post('/login', (req, res) => {
   const { email, password } = req.body;
   // console.log(email,password);
   try {
     // Fetch user from the database based on the username
-    const user = await userQueries.getUserByEmail(email);
+    const user = userQueries.getUserByEmail(email);
     // console.log(user);
     // console.log(bcrypt.compareSync(password, user.password));
     if (!user || !bcrypt.compareSync(password, user.password)) {
@@ -73,6 +73,7 @@ app.post('/logout', (req, res) => {
       return res.status(500).json({ message: 'Logout failed' });
     }
     res.json({ message: 'Logged out successfully' });
+    res.redirect('/login');
   });
 });
 
