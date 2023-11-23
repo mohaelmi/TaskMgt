@@ -1,47 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 const {
-  getAllTasks,
-  createTask,
-  setActualStartTime,
-  setActualEndTime,
   getTasksByUserId,
-  deletTask,
+  createTask,
+  deleteTask,
   updateTask,
-  createUser,
-  getUserByEmail,
-  getUserById,
+  setStartTime,
+  setEndTime,
 } = require('../db/queries/userTask');
-// const { ensureAuthenticated } = require('../middlewares/authMiddleware');
 
-// Middleware to check if user is authenticated
 const ensureAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
-    return next(); // Proceed to the next middleware or route handler
+    return next();
   }
   res.status(401).json({ error: 'Unauthorized' });
 };
 
-// Get all tasks
-router.get('/', (req, res) => {
-    try {
-      getAllTasks()
-        .then(tasks => {
-          res.json(tasks);
-        })
-        .catch(error => {
-          console.error('Error fetching tasks:', error);
-          res.status(500).json({ error: 'Error fetching tasks' });
-        });
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-      res.status(500).json({ error: 'Error fetching tasks' });
-    }
-  });
-  
-  // Get task based on user id
-  router.get('/:id', ensureAuthenticated, (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
   const userId = req.session.userId;
   getTasksByUserId(userId)
     .then((tasks) => {
@@ -52,9 +27,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// Add a new task
 router.post('/new', ensureAuthenticated, (req, res) => {
-  // console.log(req.body);
   const {
     userId,
     title,
@@ -70,20 +43,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     actualEndTime,
   } = req.body;
 
-  createTask(
-    userId,
-    title,
-    category,
-    description,
-    status,
-    priorityLevel,
-    importanceLevel,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
-    actualStartTime,
-    actualEndTime
-  )
+  createTask(userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
     .then(() => {
       res.json({ message: 'Task added successfully' });
     })
@@ -92,43 +52,34 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     });
 });
 
-// delete a task
-// /delete?id --query
 router.get('/delete/:id', ensureAuthenticated, (req, res) => {
   const id = req.params.id;
-  deletTask(id)
-    .then((tasks) => {
-      // console.log(tasks);
-      res.json({ tasks, message: 'task deleted successfully!!' });
+  deleteTask(id)
+    .then(() => {
+      res.json({ message: 'Task deleted successfully' });
     })
     .catch((error) => {
-      res.status(500).json({ error, error: 'Error deleting tasks' });
+      res.status(500).json({ error: 'Error deleting task', details: error });
     });
 });
 
-// post update task
 router.post('/edit', ensureAuthenticated, (req, res) => {
-  // const id = req.params.id
   const updatedTask = req.body;
-  // res.json("heey edit/id route working")
-  console.log(updatedTask);
 
   updateTask(updatedTask)
-    .then((task) => {
-      console.log('returned from query:', task);
-      res.json({ task, message: 'task updated successfully!!' });
+    .then(() => {
+      res.json({ message: 'Task updated successfully' });
     })
     .catch((error) => {
-      res.status(500).json({ error, error: 'Error deleting tasks' });
+      res.status(500).json({ error: 'Error updating task', details: error });
     });
 });
 
-// Set actual start time for a task
 router.post('/setStartTime/:taskId', ensureAuthenticated, (req, res) => {
   const { startTime } = req.body;
   const { taskId } = req.params;
 
-  setActualStartTime(startTime, taskId)
+  setStartTime(startTime, taskId)
     .then(() => {
       res.json({ message: 'Actual start time updated successfully' });
     })
@@ -137,12 +88,11 @@ router.post('/setStartTime/:taskId', ensureAuthenticated, (req, res) => {
     });
 });
 
-// Set actual end time for a task
 router.post('/setEndTime/:taskId', ensureAuthenticated, (req, res) => {
   const { endTime } = req.body;
   const { taskId } = req.params;
 
-  setActualEndTime(endTime, taskId)
+  setEndTime(endTime, taskId)
     .then(() => {
       res.json({ message: 'Actual end time updated successfully' });
     })

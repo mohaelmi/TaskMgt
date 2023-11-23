@@ -1,4 +1,4 @@
-const cookieSession = require('cookie-session');
+
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -9,9 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
 const app = express();
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const { getUserByEmail, createUser } = require('./db/queries/userTask');
+const userQueries = require('./db/queries/userTask');
 
 app.set('view engine', 'ejs');
 
@@ -46,18 +44,18 @@ app.post('/register', (req, res) => {
 });
 // userQueries.hashExistingUsersPasswords();
 // Login route
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  // console.log(email,password);
   try {
-    // Fetch user from the database based on the username
-    const user = userQueries.getUserByEmail(email);
-    // console.log(user);
-    // console.log(bcrypt.compareSync(password, user.password));
-    if (!user || !bcrypt.compareSync(password, user.password)) {
+    const user = await userQueries.getUserByEmail(email);
+    if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-    req.session.userId = user.id; // Set the user ID in the session
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    req.session.userId = user.id;
     res.json({ message: 'Logged in successfully', user });
   } catch (error) {
     console.error('Error logging in:', error);
@@ -72,7 +70,7 @@ app.post('/logout', (req, res) => {
     if (err) {
       return res.status(500).json({ message: 'Logout failed' });
     }
-    res.json({ message: 'Logged out successfully' });
+    // res.json({ message: 'Logged out successfully' });
     res.redirect('/login');
   });
 });
@@ -85,8 +83,11 @@ app.get('/protected', (req, res) => {
   res.json({ message: 'Welcome to the protected route' });
 });
 
+//routes
 app.use('/auth', authRoutes);
 app.use('/tasks', Routes);
+
+
 // Server listening
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
