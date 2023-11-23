@@ -1,16 +1,35 @@
-import React from 'react';
-import { Link as RouterLink, Route, Routes } from 'react-router-dom';
+import React, { useContext } from 'react';
+import {
+  Link as RouterLink,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
 import TodayIcon from '@mui/icons-material/Today';
 import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
 import Person2Icon from '@mui/icons-material/Person2';
-// import Logout from '../pages/Logout';
 import Analytics from '../pages/Analytics';
 import TaskList from './TaskList';
+import AuthContext from './AuthProvider';
+import logout from '../pages/Logout';
 
 const NavBar = ({ openModal }) => {
+  const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setAuth(false);
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error.response.data);
+    }
+  };
+
   return (
     <React.Fragment>
       <AppBar
@@ -143,8 +162,7 @@ const NavBar = ({ openModal }) => {
           <Button
             sx={{ marginLeft: 'auto', color: 'black', borderRadius: '10px' }}
             variant='outlined'
-            component={RouterLink}
-            to='/logout'
+            onClick={handleLogout}
             // color='inherit'
           >
             Logout
@@ -155,8 +173,8 @@ const NavBar = ({ openModal }) => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<AboutUs />} />
-        {/* <Route path='/logout' element={<Logout />} /> */}
-        <Route path='/tasks' element={<TaskList />} />
+        <Route path='/logout' element={<logout />} />
+        <Route path='/tasks' element={<AboutUs />} />
         <Route path='/analytics' element={<Analytics />} />
       </Routes>
     </React.Fragment>
