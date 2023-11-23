@@ -6,7 +6,7 @@ const { getAllTasks,createTask,setActualStartTime,setActualEndTime,getTasksByUse
 
 // Middleware to check if user is authenticated
 const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
+  if (req.session && req.session.userId) {
     return next(); // Proceed to the next middleware or route handler
   }
   res.status(401).json({ error: 'Unauthorized' });
@@ -33,8 +33,7 @@ router.get('/', (req, res) => {
   
   // Get task based on user id
   router.get('/:id', ensureAuthenticated, (req, res) => {
-  const userId = req.params.id;
-
+  const userId = req.session.userId;
   getTasksByUserId(userId)
     .then(tasks => {
       res.json(tasks);

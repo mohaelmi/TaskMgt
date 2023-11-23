@@ -1,11 +1,8 @@
-// load .env data into process.env
-// require("dotenv").config();
-//const tasksQueries = require("./db/queries/tasks");
-// Web server config
-// const sassMiddleware = require("./lib/sass-middleware");
 const cookieSession = require('cookie-session');
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const morgan = require('morgan');
 const cors = require("cors")
 const authRoutes = require('./routes/authRoutes');
@@ -27,56 +24,73 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(
-  cookieSession({
-    name: 'session',
-    keys: ['key1'],
+  session({
+    secret: 'secret_key',
+    resave: false,
+    saveUninitialized: true,
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
-// Passport configuration
-passport.use(
-  new LocalStrategy((email, password, done) => {
-    userQueries
-      .getUserByEmail(email)
-      .then((user) => {
-        if (!user || !bcrypt.compareSync(password, user.password)) {
-          return done(null, false);
-        }
-        return done(null, user);
-      })
-      .catch((err) => done(err));
-  })
-);
+// Register a new user
+app.post('/register', async (req, res) => {
+  const { username,email, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+  try {
+    // Call the createUser query function to add a new user to the database
+    const newUser = await userQueries.createUser(username, email, hashedPassword);
+    res.status(201).json({ message: 'User registered successfully', newUser });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'Error registering user' });
+  }
+});
+// userQueries.hashExistingUsersPasswords();
+// Login route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  // console.log(email,password);
+  try {
+    // Fetch user from the database based on the username
+    const user = await userQueries.getUserByEmail(email);
+    // console.log(user);
+    // console.log(bcrypt.compareSync(password, user.password));
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    req.session.userId = user.id; // Set the user ID in the session
+    res.json({ message: 'Logged in successfully', user });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Error logging in' });
+  }
 });
 
-passport.deserializeUser((id, done) => {
-  userQueries
-    .getUserById(id)
-    .then((user) => {
-      done(null, user);
-    })
-    .catch((err) => done(err));
-});
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
-
+// Logout route
 app.post('/logout', (req, res) => {
-  req.logout();
-  res.json({ message: 'Logged out successfully' });
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Logout failed' });
+    }
+    res.json({ message: 'Logged out successfully' });
+  });
+});
+
+// Protected route - example
+app.get('/protected', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  res.json({ message: 'Welcome to the protected route' });
 });
 
 app.use('/auth', authRoutes);
-app.use('/api/tasks', Routes);
-
-
-
+app.use('/tasks', Routes);
+// Server listening
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
 });
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
