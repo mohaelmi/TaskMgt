@@ -3,6 +3,7 @@ import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
+import axios from 'axios';
 import AuthContext from '../components/AuthProvider';
 
 // import axios from '../api/axios';
@@ -33,10 +34,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(enteredValues);
-    // setUserEmail('');
-    // setPwd('');
-    setSuccess(true);
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/login',
+        enteredValues
+      );
+      console.log(response.data);
+      setSuccess(true);
+    } catch (error) {
+      console.error('Login failed:', error.response.data);
+      setErrMsg('Login failed. Please check your credentials.');
+    }
   };
   const handleInputChange = (identifier, value) => {
     setEnteredValues((prevValues) => ({
