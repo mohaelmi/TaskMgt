@@ -17,8 +17,6 @@ CREATE TABLE tasks (
     Category VARCHAR(50),
     Description TEXT,
     Status VARCHAR(20),
-    PriorityLevel VARCHAR(20),
-    ImportanceLevel VARCHAR(20),
     DueDate TIME,
     EstimatedStartTime TIME,
     EstimatedEndTime TIME,

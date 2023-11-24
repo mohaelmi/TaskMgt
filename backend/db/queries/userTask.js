@@ -1,6 +1,6 @@
 // backend/db/queries/userTask.js
 const db = require('../database');
-
+const bcrypt = require('bcrypt');
 const getAllTasks = () => {
   const query = `
     SELECT * FROM tasks;
@@ -273,6 +273,24 @@ const getUserByEmail = (email) => {
 //     console.error('Error:', error.message);
 //   });
 
+
+// const hashExistingUsersPasswords = async () => {
+//   try {
+//     const users = await db.query('SELECT * FROM users');
+
+//     for (const user of users.rows) {
+//       const hashedPassword = bcrypt.hashSync(user.password, 10);
+//       await db.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, user.id]);
+//       console.log(hashedPassword);
+      
+//     }
+//     console.log('Passwords for existing users updated successfully!');
+//   } catch (error) {
+//     console.error('Error updating existing user passwords:', error);
+//     throw new Error('Error updating existing user passwords');
+//   }
+// };
+
 module.exports = {
   getAllTasks,
   createTask,
@@ -284,4 +302,5 @@ module.exports = {
   createUser,
   getUserByEmail,
   getUserById,
+  // hashExistingUsersPasswords,
 };

@@ -1,20 +1,15 @@
-// load .env data into process.env
-// require("dotenv").config();
-//const tasksQueries = require("./db/queries/tasks");
-// Web server config
-// const sassMiddleware = require("./lib/sass-middleware");
-const cookieSession = require('cookie-session');
+
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const morgan = require('morgan');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
 const app = express();
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const { getUserByEmail, createUser } = require('./db/queries/userTask');
+const userQueries = require('./db/queries/userTask');
 
 app.set('view engine', 'ejs');
 
@@ -27,57 +22,77 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(
-  cookieSession({
-    name: 'session',
-    keys: ['key1'],
+  session({
+    secret: 'secret_key',
+    resave: false,
+    saveUninitialized: true,
   })
 );
-app.use(passport.session());
+// Register a new user
+app.post('/register', (req, res) => {
+  const { username,email, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
-app.use('/auth', authRoutes);
-app.use('/api/tasks', Routes);
-
-app.post('/login', (req, res) => {
-  console.log(req.body);
+  try {
+    // Call the createUser query function to add a new user to the database
+    const newUser = userQueries.createUser(username, email, hashedPassword);
+    res.status(201).json({ message: 'User registered successfully', newUser });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'Error registering user' });
+  }
+});
+// userQueries.hashExistingUsersPasswords();
+// Login route
+app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  // req.session.user_id = userId;
-  // res.redirect("/");
-  // console.log(userId);
-  getUserByEmail(email)
-    .then((user) => {
-      req.session.user_id = user.id;
-      console.log('session id', req.session.user_id);
-      res.json({ user, user_id: req.session.user_id });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+  try {
+    const user = await userQueries.getUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    req.session.userId = user.id;
+    res.json({ message: 'Logged in successfully', user });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Error logging in' });
+  }
 });
 
-app.post('/signup', (req, res) => {
-  console.log(req.body);
-  const { username, email, password } = req.body;
 
-  createUser(username, email, password)
-    .then((user) => {
-      console.log('signup', user);
-      req.session.user_id = user.id;
-      res.json({ user, user_id: req.session.user_id });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+// Logout route
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Logout failed' });
+    }
+    // res.json({ message: 'Logged out successfully' });
+    res.redirect('/login');
+  });
 });
 
-app.get('/logout', (req, res) => {
-  req.session.user_id = null;
-  //res.render("index", {user: null});
-  res.redirect('/login');
+// Protected route - example
+app.get('/protected', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  res.json({ message: 'Welcome to the protected route' });
 });
 
+//routes
+app.use('/auth', authRoutes);
+app.use('/tasks', Routes);
+
+
+// Server listening
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from server!' });
 });
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
