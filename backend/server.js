@@ -72,7 +72,7 @@ app.post('/signup', (req, res) => {
 app.get('/logout', (req, res) => {
   req.session.user_id = null;
   //res.render("index", {user: null});
-  res.redirect('/login');
+  res.status(200).send({ message: 'Logged out Successfully' });
 });
 
 app.get('/', (req, res) => {

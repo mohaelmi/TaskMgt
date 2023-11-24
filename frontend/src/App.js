@@ -6,7 +6,7 @@ import { useApplicationData } from './hooks/useApplicationData';
 import TaskList from './components/TaskList';
 import NewTask from './components/NewTask';
 import EditTask from './components/EditTask';
-import Header from './components/Header';
+import NavBar from './components/NavBar';
 import CreateTask from './pages/CreateTask';
 
 function App() {
@@ -17,6 +17,8 @@ function App() {
     updateTask,
     toggleModal,
     createToggleModal,
+    handleLogin,
+    handleLogout,
   ] = useApplicationData();
 
   // console.log("## show model", state.showCreateModal)
@@ -24,7 +26,12 @@ function App() {
   return (
     <>
       <Toaster />
-      <Header openModal={createToggleModal} />
+      <NavBar
+        openModal={createToggleModal}
+        handleLogin={handleLogin}
+        handleLogout={handleLogout}
+        isLoggedIn={state.isLoggedIn}
+      />
       <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
         {/* <NewTask createTask={createTask} /> */}
         {/* <p>tasklist is below</p> */}

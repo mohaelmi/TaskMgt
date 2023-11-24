@@ -1,15 +1,17 @@
-import { useReducer, useEffect } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useReducer, useEffect } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const ACTIONS = {
-  SET_TASK_DATA: "SET_PHOTO_DATA",
-  DELETE_TASK: "DELETE_TASK",
-  CREAT_TASK: "CREATE_TASK",
-  SHOW_EDIT_TASK: "SHOW_EDIT_TASK",
-  SELECT_TASK: "SELECT_TASK",
-  SHOW_MODAL_CREATE_TASK: "SHOW_MODAL_CREATE_TASK",
-  EDIT_TASK: "EDIT_TASK",
+  SET_TASK_DATA: 'SET_PHOTO_DATA',
+  DELETE_TASK: 'DELETE_TASK',
+  CREAT_TASK: 'CREATE_TASK',
+  SHOW_EDIT_TASK: 'SHOW_EDIT_TASK',
+  SELECT_TASK: 'SELECT_TASK',
+  SHOW_MODAL_CREATE_TASK: 'SHOW_MODAL_CREATE_TASK',
+  EDIT_TASK: 'EDIT_TASK',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 };
 
 const reducer = (state, action) => {
@@ -30,6 +32,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         showModal: action.payload,
+      };
+    case ACTIONS.LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true,
+      };
+    case ACTIONS.LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
       };
 
     // case ACTIONS.EDIT_TASK:
@@ -90,12 +102,13 @@ export const useApplicationData = () => {
     taskToEdit: {},
     showModal: false,
     showCreateModal: false,
+    isLoggedIn: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchTasks = () => {
     axios
-      .get("/api/tasks/")
+      .get('/api/tasks/')
       .then((res) => {
         // console.log(res.data);
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
@@ -108,9 +121,9 @@ export const useApplicationData = () => {
   }, []);
 
   const createTask = (task) => {
-    console.log("delete task", task);
+    console.log('delete task', task);
     axios
-      .post("/api/tasks/new", task)
+      .post('/api/tasks/new', task)
       .then((res) => {
         // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
@@ -131,7 +144,7 @@ export const useApplicationData = () => {
   };
 
   const updatedTask = (task) => {
-    console.log("updated task", task);
+    console.log('updated task', task);
     axios
       .post(`/api/tasks/edit`, task)
       .then((res) => {
@@ -156,6 +169,34 @@ export const useApplicationData = () => {
     dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK, payload: value });
   };
 
+  const handleLogin = async (enteredValues) => {
+    console.log(enteredValues);
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/login',
+        enteredValues
+      );
+      console.log(response.data);
+
+      dispatch({ type: ACTIONS.LOGIN });
+    } catch (error) {
+      console.error('Login failed:', error.response.data);
+      throw error;
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.get('http://localhost:8080/logout');
+
+      dispatch({ type: ACTIONS.LOGOUT });
+    } catch (error) {
+      console.error('Logout failed:', error.response.data);
+
+      throw error;
+    }
+  };
+
   return [
     state,
     createTask,
@@ -163,5 +204,7 @@ export const useApplicationData = () => {
     updatedTask,
     toggleModal,
     createToggleModal,
+    handleLogin,
+    handleLogout,
   ];
 };

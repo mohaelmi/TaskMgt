@@ -30,7 +30,7 @@ const SignUp = () => {
       const { user, user_id } = response.data;
       console.log('signup', user);
       setSuccess(true);
-      navigate('/tasks');
+      navigate('/my_tasks');
     } catch (error) {
       setErrMsg('Error signing up. Please try again.');
       console.error('Signup error:', error.message);
@@ -49,7 +49,7 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
+    <div style={{ paddingTop: '8%', paddingBottom: '5%' }}>
       <CssBaseline />
       {success ? (
         <section>

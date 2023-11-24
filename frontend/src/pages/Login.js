@@ -4,18 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
-import AuthContext from '../components/AuthProvider';
 
-const Login = () => {
-  // const { setAuth } = useContext(AuthContext);
+const Login = (props) => {
   const navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
 
-  // const [userEmail, setUserEmail] = useState('');
-  // const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
-  const [success, setSuccess] = useState(false);
+
   const [enteredValues, setEnteredValues] = useState({
     email: '',
     password: '',
@@ -33,13 +29,8 @@ const Login = () => {
     e.preventDefault();
     console.log(enteredValues);
     try {
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        enteredValues
-      );
-      console.log(response.data);
-      setSuccess(true);
-      navigate('/tasks');
+      await props.handleLogin(enteredValues);
+      navigate('/my_tasks');
     } catch (error) {
       console.error('Login failed:', error.response.data);
       setErrMsg('Login failed. Please check your credentials.');
@@ -57,9 +48,9 @@ const Login = () => {
   };
 
   return (
-    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
+    <div style={{ paddingTop: '8%', paddingBottom: '5%' }}>
       <CssBaseline />
-      {success ? (
+      {props.isLoggedIn ? (
         <section>
           <h1>You are logged in!</h1>
         </section>
