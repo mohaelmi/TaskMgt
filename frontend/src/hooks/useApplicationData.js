@@ -87,7 +87,7 @@ const reducer = (state, action) => {
   
       return {
         ...state,
-        user_id: action.payload,
+        user: action.payload,
       };
 
       case ACTIONS.USER_LOGOUT:
@@ -108,17 +108,17 @@ const reducer = (state, action) => {
 };
 
 export const useApplicationData = () => {
-  const userInfo = localStorage.getItem("user_id"); 
-  let user_id = null
+  const userInfo = localStorage.getItem("user"); 
+  let user = null
   if(userInfo) {
-    user_id = userInfo
+    user = userInfo
   }
   const initialState = {
     taskData: [],
     taskToEdit: {},
     showModal: false,
     showCreateModal: false,
-    user_id: user_id
+    user: user
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -126,16 +126,15 @@ export const useApplicationData = () => {
     axios
       .get("/api/tasks")
       .then((res) => {
-        console.log(res.data);
+        console.log("data related to user ", res.data);
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    console.log(typeof state.user);
     fetchTasks();
-  }, [state.user_id]);
+  }, [state.user]);
 
   const createTask = (task) => {
     console.log("delete task", task);
@@ -190,9 +189,10 @@ export const useApplicationData = () => {
     axios
     .post("/login", {email, password})
     .then((res) => {
-      localStorage.setItem("user_id", JSON.stringify(res.data.user_id));
+      // console.log("## user", res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       // const user = localStorage.getItem("user_id"); 
-      dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user_id });
+      dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
       console.log("response when login", res.data.user)  
       // console.log("local storage", user);
     })
@@ -218,7 +218,7 @@ export const useApplicationData = () => {
     .get("/logout",)
     .then((res) => {
       dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
-      localStorage.setItem("user_id", null)     
+      localStorage.setItem("user", null)     
       // console.log("response when login", res.data.user)  
       console.log("log out", res.data);
     })

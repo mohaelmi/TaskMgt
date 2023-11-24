@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useNavigate,
+  Navigate,
 } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
 import TodayIcon from '@mui/icons-material/Today';
@@ -154,7 +155,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
           <Button
             sx={{ marginLeft: 'auto', color: 'black', borderRadius: '10px' }}
             variant='outlined'
-            onClick={handleLogout}
+            onClick={() => userLogOut()}
             // color='inherit'
             // onClick={logout}
           >
@@ -166,7 +167,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
         <Route path='/signup' element={<SignUp userSignup={userSignup} />} />
         <Route path='/login' element={<Login userLogin= {userLogin}/>} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='/logout' element={<logout />} />
+        {/* <Route path='/logout' element={<logout />} /> */}
         <Route path='/tasks' element={<AboutUs />} />
         <Route path='/analytics' element={<Analytics />} />
       </Routes>

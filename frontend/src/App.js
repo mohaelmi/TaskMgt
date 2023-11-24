@@ -23,7 +23,7 @@ function App() {
   ] = useApplicationData();
 
   // console.log("## show model", state.showCreateModal)
-  console.log("## user id", state.user_id);
+  console.log("## user", state.user);
 
   return (
     <>
@@ -35,7 +35,7 @@ function App() {
         userSignup={userSignup}
       />
 
-      {state.user_id ? (
+      {state.user ? (
         <div className="bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md">
           {/* <NewTask createTask={createTask} /> */}
           {/* <p>tasklist is below</p> */}

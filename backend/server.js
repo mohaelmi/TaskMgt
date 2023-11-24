@@ -8,11 +8,9 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
-const bcrypt = require('bcrypt');
 const app = express();
 const userQueries = require('./db/queries/userTask');
 
-app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -66,14 +64,22 @@ app.post('/login', async (req, res) => {
 
 
 // Logout route
-app.post('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: 'Logout failed' });
-    }
-    // res.json({ message: 'Logged out successfully' });
-    res.redirect('/login');
-  });
+// app.post('/logout', (req, res) => {
+//   req.session.destroy((err) => {
+//     if (err) {
+//       return res.status(500).json({ message: 'Logout failed' });
+//     }
+//     // res.json({ message: 'Logged out successfully' });
+//     res.redirect('/login');
+//   });
+// });
+
+app.get('/logout', (req, res) => {
+  req.session.userId = null;
+  //res.render("index", {user: null});
+  // res.redirect('/login');
+  res.json({messge: "logout"})
+
 });
 
 // Protected route - example
@@ -82,11 +88,10 @@ app.get('/protected', (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   res.json({ message: 'Welcome to the protected route' });
-});
-
+})
 //routes
 app.use('/auth', authRoutes);
-app.use('/tasks', Routes);
+app.use('/api/tasks', Routes);
 
 
 // Server listening

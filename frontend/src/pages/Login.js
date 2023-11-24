@@ -30,7 +30,7 @@ const Login = ({userLogin}) => {
 
   useEffect(() => {
     setErrMsg('');
-  }, [userInfo]);
+  }, [enteredValues]);
 
   const handleSubmit =  (e) => {
     e.preventDefault();
@@ -101,7 +101,7 @@ const Login = ({userLogin}) => {
                 label='Enter your email'
                 variant='outlined'
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                value={userInfo.email}
+                value={enteredValues.email}
                 required
                 sx={{
                   width: '80%',
