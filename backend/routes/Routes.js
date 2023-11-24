@@ -1,13 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {
-  getTasksByUserId,
-  createTask,
-  deleteTask,
-  updateTask,
-  setStartTime,
-  setEndTime,
-} = require('../db/queries/userTask');
+const userQueries = require('../db/queries/userTask');
 
 const ensureAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -18,7 +11,7 @@ const ensureAuthenticated = (req, res, next) => {
 
 router.get('/', ensureAuthenticated, (req, res) => {
   const userId = req.session.userId;
-  getTasksByUserId(userId)
+  userQueries.getTasksByUserId(userId)
     .then((tasks) => {
       res.json(tasks);
     })
@@ -43,7 +36,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     actualEndTime,
   } = req.body;
 
-  createTask(userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
+  userQueries.createTask(userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
     .then(() => {
       res.json({ message: 'Task added successfully' });
     })
@@ -54,7 +47,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
 
 router.get('/delete/:id', ensureAuthenticated, (req, res) => {
   const id = req.params.id;
-  deleteTask(id)
+  userQueries.deleteTask(id)
     .then(() => {
       res.json({ message: 'Task deleted successfully' });
     })
@@ -63,23 +56,29 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.post('/edit', ensureAuthenticated, (req, res) => {
-  const updatedTask = req.body;
-
-  updateTask(updatedTask)
-    .then(() => {
-      res.json({ message: 'Task updated successfully' });
-    })
-    .catch((error) => {
-      res.status(500).json({ error: 'Error updating task', details: error });
-    });
+router.post('/edit', ensureAuthenticated, async (req, res) => {
+  const userId = req.session.userId; // get logged-in user ID
+  const updatedTask = req.body; // get task ID from the route
+  // check if the task belongs to the logged-in user
+  if (updatedTask.userId !== userId) {
+    return res.status(403).json({ error: 'You are not authorized to update this task' });
+  }
+  const task = await userQueries.getTaskById(updatedTask.id); // get task details by ID
+  userQueries.updateTask(updatedTask)
+      .then((updatedTaskDetails) => {
+        res.json({ message: 'Task updated successfully', updatedTaskDetails });
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'Error updating task', details: error });
+      });
 });
+
 
 router.post('/setStartTime/:taskId', ensureAuthenticated, (req, res) => {
   const { startTime } = req.body;
   const { taskId } = req.params;
 
-  setStartTime(startTime, taskId)
+  userQueries.setStartTime(startTime, taskId)
     .then(() => {
       res.json({ message: 'Actual start time updated successfully' });
     })
@@ -92,7 +91,7 @@ router.post('/setEndTime/:taskId', ensureAuthenticated, (req, res) => {
   const { endTime } = req.body;
   const { taskId } = req.params;
 
-  setEndTime(endTime, taskId)
+  userQueries.setEndTime(endTime, taskId)
     .then(() => {
       res.json({ message: 'Actual end time updated successfully' });
     })
