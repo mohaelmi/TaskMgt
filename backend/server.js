@@ -75,10 +75,17 @@ app.post('/login', async (req, res) => {
 // });
 
 app.get('/logout', (req, res) => {
-  req.session.userId = null;
-  //res.render("index", {user: null});
-  // res.redirect('/login');
-  res.json({messge: "logout"})
+  const id = req.session.userId
+  if(id){
+    req.session.userId = null;
+    //res.render("index", {user: null});
+    // res.redirect('/login');
+    res.json({messge: "logout"})
+    // res.redirect('/login');
+
+  }else {
+    res.json({messge: "already log out"})
+  }
 
 });
 

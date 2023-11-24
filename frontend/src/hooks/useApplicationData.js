@@ -94,7 +94,7 @@ const reducer = (state, action) => {
     
         return {
           ...state,
-          user_id: action.payload,
+          user: action.payload,
         };
 
       
