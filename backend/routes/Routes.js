@@ -11,6 +11,9 @@ const ensureAuthenticated = (req, res, next) => {
 
 router.get('/', ensureAuthenticated, (req, res) => {
   const userId = req.session.userId;
+  if(!userId) {
+    res.json([]);
+  } else {
   userQueries.getTasksByUserId(userId)
     .then((tasks) => {
       res.json(tasks);
@@ -18,6 +21,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
     .catch((error) => {
       res.status(500).json({ error: 'Error fetching tasks for the user' });
     });
+  }
 });
 
 router.post('/new', ensureAuthenticated, (req, res) => {

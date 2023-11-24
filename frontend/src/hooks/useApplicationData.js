@@ -10,11 +10,14 @@ const ACTIONS = {
   SELECT_TASK: "SELECT_TASK",
   SHOW_MODAL_CREATE_TASK: "SHOW_MODAL_CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
+  USER_LOGIN: "USER_LOGIN",
+  USER_LOGOUT: "USER_LOGOUT"
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_TASK_DATA:
+     
       return {
         ...state,
         taskData: action.payload,
@@ -77,6 +80,26 @@ const reducer = (state, action) => {
     //     message: action.payload,
     //   };
 
+    
+    case ACTIONS.USER_LOGIN:
+ 
+    console.log("user data", action.payload);
+  
+      return {
+        ...state,
+        user_id: action.payload,
+      };
+
+      case ACTIONS.USER_LOGOUT:
+    
+        return {
+          ...state,
+          user_id: action.payload,
+        };
+
+      
+    
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -85,27 +108,34 @@ const reducer = (state, action) => {
 };
 
 export const useApplicationData = () => {
+  const userInfo = localStorage.getItem("user_id"); 
+  let user_id = null
+  if(userInfo) {
+    user_id = userInfo
+  }
   const initialState = {
     taskData: [],
     taskToEdit: {},
     showModal: false,
     showCreateModal: false,
+    user_id: user_id
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchTasks = () => {
     axios
-      .get("/api/tasks/")
+      .get("/api/tasks")
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
+    console.log(typeof state.user);
     fetchTasks();
-  }, []);
+  }, [state.user_id]);
 
   const createTask = (task) => {
     console.log("delete task", task);
@@ -156,6 +186,46 @@ export const useApplicationData = () => {
     dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK, payload: value });
   };
 
+  const userLogin = (email, password) => {
+    axios
+    .post("/login", {email, password})
+    .then((res) => {
+      localStorage.setItem("user_id", JSON.stringify(res.data.user_id));
+      // const user = localStorage.getItem("user_id"); 
+      dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user_id });
+      console.log("response when login", res.data.user)  
+      // console.log("local storage", user);
+    })
+   
+    .catch((error) => console.log(error));
+  }
+
+
+  const userSignup = (userInfo) => {
+    // const { username, email, pwd } = userInfo;
+    console.log(userInfo);
+    axios
+    .post("/auth/register", userInfo)
+    .then((res) => {
+      console.log(res.data);
+      // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
+    })
+    .catch((error) => console.log(error));
+  }
+
+  const userLogOut = () => {
+    axios
+    .get("/logout",)
+    .then((res) => {
+      dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
+      localStorage.setItem("user_id", null)     
+      // console.log("response when login", res.data.user)  
+      console.log("log out", res.data);
+    })
+    .catch((error) => console.log(error));
+  }
+
+
   return [
     state,
     createTask,
@@ -163,5 +233,8 @@ export const useApplicationData = () => {
     updatedTask,
     toggleModal,
     createToggleModal,
+    userLogin,
+    userLogOut,
+    userSignup,
   ];
 };

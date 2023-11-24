@@ -31,8 +31,8 @@ function TaskListItem({
  
   return (
     <div className='w-64'>
-      <Taskheader text= {text}  count = {tasksToMap.length} bg = {bg} />
-      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} /> ) }
+      <Taskheader text= {text}  count = {tasksToMap?.length} bg = {bg} />
+      {tasksToMap?.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} /> ) }
       {/* list */}
     </div>
   );

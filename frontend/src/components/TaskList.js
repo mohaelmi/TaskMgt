@@ -10,11 +10,11 @@ function TaskList(props) {
   // console.log(props.tasks);
 
   useEffect(() => {
-    const tasksTodo = props.tasks.filter((task) => task.status === 'Todo');
-    const tasksInProgress = props.tasks.filter(
+    const tasksTodo = props.tasks?.filter((task) => task.status === 'Todo');
+    const tasksInProgress = props.tasks?.filter(
       (task) => task.status === 'In Progress'
     );
-    const closedTasks = props.tasks.filter((task) => task.status === 'Closed');
+    const closedTasks = props.tasks?.filter((task) => task.status === 'Closed');
 
     setTodos(tasksTodo);
     setProgress(tasksInProgress);

@@ -8,6 +8,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
+const bcrypt = require('bcrypt');
 const app = express();
 const userQueries = require('./db/queries/userTask');
 

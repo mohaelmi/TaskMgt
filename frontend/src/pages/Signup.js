@@ -3,7 +3,7 @@ import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const SignUp = () => {
+const SignUp = ({userSignup}) => {
   const navigate = useNavigate();
   const userRef = useRef();
   const emailRef = useRef();
@@ -23,18 +23,12 @@ const SignUp = () => {
     setErrMsg('');
   }, [enteredValues]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/signup', enteredValues);
-      const { user, user_id } = response.data;
-      console.log('signup', user);
-      setSuccess(true);
-      navigate('/tasks');
-    } catch (error) {
-      setErrMsg('Error signing up. Please try again.');
-      console.error('Signup error:', error.message);
-    }
+    console.log(enteredValues);
+
+    userSignup(enteredValues)
+    setSuccess(true);
   };
 
   const handleInputChange = (identifier, value) => {

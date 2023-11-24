@@ -6,7 +6,10 @@ import GoogleIcon from '@mui/icons-material/Google';
 import axios from 'axios';
 import AuthContext from '../components/AuthProvider';
 
-const Login = () => {
+// import axios from '../api/axios';
+// const LOGIN_URL = '/'
+
+const Login = ({userLogin}) => {
   // const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const userRef = useRef();
@@ -27,23 +30,17 @@ const Login = () => {
 
   useEffect(() => {
     setErrMsg('');
-  }, [enteredValues]);
+  }, [userInfo]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
-    console.log(enteredValues);
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        enteredValues
-      );
-      console.log(response.data);
-      setSuccess(true);
-      navigate('/tasks');
-    } catch (error) {
-      console.error('Login failed:', error.response.data);
-      setErrMsg('Login failed. Please check your credentials.');
-    }
+    console.log("Login", enteredValues);
+    const {email, password} = enteredValues;
+    userLogin(email, password)
+    navigate('/');
+    // setUserEmail('');
+    // setPwd('');
+    // setSuccess(true);
   };
   const handleInputChange = (identifier, value) => {
     setEnteredValues((prevValues) => ({
@@ -104,7 +101,7 @@ const Login = () => {
                 label='Enter your email'
                 variant='outlined'
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                value={enteredValues.email}
+                value={userInfo.email}
                 required
                 sx={{
                   width: '80%',

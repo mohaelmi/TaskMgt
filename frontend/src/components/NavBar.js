@@ -16,20 +16,12 @@ import TaskList from './TaskList';
 import AuthContext from './AuthProvider';
 import logout from '../pages/Logout';
 
-const NavBar = ({ openModal }) => {
-  const navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
+  const handleLogout = () => {
+    userLogOut()
+    Navigate('/login')
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setAuth(false);
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout failed:', error.response.data);
-    }
-  };
-
+  }
   return (
     <React.Fragment>
       <AppBar
@@ -164,14 +156,15 @@ const NavBar = ({ openModal }) => {
             variant='outlined'
             onClick={handleLogout}
             // color='inherit'
+            // onClick={logout}
           >
             Logout
           </Button>
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp userSignup={userSignup} />} />
+        <Route path='/login' element={<Login userLogin= {userLogin}/>} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/logout' element={<logout />} />
         <Route path='/tasks' element={<AboutUs />} />

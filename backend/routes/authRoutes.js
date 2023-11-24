@@ -4,6 +4,7 @@ const userQueries = require('../db/queries/userTask');
 const bcrypt = require('bcrypt');
 //register
 router.post('/register', async (req, res) => {
+  console.log(req.body);
   try {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10); // Hashing the password
