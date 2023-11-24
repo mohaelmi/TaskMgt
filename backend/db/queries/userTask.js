@@ -30,8 +30,8 @@ const createTask = (
   actualEndTime
 ) => {
   const query = `
-    INSERT INTO tasks (UserID, Title, Category, Description, Status, PriorityLevel, ImportanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
   `;
   const values = [
@@ -40,8 +40,6 @@ const createTask = (
     category,
     description,
     status,
-    priorityLevel,
-    importanceLevel,
     dueDate,
     estimatedStartTime,
     estimatedEndTime,
@@ -107,23 +105,30 @@ const deletTask = (taskId) => {
 
 //update task as a user //check later
 const updateTask = (task) => {
-  const {
-    title,
-    category,
-    description,
-    status,
-    priorityLevel,
-    importanceLevel,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
-    actualStartTime,
-    actualEndTime,
-  } = task;
-  console.log('task id in the query', task.id);
   return db
-    .query(`UPDATE tasks SET Title=$1 WHERE id=$2 RETURNING *;`, [
-      title,
+    .query(`UPDATE tasks 
+    SET
+      Title = $1,
+      Category = $2,
+      Description = $3,
+      Status = $4,
+      DueDate = $5,
+      EstimatedStartTime = $6,
+      EstimatedEndTime = $7,
+      ActualStartTime = $8,
+      ActualEndTime = $9
+    WHERE id = $10 
+    RETURNING *;
+    `, [
+      task.title,
+      task.category,
+      task.description,
+      task.status,
+      task.dueDate,
+      task.estimatedStartTime,
+      task.estimatedEndTime,
+      task.actualStartTime,
+      task.actualEndTime,
       task.id,
     ])
     .then((result) => {
@@ -173,6 +178,7 @@ const getTasksByUserId = (userId) => {
       throw new Error('Error fetching tasks for the user');
     });
 };
+
 //Example:
 // getTasksByUserId(1)
 //   .then(tasks => {
@@ -182,6 +188,17 @@ const getTasksByUserId = (userId) => {
 //   .catch(error => {
 //     console.error('Error:', error.message);
 //   });
+
+// get task by user task
+const getTaskById = (taskId) => {
+  return db.query('SELECT * FROM tasks WHERE id = $1', [taskId])
+    .then((result) => {
+      return result.rows[0]; // Assuming the task ID is unique, return the first row
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
 
 //  get user by userid
 const getUserById = (id) => {
@@ -302,5 +319,6 @@ module.exports = {
   createUser,
   getUserByEmail,
   getUserById,
+  getTaskById,
   // hashExistingUsersPasswords,
 };
