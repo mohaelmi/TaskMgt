@@ -21,6 +21,7 @@ const createTask = (
   category,
   description,
   status,
+  priorityLevel,
   importanceLevel,
   dueDate,
   estimatedStartTime,
@@ -29,8 +30,8 @@ const createTask = (
   actualEndTime
 ) => {
   const query = `
-    INSERT INTO tasks (UserID, Title, Category, Description, Status, importanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
   `;
   const values = [
@@ -39,7 +40,6 @@ const createTask = (
     category,
     description,
     status,
-    importanceLevel,
     dueDate,
     estimatedStartTime,
     estimatedEndTime,
@@ -82,6 +82,9 @@ const setActualStartTime = (startTime, taskId) => {
       throw new Error('Error setting actual start time');
     });
 };
+
+
+
 //Example:
 
 // setActualStartTime('09:00:00', 4)
@@ -94,7 +97,7 @@ const setActualStartTime = (startTime, taskId) => {
 //   });
 
 //Delete task as a user
-const deleteTask = (taskId) => {
+const deletTask = (taskId) => {
   return db
     .query('DELETE FROM tasks WHERE id = $1 RETURNING *;', [taskId])
     .then((result) => {
@@ -105,33 +108,30 @@ const deleteTask = (taskId) => {
 
 //update task as a user //check later
 const updateTask = (task) => {
-  console.log("query ", typeof task);
   return db
     .query(`UPDATE tasks 
     SET
-      Title=$1,
-      Category=$2,
-      Description=$3,
-      Status=$4,
-      DueDate=$5,
-      ImportanceLevel=$6
-      EstimatedStartTime=$7,
-      EstimatedEndTime=$8,
-      ActualStartTime=$9,
-      ActualEndTime=$10,
-    WHERE id=$11 
+      Title = $1,
+      Category = $2,
+      Description = $3,
+      Status = $4,
+      DueDate = $5,
+      EstimatedStartTime = $6,
+      EstimatedEndTime = $7,
+      ActualStartTime = $8,
+      ActualEndTime = $9
+    WHERE id = $10 
     RETURNING *;
     `, [
       task.title,
       task.category,
       task.description,
       task.status,
-      task.duedate,
-      task.importancelevel,
-      task.estimatedstarttime,
-      task.estimatedendtime,
-      task.actualstarttime,
-      task.actualendtime,
+      task.dueDate,
+      task.estimatedStartTime,
+      task.estimatedEndTime,
+      task.actualStartTime,
+      task.actualEndTime,
       task.id,
     ])
     .then((result) => {
@@ -202,7 +202,18 @@ const getTaskById = (taskId) => {
       throw error;
     });
 };
-
+//example:
+getTaskById(2)
+  .then((task) => {
+    if (task) {
+      console.log('Task found:', task);
+    } else {
+      console.log('No task found with ID:', taskIdToFind);
+    }
+  })
+  .catch((error) => {
+    console.error('Error retrieving task by ID:', error);
+  });
 //  get user by userid
 const getUserById = (id) => {
   const query = `
@@ -317,7 +328,7 @@ module.exports = {
   setActualStartTime,
   setActualEndTime,
   getTasksByUserId,
-  deleteTask,
+  deletTask,
   updateTask,
   createUser,
   getUserByEmail,

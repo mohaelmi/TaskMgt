@@ -80,30 +80,47 @@ router.post('/edit',  (req, res) => {
 });
 
 
-router.post('/setStartTime/:taskId', ensureAuthenticated, (req, res) => {
-  const { startTime } = req.body;
-  const { taskId } = req.params;
+router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
+  const userId = req.session.userId; // Get logged-in user ID from session
+  const {startTime, taskId } = req.body;
 
-  userQueries.setStartTime(startTime, taskId)
-    .then(() => {
-      res.json({ message: 'Actual start time updated successfully' });
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'Error updating actual start time' });
-    });
+  const task = await userQueries.getTaskById(taskId); // Fetch task details
+
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  // Check if the task belongs to the logged-in user
+  if (task.userid !== userId) {
+    return res.status(403).json({ error: 'You are not authorized to update this task' });
+  }
+
+    // Proceed to update the start time as it's the user's task
+    await userQueries.setActualStartTime(startTime, taskId);
+    res.json({ message: 'Actual start time updated successfully' });
+  
 });
 
-router.post('/setEndTime/:taskId', ensureAuthenticated, (req, res) => {
-  const { endTime } = req.body;
-  const { taskId } = req.params;
+router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
+  const userId = req.session.userId; // Get logged-in user ID from session
+  const { taskId,endTime} = req.body;
 
-  userQueries.setEndTime(endTime, taskId)
-    .then(() => {
-      res.json({ message: 'Actual end time updated successfully' });
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'Error updating actual end time' });
-    });
+  const task = await userQueries.getTaskById(taskId); // Fetch task details
+
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+  
+  // Check if the task belongs to the logged-in user
+  if (task.userid !== userId) {
+    return res.status(403).json({ error:'You are not authorized to update this task'});
+  }
+
+  // Proceed to update the end time as it's the user's task
+  await userQueries.setActualEndTime(endTime, taskId);
+  res.json({ message: 'Actual End time updated successfully' });
 });
+
+
 
 module.exports = router;
