@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import TodayIcon from '@mui/icons-material/Today';
+import { AppBar, Button, Tab, Toolbar, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import Avatar from '@mui/material/Avatar';
+
 import {
-  Link as RouterLink,
   Route,
+  Link as RouterLink,
   Routes,
   useNavigate,
 } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
-import TodayIcon from '@mui/icons-material/Today';
-import SignUp from '../pages/Signup';
-import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
 import Analytics from '../pages/Analytics';
-import TaskList from './TaskList';
+import Login from '../pages/Login';
+import SignUp from '../pages/Signup';
 
-const NavBar = ({ openModal, isLoggedIn, handleLogin, handleLogout }) => {
+const NavBar = ({ openModal, user, isLoggedIn, handleLogin, handleLogout }) => {
   useEffect(() => {
     window.location.pathname === '/' && window.location.replace('/login');
   }, []);
@@ -56,7 +57,7 @@ const NavBar = ({ openModal, isLoggedIn, handleLogin, handleLogout }) => {
             }}
           >
             <RouterLink
-              to='/my_task'
+              // to='/my_task'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               TaskMgt
@@ -138,6 +139,27 @@ const NavBar = ({ openModal, isLoggedIn, handleLogin, handleLogout }) => {
               >
                 Add Task
               </Button>
+
+              <Typography
+                style={{ marginLeft: '20%' }}
+                sx={{
+                  color: '#43270F',
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  marginTop: '4px',
+                  fontSize: '1rem',
+                }}
+              >
+                Welcome: {user.username}
+              </Typography>
+              <Avatar
+                variant='solid'
+                sx={{
+                  width: '32px',
+                  height: '32px',
+                  marginLeft: '10px',
+                }}
+              />
 
               <Button
                 sx={{

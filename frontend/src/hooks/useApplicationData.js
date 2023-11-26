@@ -36,6 +36,7 @@ const reducer = (state, action) => {
     case ACTIONS.LOGIN:
       return {
         ...state,
+        user: action.payload,
         isLoggedIn: true,
       };
     case ACTIONS.LOGOUT:
@@ -103,6 +104,7 @@ export const useApplicationData = () => {
     showModal: false,
     showCreateModal: false,
     isLoggedIn: false,
+    user: {},
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -172,13 +174,12 @@ export const useApplicationData = () => {
   const handleLogin = async (enteredValues) => {
     console.log(enteredValues);
     try {
-      const response = await axios.post(
-        'http://localhost:8080/login',
-        enteredValues
-      );
-      console.log(response.data);
+      const {
+        data: { user },
+      } = await axios.post('http://localhost:8080/login', enteredValues);
 
-      dispatch({ type: ACTIONS.LOGIN });
+      localStorage.setItem('user', user);
+      dispatch({ type: ACTIONS.LOGIN, payload: user });
     } catch (error) {
       console.error('Login failed:', error.response.data);
       throw error;

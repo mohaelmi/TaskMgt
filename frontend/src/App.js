@@ -31,6 +31,7 @@ function App() {
         handleLogin={handleLogin}
         handleLogout={handleLogout}
         isLoggedIn={state.isLoggedIn}
+        user={state.user}
       />
       <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
         {/* <NewTask createTask={createTask} /> */}
