@@ -21,7 +21,6 @@ const createTask = (
   category,
   description,
   status,
-  priorityLevel,
   importanceLevel,
   dueDate,
   estimatedStartTime,
@@ -30,8 +29,8 @@ const createTask = (
   actualEndTime
 ) => {
   const query = `
-    INSERT INTO tasks (UserID, Title, Category, Description, Status, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, importanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING *;
   `;
   const values = [
@@ -40,6 +39,7 @@ const createTask = (
     category,
     description,
     status,
+    importanceLevel,
     dueDate,
     estimatedStartTime,
     estimatedEndTime,
@@ -94,7 +94,7 @@ const setActualStartTime = (startTime, taskId) => {
 //   });
 
 //Delete task as a user
-const deletTask = (taskId) => {
+const deleteTask = (taskId) => {
   return db
     .query('DELETE FROM tasks WHERE id = $1 RETURNING *;', [taskId])
     .then((result) => {
@@ -105,30 +105,33 @@ const deletTask = (taskId) => {
 
 //update task as a user //check later
 const updateTask = (task) => {
+  console.log("query ", typeof task);
   return db
     .query(`UPDATE tasks 
     SET
-      Title = $1,
-      Category = $2,
-      Description = $3,
-      Status = $4,
-      DueDate = $5,
-      EstimatedStartTime = $6,
-      EstimatedEndTime = $7,
-      ActualStartTime = $8,
-      ActualEndTime = $9
-    WHERE id = $10 
+      Title=$1,
+      Category=$2,
+      Description=$3,
+      Status=$4,
+      DueDate=$5,
+      ImportanceLevel=$6
+      EstimatedStartTime=$7,
+      EstimatedEndTime=$8,
+      ActualStartTime=$9,
+      ActualEndTime=$10,
+    WHERE id=$11 
     RETURNING *;
     `, [
       task.title,
       task.category,
       task.description,
       task.status,
-      task.dueDate,
-      task.estimatedStartTime,
-      task.estimatedEndTime,
-      task.actualStartTime,
-      task.actualEndTime,
+      task.duedate,
+      task.importancelevel,
+      task.estimatedstarttime,
+      task.estimatedendtime,
+      task.actualstarttime,
+      task.actualendtime,
       task.id,
     ])
     .then((result) => {
@@ -314,7 +317,7 @@ module.exports = {
   setActualStartTime,
   setActualEndTime,
   getTasksByUserId,
-  deletTask,
+  deleteTask,
   updateTask,
   createUser,
   getUserByEmail,

@@ -13,12 +13,11 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     console.log("updated title", description.value);
 
     const task = {
-      userId: 1, 
+      userId: 2, 
       title: title.value, //"Play soccer", 
       category: "Leisure", 
       description: description.value, 
       status: "Todo", 
-      priorityLevel: "Medium", 
       importanceLevel: "Medium", 
       dueDate: "20:00:00",
       estimatedStartTime: '15:00:00', 
@@ -28,13 +27,13 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     }
     
     if(taskToEdit) {
-      // console.log("taskToEdit", taskToEdit);
       const updatedTask = {
         ...taskToEdit, title: title.value, description: description.value
       }
+      console.log("## taskToEdit", updatedTask);
       callback(updatedTask)
     }else {
-      
+      console.log("NEW task",task);
       callback(task)
       closeModal(null)  
     }

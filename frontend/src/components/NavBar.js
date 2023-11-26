@@ -13,11 +13,11 @@ import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
 import Person2Icon from '@mui/icons-material/Person2';
 import Analytics from '../pages/Analytics';
-import TaskList from './TaskList';
+// import TaskList from './TaskList';
 import AuthContext from './AuthProvider';
 import logout from '../pages/Logout';
 
-const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
+const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
   const handleLogout = () => {
     userLogOut()
     Navigate('/login')
@@ -56,23 +56,10 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
               TaskMgt
             </RouterLink>
           </Typography>
+          { user ? 
+          <>
           <div style={{ paddingLeft: '20%' }}>
-            <Tab
-              label='About Us'
-              component={RouterLink}
-              to='/about'
-              textColor='inherit'
-              sx={{
-                textTransform: 'none',
-                fontSize: '1rem',
-                '&:hover': {
-                  fontSize: '1.0rem',
-                  fontWeight: 'bold',
-                  textDecoration: 'none',
-                },
-              }}
-            />
-
+   
             <Tab
               label='My Tasks'
               component={RouterLink}
@@ -106,14 +93,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
               }}
             />
 
-            <Person2Icon
-              href='#'
-              // sx={{ marginLeft: '1%' }}
-              label='Profile'
-              component={RouterLink}
-              to='/profile'
-              textColor='inherit'
-            />
+        
           </div>
           <Button
             variant='text'
@@ -132,7 +112,10 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
           >
             Add Task
           </Button>
-
+          </>
+      : null }
+        { !user ? 
+        <>
           <Button
             sx={{ marginLeft: 'auto', color: 'black', borderRadius: '10px' }}
             variant='outlined'
@@ -151,7 +134,8 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
           >
             SignUp
           </Button>
-
+          </>
+        : 
           <Button
             sx={{ marginLeft: 'auto', color: 'black', borderRadius: '10px' }}
             variant='outlined'
@@ -161,11 +145,13 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup }) => {
           >
             Logout
           </Button>
+           }
+
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route path='/signup' element={<SignUp userSignup={userSignup} />} />
-        <Route path='/login' element={<Login userLogin= {userLogin}/>} />
+        <Route path='/signup' element={!user? <SignUp userSignup={userSignup} /> : null} />
+        <Route path='/login' element={!user? <Login userLogin= {userLogin}/>  : null } />
         <Route path='/about' element={<AboutUs />} />
         {/* <Route path='/logout' element={<logout />} /> */}
         <Route path='/tasks' element={<AboutUs />} />

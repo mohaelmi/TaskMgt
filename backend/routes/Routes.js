@@ -3,14 +3,15 @@ const router = express.Router();
 const userQueries = require('../db/queries/userTask');
 
 const ensureAuthenticated = (req, res, next) => {
-  if (req.session && req.session.userId) {
+  if (req.session.userId) {
     return next();
   }
   res.status(401).json({ error: 'Unauthorized' });
 };
 
-router.get('/', ensureAuthenticated, (req, res) => {
+router.get('/', (req, res) => {
   const userId = req.session.userId;
+  console.log("session id", userId);
   if(!userId) {
     res.json([]);
   } else {
@@ -31,7 +32,6 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     category,
     description,
     status,
-    priorityLevel,
     importanceLevel,
     dueDate,
     estimatedStartTime,
@@ -40,7 +40,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     actualEndTime,
   } = req.body;
 
-  userQueries.createTask(userId, title, category, description, status, priorityLevel, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
+  userQueries.createTask(userId, title, category, description, status, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
     .then(() => {
       res.json({ message: 'Task added successfully' });
     })
@@ -60,16 +60,18 @@ router.get('/delete/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.post('/edit', ensureAuthenticated, async (req, res) => {
+router.post('/edit',  (req, res) => {
   const userId = req.session.userId; // get logged-in user ID
   const updatedTask = req.body; // get task ID from the route
+  console.log("updated task user id", updatedTask.userid);
   // check if the task belongs to the logged-in user
-  if (updatedTask.userId !== userId) {
+  if (updatedTask.userid !== userId) {
     return res.status(403).json({ error: 'You are not authorized to update this task' });
   }
-  const task = await userQueries.getTaskById(updatedTask.id); // get task details by ID
+  // const task = await userQueries.getTaskById(updatedTask.id); // get task details by ID
   userQueries.updateTask(updatedTask)
-      .then((updatedTaskDetails) => {
+  .then((updatedTaskDetails) => {
+    console.log("-------------", updatedTaskDetails);
         res.json({ message: 'Task updated successfully', updatedTaskDetails });
       })
       .catch((error) => {

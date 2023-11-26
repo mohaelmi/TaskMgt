@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from 'react-router-dom'
 
 const ACTIONS = {
   SET_TASK_DATA: "SET_PHOTO_DATA",
@@ -35,7 +36,12 @@ const reducer = (state, action) => {
         showModal: action.payload,
       };
 
-    // case ACTIONS.EDIT_TASK:
+    case ACTIONS.EDIT_TASK:
+
+    return {
+      ...state,
+      showModal: null
+    }
     // //  console.log("payload", action.payload)
     // //  console.log("state", state.taskData)
 
@@ -111,8 +117,10 @@ export const useApplicationData = () => {
   const userInfo = localStorage.getItem("user"); 
   let user = null
   if(userInfo) {
-    user = userInfo
+    user = JSON.parse(userInfo)
   }
+ 
+  console.log(typeof JSON.parse(userInfo));
   const initialState = {
     taskData: [],
     taskToEdit: {},
@@ -121,12 +129,16 @@ export const useApplicationData = () => {
     user: user
   };
   const [state, dispatch] = useReducer(reducer, initialState);
+  let navigate = useNavigate();
 
   const fetchTasks = () => {
     axios
       .get("/api/tasks")
       .then((res) => {
         console.log("data related to user ", res.data);
+        if(res.data.length < 1) {
+          navigate('/login') 
+        }
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
@@ -137,7 +149,7 @@ export const useApplicationData = () => {
   }, [state.user]);
 
   const createTask = (task) => {
-    console.log("delete task", task);
+    console.log("create task", task);
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
@@ -164,11 +176,10 @@ export const useApplicationData = () => {
     axios
       .post(`/api/tasks/edit`, task)
       .then((res) => {
-        // dispatch({ type: ACTIONS.EDIT_TASK, payload: task });
+        dispatch({ type: ACTIONS.EDIT_TASK });
         toast.success(res.data.message);
-        state.showModal = null;
         fetchTasks();
-        console.log(res.data);
+        console.log("-- edited task", res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -218,7 +229,8 @@ export const useApplicationData = () => {
     .get("/logout",)
     .then((res) => {
       dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
-      localStorage.setItem("user", null)     
+      localStorage.setItem("user", null)
+      navigate('/login')   
       // console.log("response when login", res.data.user)  
       console.log("log out", res.data);
     })

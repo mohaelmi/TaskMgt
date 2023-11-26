@@ -24,6 +24,7 @@ function App() {
 
   // console.log("## show model", state.showCreateModal)
   console.log("## user", state.user);
+  console.log(Boolean(state.user));
 
   return (
     <>
@@ -33,6 +34,7 @@ function App() {
         userLogin={userLogin}
         userLogOut={userLogOut}
         userSignup={userSignup}
+        user={state.user}
       />
 
       {state.user ? (

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const morgan = require('morgan');
 const cors = require('cors');
+const cookieSession = require("cookie-session");
 const authRoutes = require('./routes/authRoutes');
 const Routes = require('./routes/Routes');
 const PORT = process.env.PORT || 8080;
@@ -21,11 +22,15 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(
-  session({
-    secret: 'secret_key',
-    resave: false,
-    saveUninitialized: true,
+  cookieSession({
+    name: "session",
+    keys: ["key1"],
   })
+  // session({
+  //   secret: 'secret_key',
+  //   resave: false,
+  //   saveUninitialized: true,
+  // })
 );
 // Register a new user
 app.post('/register', (req, res) => {
