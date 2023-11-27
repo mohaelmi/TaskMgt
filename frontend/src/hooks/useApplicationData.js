@@ -1,19 +1,20 @@
-import { useReducer, useEffect } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useReducer, useEffect } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ACTIONS = {
-  SET_TASK_DATA: 'SET_PHOTO_DATA',
-  DELETE_TASK: 'DELETE_TASK',
-  CREAT_TASK: 'CREATE_TASK',
-  SHOW_EDIT_TASK: 'SHOW_EDIT_TASK',
-  SELECT_TASK: 'SELECT_TASK',
-  SHOW_MODAL_CREATE_TASK: 'SHOW_MODAL_CREATE_TASK',
-  EDIT_TASK: 'EDIT_TASK',
-  USER_LOGIN: 'USER_LOGIN',
-  USER_LOGOUT: 'USER_LOGOUT',
-  MOVE_TASK: 'MOVE_TASK',
+  SET_TASK_DATA: "SET_PHOTO_DATA",
+  DELETE_TASK: "DELETE_TASK",
+  CREAT_TASK: "CREATE_TASK",
+  SHOW_EDIT_TASK: "SHOW_EDIT_TASK",
+  SELECT_TASK: "SELECT_TASK",
+  SHOW_MODAL_CREATE_TASK: "SHOW_MODAL_CREATE_TASK",
+  EDIT_TASK: "EDIT_TASK",
+  USER_LOGIN: "USER_LOGIN",
+  USER_LOGOUT: "USER_LOGOUT",
+  MOVE_TASK: "MOVE_TASK",
+  SHOW_MODAL_DETAIL_TASK: "SHOW_MODAL_DETAIL_TASK"
 };
 
 const reducer = (state, action) => {
@@ -60,7 +61,7 @@ const reducer = (state, action) => {
     case ACTIONS.SHOW_MODAL_CREATE_TASK:
       return {
         ...state,
-        showCreateModal: action.payload,
+        showCreateModal: !state.showCreateModal,
       };
 
     case ACTIONS.SHOW_EDIT_TASK:
@@ -79,14 +80,14 @@ const reducer = (state, action) => {
         taskToEdit: action.payload,
       };
 
-    // case ACTIONS.NEW_TASK:
-    //   return {
-    //     ...state,
-    //     message: action.payload,
-    //   };
+    case ACTIONS.SHOW_MODAL_DETAIL_TASK:
+      return {
+        ...state,
+        showDetailsModal: !state.showDetailsModal,
+      };
 
     case ACTIONS.USER_LOGIN:
-      console.log('user data', action.payload);
+      console.log("user data", action.payload);
 
       return {
         ...state,
@@ -102,7 +103,7 @@ const reducer = (state, action) => {
     case ACTIONS.MOVE_TASK:
       const tasks = state.taskData.map((task) => {
         if (task.id === action.payload.id) {
-          return { ...task, status: action.payload.status };
+          return {...task, status: action.payload.status}
         }
 
         return task;
@@ -123,18 +124,19 @@ const reducer = (state, action) => {
 };
 
 export const useApplicationData = () => {
-  const userInfo = localStorage.getItem('user');
+  const userInfo = localStorage.getItem("user");
   let user = null;
   if (userInfo) {
     user = JSON.parse(userInfo);
   }
 
-  console.log(typeof JSON.parse(userInfo));
+  // console.log(typeof JSON.parse(userInfo));
   const initialState = {
     taskData: [],
     taskToEdit: {},
     showModal: false,
     showCreateModal: false,
+    showDetailsModal: false,
     user: user,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -142,11 +144,11 @@ export const useApplicationData = () => {
 
   const fetchTasks = () => {
     axios
-      .get('/api/tasks')
+      .get("/api/tasks")
       .then((res) => {
-        console.log('data related to user ', res.data);
+        console.log("data related to user ", res.data);
         if (res.data.length < 1) {
-          navigate('/login');
+          navigate("/login");
         }
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
@@ -158,37 +160,37 @@ export const useApplicationData = () => {
   }, [state.user]);
 
   const createTask = (task) => {
-    console.log('create task', task);
+    console.log("create task", task);
     axios
-      .post('/api/tasks/new', task)
+      .post("/api/tasks/new", task)
       .then((res) => {
         // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
-        toast.success(res.data.message, { icon: '✅' });
+        toast.success(res.data.message, { icon: "✅" });
       })
       .catch((error) => console.log(error));
   };
 
   const handleDeleteTask = (id) => {
     axios
-      .post(`/api/tasks/delete`, { taskId: id })
+      .get(`/api/tasks/delete/${id}`)
       .then((res) => {
         // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
         fetchTasks();
-        toast.success(res.data.message, { icon: '❌' });
+        toast.success(res.data.message, { icon: "❌" });
       })
       .catch((error) => console.log(error));
   };
 
   const updatedTask = (task) => {
-    console.log('updated task', task);
+    console.log("updated task", task);
     axios
       .post(`/api/tasks/edit`, task)
       .then((res) => {
         dispatch({ type: ACTIONS.EDIT_TASK });
         toast.success(res.data.message);
         fetchTasks();
-        console.log('-- edited task', res.data);
+        console.log("-- edited task", res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -201,24 +203,29 @@ export const useApplicationData = () => {
     });
   };
 
-  const createToggleModal = (value) => {
-    dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK, payload: value });
+  const createToggleModal = () => {
+    dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK });
   };
+
+  const detailsToggleModal = () => {
+    dispatch({ type: ACTIONS.SHOW_MODAL_DETAIL_TASK });
+  };
+
 
   const userLogin = (email, password) => {
     axios
-      .post('/login', { email, password })
+      .post("/login", { email, password })
       .then((res) => {
-        console.log('## user', res.data.user);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        console.log("## user", res.data.user);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         // const user = localStorage.getItem("user_id");
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
-        console.log('response when login', res.data.user);
+        console.log("response when login", res.data.user);
         // console.log("local storage", user);
       })
 
       .catch((error) => {
-        navigate('/login');
+        navigate("/login");
         toast.error(error.response.data.message, { duration: 5000 });
         console.log(error.response.data);
       });
@@ -228,7 +235,7 @@ export const useApplicationData = () => {
     // const { username, email, pwd } = userInfo;
     console.log(userInfo);
     axios
-      .post('/register', userInfo)
+      .post("/auth/register", userInfo)
       .then((res) => {
         console.log(res.data);
         // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
@@ -238,13 +245,13 @@ export const useApplicationData = () => {
 
   const userLogOut = () => {
     axios
-      .get('/logout')
+      .get("/logout")
       .then((res) => {
         dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
-        localStorage.setItem('user', null);
-        navigate('/login');
+        localStorage.setItem("user", null);
+        navigate("/login");
         // console.log("response when login", res.data.user)
-        console.log('log out', res.data);
+        console.log("log out", res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -272,5 +279,6 @@ export const useApplicationData = () => {
     userLogOut,
     userSignup,
     moveTask,
+    detailsToggleModal
   ];
 };

@@ -13,7 +13,7 @@ function TaskList(props) {
     const tasksInProgress = props.tasks.filter(
       (task) => task.status === 'In Progress'
       );
-      console.log(tasksInProgress);
+      // console.log(tasksInProgress);
       const closedTasks = props.tasks?.filter((task) => task.status === 'Closed');
 
     setTodos(tasksTodo);
@@ -48,6 +48,7 @@ function TaskList(props) {
           deleteTask={props.deleteTask}
           openModal={props.openModal}
           moveTask={props.moveTask}
+          openTaskDetail={props.openTaskDetail}
           // showEditTask = {props.showEditTask} // maybe use it post edited task
         />
       ))}

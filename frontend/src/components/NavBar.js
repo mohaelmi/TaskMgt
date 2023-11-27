@@ -38,7 +38,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
             }}
           >
             <RouterLink
-              to='/'
+              to='/login'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               TaskMgt
@@ -66,7 +66,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               <Button
                 variant='text'
                 textColor='inherit'
-                onClick={() => openModal(true)}
+                onClick={() => openModal()}
                 sx={{
                   color: '#656565',
                   textTransform: 'none',
@@ -126,7 +126,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                   fontSize: '1rem',
                 }}
               >
-                Welcome: {user.username}
+              {user.username}
               </Typography>
               <Avatar
                 variant='solid'
