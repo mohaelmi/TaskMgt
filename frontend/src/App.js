@@ -1,6 +1,8 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { DndProvider } from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 import { Toaster } from "react-hot-toast";
 import { useApplicationData } from "./hooks/useApplicationData";
 import TaskList from "./components/TaskList";
@@ -8,6 +10,7 @@ import NewTask from "./components/NewTask";
 import EditTask from "./components/EditTask";
 import Header from "./components/Header";
 import CreateTask from "./components/CreateTask";
+import TaskDetailsModal from "./components/TaskDetailsModal";
 
 function App() {
   const [
@@ -20,14 +23,15 @@ function App() {
     userLogin,
     userLogOut,
     userSignup,
+    moveTask,
   ] = useApplicationData();
 
   // console.log("## show model", state.showCreateModal)
-  console.log("## user", state.user);
-  console.log(Boolean(state.user));
+  // console.log("## user", state.taskData);
+  // console.log(Boolean(state.user));
 
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <Toaster />
       <Header
         openModal={createToggleModal}
@@ -53,6 +57,7 @@ function App() {
             tasks={state.taskData}
             deleteTask={handleDeleteTask}
             openModal={toggleModal}
+            moveTask={moveTask}
           />
 
           {state.showModal && (
@@ -64,7 +69,7 @@ function App() {
           )}
         </div>
       ) : null}
-    </>
+    </DndProvider>
   );
 }
 

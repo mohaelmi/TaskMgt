@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const ACTIONS = {
   SET_TASK_DATA: "SET_PHOTO_DATA",
@@ -12,13 +12,13 @@ const ACTIONS = {
   SHOW_MODAL_CREATE_TASK: "SHOW_MODAL_CREATE_TASK",
   EDIT_TASK: "EDIT_TASK",
   USER_LOGIN: "USER_LOGIN",
-  USER_LOGOUT: "USER_LOGOUT"
+  USER_LOGOUT: "USER_LOGOUT",
+  MOVE_TASK: "MOVE_TASK",
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_TASK_DATA:
-     
       return {
         ...state,
         taskData: action.payload,
@@ -37,11 +37,10 @@ const reducer = (state, action) => {
       };
 
     case ACTIONS.EDIT_TASK:
-
-    return {
-      ...state,
-      showModal: null
-    }
+      return {
+        ...state,
+        showModal: null,
+      };
     // //  console.log("payload", action.payload)
     // //  console.log("state", state.taskData)
 
@@ -86,25 +85,35 @@ const reducer = (state, action) => {
     //     message: action.payload,
     //   };
 
-    
     case ACTIONS.USER_LOGIN:
- 
-    console.log("user data", action.payload);
-  
+      console.log("user data", action.payload);
+
       return {
         ...state,
         user: action.payload,
       };
 
-      case ACTIONS.USER_LOGOUT:
-    
-        return {
-          ...state,
-          user: action.payload,
-        };
+    case ACTIONS.USER_LOGOUT:
+      return {
+        ...state,
+        user: action.payload,
+      };
 
-      
-    
+    case ACTIONS.MOVE_TASK:
+      const tasks = state.taskData.map((task) => {
+        if (task.id === action.payload.id) {
+          return {...task, status: action.payload.status}
+        }
+
+        return task;
+      });
+
+      console.log(tasks);
+
+      return {
+        ...state,
+        taskData: tasks,
+      };
 
     default:
       throw new Error(
@@ -114,19 +123,19 @@ const reducer = (state, action) => {
 };
 
 export const useApplicationData = () => {
-  const userInfo = localStorage.getItem("user"); 
-  let user = null
-  if(userInfo) {
-    user = JSON.parse(userInfo)
+  const userInfo = localStorage.getItem("user");
+  let user = null;
+  if (userInfo) {
+    user = JSON.parse(userInfo);
   }
- 
+
   console.log(typeof JSON.parse(userInfo));
   const initialState = {
     taskData: [],
     taskToEdit: {},
     showModal: false,
     showCreateModal: false,
-    user: user
+    user: user,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
   let navigate = useNavigate();
@@ -136,8 +145,8 @@ export const useApplicationData = () => {
       .get("/api/tasks")
       .then((res) => {
         console.log("data related to user ", res.data);
-        if(res.data.length < 1) {
-          navigate('/login') 
+        if (res.data.length < 1) {
+          navigate("/login");
         }
         dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
@@ -155,7 +164,7 @@ export const useApplicationData = () => {
       .then((res) => {
         // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
-        toast.success(res.data.message);
+        toast.success(res.data.message, { icon: "✅" });
       })
       .catch((error) => console.log(error));
   };
@@ -166,7 +175,7 @@ export const useApplicationData = () => {
       .then((res) => {
         // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
         fetchTasks();
-        toast.success(res.data.message);
+        toast.success(res.data.message, { icon: "❌" });
       })
       .catch((error) => console.log(error));
   };
@@ -198,45 +207,59 @@ export const useApplicationData = () => {
 
   const userLogin = (email, password) => {
     axios
-    .post("/login", {email, password})
-    .then((res) => {
-      // console.log("## user", res.data.user);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      // const user = localStorage.getItem("user_id"); 
-      dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
-      console.log("response when login", res.data.user)  
-      // console.log("local storage", user);
-    })
-   
-    .catch((error) => console.log(error));
-  }
+      .post("/login", { email, password })
+      .then((res) => {
+        console.log("## user", res.data.user);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        // const user = localStorage.getItem("user_id");
+        dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
+        console.log("response when login", res.data.user);
+        // console.log("local storage", user);
+      })
 
+      .catch((error) => {
+        navigate("/login");
+        toast.error(error.response.data.message, { duration: 5000 });
+        console.log(error.response.data);
+      });
+  };
 
   const userSignup = (userInfo) => {
     // const { username, email, pwd } = userInfo;
     console.log(userInfo);
     axios
-    .post("/auth/register", userInfo)
-    .then((res) => {
-      console.log(res.data);
-      // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
-    })
-    .catch((error) => console.log(error));
-  }
+      .post("/auth/register", userInfo)
+      .then((res) => {
+        console.log(res.data);
+        // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
+      })
+      .catch((error) => console.log(error));
+  };
 
   const userLogOut = () => {
     axios
-    .get("/logout",)
-    .then((res) => {
-      dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
-      localStorage.setItem("user", null)
-      navigate('/login')   
-      // console.log("response when login", res.data.user)  
-      console.log("log out", res.data);
-    })
-    .catch((error) => console.log(error));
-  }
+      .get("/logout")
+      .then((res) => {
+        dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
+        localStorage.setItem("user", null);
+        navigate("/login");
+        // console.log("response when login", res.data.user)
+        console.log("log out", res.data);
+      })
+      .catch((error) => console.log(error));
+  };
 
+  const moveTask = (id, status) => {
+    dispatch({ type: ACTIONS.MOVE_TASK, payload: { id, status } });
+    // tasks.map( (task) => {
+    //   if(task.id === id) {
+    //     return task.status = status
+    //   }
+
+    //   return task
+    // })
+    console.log(id, status);
+  };
 
   return [
     state,
@@ -248,5 +271,6 @@ export const useApplicationData = () => {
     userLogin,
     userLogOut,
     userSignup,
+    moveTask,
   ];
 };

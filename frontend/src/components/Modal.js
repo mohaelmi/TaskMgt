@@ -112,6 +112,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                 >
                   Start time
                 </label>
+ 
                 <input
                   type="time"
                   id="task_start"

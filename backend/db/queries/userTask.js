@@ -105,7 +105,7 @@ const deleteTask = (taskId) => {
 
 //update task as a user //check later
 const updateTask = (task) => {
-  console.log("query ", typeof task);
+  // console.log("query ", task);
   return db
     .query(`UPDATE tasks 
     SET
@@ -272,7 +272,7 @@ const getUserByEmail = (email) => {
   return db
     .query(query, values)
     .then((result) => {
-      console.log('query', result.rows[0]);
+      console.log('email query', result.rows[0]);
       return result.rows[0];
     })
     .catch((error) => {
