@@ -97,14 +97,23 @@ const setActualStartTime = (startTime, taskId) => {
 //   });
 
 //Delete task as a user
-const deletTask = (taskId) => {
+const deleteNotificationsByTaskID = (taskId) => {
   return db
-    .query('DELETE FROM tasks WHERE id = $1 RETURNING *;', [taskId])
+    .query('DELETE FROM notifications WHERE TaskID = $1 RETURNING *;', [taskId])
     .then((result) => {
-      console.log('in queries:', result.rows);
-      return result.rows;
+      console.log('Deleted notifications:', result.rows);
+      return result.rowCount > 0; // Returns true if notifications were deleted
+    })
+    .catch((error) => {
+      console.error('Error deleting notifications:', error);
+      return false; // Deletion unsuccessful
     });
 };
+
+const deleteTask = (taskId) => {
+  return db.query('DELETE FROM tasks WHERE id = $1;', [taskId]);
+};
+
 
 //update task as a user //check later
 const updateTask = (task) => {
@@ -203,17 +212,8 @@ const getTaskById = (taskId) => {
     });
 };
 //example:
-getTaskById(2)
-  .then((task) => {
-    if (task) {
-      console.log('Task found:', task);
-    } else {
-      console.log('No task found with ID:', taskIdToFind);
-    }
-  })
-  .catch((error) => {
-    console.error('Error retrieving task by ID:', error);
-  });
+// console.log(getTaskById(2))
+
 //  get user by userid
 const getUserById = (id) => {
   const query = `
@@ -328,7 +328,8 @@ module.exports = {
   setActualStartTime,
   setActualEndTime,
   getTasksByUserId,
-  deletTask,
+  deleteNotificationsByTaskID,
+  deleteTask,
   updateTask,
   createUser,
   getUserByEmail,
