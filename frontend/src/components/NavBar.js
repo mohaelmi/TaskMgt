@@ -126,7 +126,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                   fontSize: '1rem',
                 }}
               >
-              {user.username}
+              Welcome: {user.username}
               </Typography>
               <Avatar
                 variant='solid'
