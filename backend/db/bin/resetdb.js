@@ -15,7 +15,7 @@ async function resetDatabase() {
     database: 'postgres', // Default database for creating other databases
   };
 
-  console.log(params);
+  // console.log(params);
   const pool = new Pool(params);
   pool.connect()
 
@@ -43,7 +43,7 @@ async function resetDatabase() {
       'utf8'
       );
       
-      console.log("FFFFFFFFFGGGGGGGGGGGGGGFFF");
+     
       // Run SQL queries
       // await db.query(`SELECT 1 FROM pg_database WHERE datname='name'`)
       await db.query(tablesSQL);

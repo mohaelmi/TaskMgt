@@ -9,7 +9,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description } = e.target.elements
+    const { title, description,task_start } = e.target.elements
     console.log("updated title", description.value);
 
     const task = {
@@ -28,7 +28,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     
     if(taskToEdit) {
       const updatedTask = {
-        ...taskToEdit, title: title.value, description: description.value
+        ...taskToEdit, title: title.value, description: description.value,estimatedStartTime: task_start.value,
       }
       console.log("## taskToEdit", updatedTask);
       callback(updatedTask)

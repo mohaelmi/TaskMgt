@@ -20,7 +20,7 @@ function EditTask({ taskId, taskToEdit, closeModal, updateTask, tasks }) {
 
   return (
 
-  <Modal task={task} taskToEdit={taskToEdit} setTask={setTask} closeModal = {closeModal} text={"EDIT"} callback ={updateTask}/>
+  <Modal task={task} taskToEdit={taskToEdit} setTask={setTask} closeModal = {closeModal} text={"SUBMIT"} callback ={updateTask}/>
     // <div>{taskId}</div>
   );
 }
