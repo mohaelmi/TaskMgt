@@ -58,7 +58,7 @@ router.post('/delete', ensureAuthenticated, async (req, res) => {
   }
 
   try {
-    // Fetch the task details by ID
+    // get the task details by ID
     const task = await userQueries.getTaskById(taskId);
 
     if (!task) {
@@ -66,24 +66,27 @@ router.post('/delete', ensureAuthenticated, async (req, res) => {
     }
 
     // Check if the task belongs to the logged-in user
-    if (task.userid!== userId) {
+    if (task.userid !== userId) {
       return res.status(403).json({ error: 'You are not authorized to delete this task' });
     }
 
-    // Delete notifications related to the task
-    const notificationsDeleted = await deleteNotificationsByTaskID(taskId);
+    // Delete the task
+    await userQueries.deleteTask(taskId);
 
-    if (!notificationsDeleted) {
-      return res.status(500).json({ error: 'Error deleting notifications' });
-    }
-    console.log(taskId);
-    // Proceed to delete the task if notifications were successfully deleted
-    await deleteTask(taskId);
+    // //Delete notifications related to the task
+    // const notificationsDeleted = await userQueries.deleteNotificationsByTaskID(taskId);
+
+    // if (!notificationsDeleted) {
+    //   return res.status(500).json({ error: 'Error deleting notifications' });
+    // }
+
     res.json({ message: 'Task deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Error deleting task', details: error });
+    res.status(503).json({ error: 'Error deleting task', details: error });
   }
 });
+
+
 
 
 router.get('/s', (req, res) => {

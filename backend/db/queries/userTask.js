@@ -21,7 +21,6 @@ const createTask = (
   category,
   description,
   status,
-  priorityLevel,
   importanceLevel,
   dueDate,
   estimatedStartTime,
@@ -97,18 +96,21 @@ const setActualStartTime = (startTime, taskId) => {
 //   });
 
 //Delete task as a user
-const deleteNotificationsByTaskID = (taskId) => {
-  return db
-    .query('DELETE FROM notifications WHERE TaskID = $1 RETURNING *;', [taskId])
-    .then((result) => {
-      console.log('Deleted notifications:', result.rows);
-      return result.rowCount > 0; // Returns true if notifications were deleted
-    })
-    .catch((error) => {
-      console.error('Error deleting notifications:', error);
-      return false; // Deletion unsuccessful
-    });
+const deleteNotificationsByTaskID = async (taskId) => {
+  try {
+    // Delete all notifications related to the task
+    const result = await db.query('DELETE FROM notifications WHERE TaskID = $1 RETURNING *;', [taskId]);
+    const deletedNotifications = result.rows;
+
+    console.log('Deleted notifications:', deletedNotifications);
+    return deletedNotifications.length > 0; // Returns true if notifications were deleted
+  } catch (error) {
+    console.error('Error deleting notifications:', error);
+    return false; // Deletion unsuccessful
+  }
 };
+
+
 
 const deleteTask = (taskId) => {
   return db.query('DELETE FROM tasks WHERE id = $1;', [taskId]);
