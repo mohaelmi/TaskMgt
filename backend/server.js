@@ -52,7 +52,8 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userQueries.getUserByEmail(email);
-    if (!user) {
+    if (!user || user === undefined) {
+      console.log("user is undefined");
       return res.status(401).json({ message: 'Invalid username or password' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);

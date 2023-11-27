@@ -285,7 +285,7 @@ const getUserByEmail = (email) => {
   return db
     .query(query, values)
     .then((result) => {
-      console.log('query', result.rows[0]);
+      console.log('email query', result.rows[0]);
       return result.rows[0];
     })
     .catch((error) => {
