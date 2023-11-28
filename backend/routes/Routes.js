@@ -115,7 +115,8 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
         res.json({ message: 'Task updated successfully', updatedTaskDetails });
       })
       .catch((error) => {
-        res.status(500).json({ error: 'Error updating task', details: error });
+        console.log(error);
+        // res.status(500).json({ error: 'Error updating task', details: error });
       });
 });
 

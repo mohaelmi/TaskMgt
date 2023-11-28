@@ -9,6 +9,11 @@ VALUES
     
     (1, 'Read a Book', 'Leisure', 'Read a novel for relaxation.', 'Todo', 'Low',  '19:00:00', '30', NULL, NULL),
     (1, 'Learning New Skill', 'Education', 'Spend an hour learning something new.', 'In Progress', 'Medium', '11:00:00', '25', NULL, NULL),
+    (1, 'Gardening', 'Hobby', 'Work in the garden for an hour.', 'closed', 'Low', '08:00:00', '60','18:00:00', '19:00:00'),
+    (1, 'Painting Session', 'Art', 'Express creativity through painting.', 'Todo', 'High', '16:00:00', '45', NULL, NULL),
+    (1, 'Writing Journal', 'Self Improvement', 'Reflect and write in a journal.', 'Todo', 'Medium', '21:00:00', '20', NULL, NULL),
+    (1, 'Yoga Practice', 'Fitness', 'Do a 45-minute yoga session.', 'In Progress', 'Medium', '07:30:00', '45', '07:30:00', NULL),
+    (1, 'Music Practice', 'Art', 'Practice playing an instrument for 30 minutes.', 'In Progress', 'Low', '13:00:00', '30', '13:00:00', NULL),
     
     (2, 'Read a Book', 'Leisure', 'Read the new novel for at least an hour.', 'Todo',  'Medium',  '15:00:00', '45', NULL, NULL),
     (2, 'Cooking Experiment', 'Cooking', 'Try a new recipe for dinner tonight.', 'Closed',  'Low',  '18:00:00', '60', '18:00:00', '19:00:00'),

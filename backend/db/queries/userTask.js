@@ -126,19 +126,17 @@ const updateTask = (task) => {
       Category = $2,
       Description = $3,
       Status = $4,
-      DueDate = $5,
-      EstimatedStartTime = $6,
-      EstimatedEndTime = $7,
-      ActualStartTime = $8,
-      ActualEndTime = $9
-    WHERE id = $10 
+      EstimatedStartTime = $5,
+      Duration = $6,
+      ActualStartTime = $7,
+      ActualEndTime = $8
+    WHERE id = $9 
     RETURNING *;
     `, [
       task.title,
       task.category,
       task.description,
       task.status,
-      task.dueDate,
       task.estimatedStartTime,
       task.estimatedEndTime,
       task.actualStartTime,
