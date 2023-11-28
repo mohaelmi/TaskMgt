@@ -152,14 +152,6 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
         </Toolbar>
       </AppBar>
       <Routes>
-<<<<<<< HEAD
-        <Route path='/signup' element={!user? <SignUp userSignup={userSignup} /> : null} />
-        <Route path='/login' element={!user? <Login userLogin= {userLogin}/>  : null } />
-        <Route path='/about' element={<AboutUs />} />
-        {/* <Route path='/logout' element={<logout />} /> */}
-        <Route path='/tasks' element={<AboutUs />} />
-        <Route path='/analytics' component={samplechart} />
-=======
         <Route
           path='/signup'
           element={!user ? <SignUp userSignup={userSignup} /> : null}
@@ -171,7 +163,6 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
         <Route path='/analytics' element={<Analytics />} />
 
         {/* <Route path='*' element={<Navigate to='/' />} /> */}
->>>>>>> e84a5d3386ac6b12aba2e5534205bb84d2de2810
       </Routes>
     </React.Fragment>
   );
