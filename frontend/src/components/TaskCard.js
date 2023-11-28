@@ -17,11 +17,12 @@ function TaskCard({ task, tasks, deleteTask, openModel, showEditComponent, openT
 
 
   return (
-    <div ref={drag} onClick={() => openTaskDetail()} className={`relative pb-8 p-4 mt-8 shadow-md rounded-md cursor-grab ${isDragging ? "opacity-0" : "opacity-100"} `}>
+    <div ref={drag}  className={`relative pb-8 p-4 mt-8 shadow-md rounded-md cursor-grab ${isDragging ? "opacity-0" : "opacity-100"} `}>
+      <div onClick={() => openTaskDetail(task)} className="w-40 cursor-default" >
       <p className="font-bold">{task.title}</p>
-      <p>{task.description}</p>
-      <p className="absolute bottom-20 right-1 w-16 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importancelevel} </p>
-      
+      {/* <p>{task.description}</p> */}
+      <p className="absolute bottom-10 right-1 w-16 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importancelevel} </p>
+      </div>
       {/* <p>actual start time: {task.actualstarttime}</p>
       <p>acutal start time: {task.actualendtime}</p>
       <p>category: {task.category}</p>

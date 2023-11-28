@@ -43,7 +43,7 @@ function App() {
       />
       {state.user ? (
         <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
-          {state.showDetailsModal && < TaskDetailsModal closeTaskDetails={detailsToggleModal} /> }
+          {state.showDetailsModal && <TaskDetailsModal closeTaskDetails={detailsToggleModal} taskDetails={state.taskDetails} /> }
           {/* <NewTask createTask={createTask} /> */}
           {/* <p>tasklist is below</p> */}
           {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}

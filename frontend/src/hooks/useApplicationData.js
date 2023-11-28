@@ -83,6 +83,7 @@ const reducer = (state, action) => {
     case ACTIONS.SHOW_MODAL_DETAIL_TASK:
       return {
         ...state,
+        taskDetails: action.payload,
         showDetailsModal: !state.showDetailsModal,
       };
 
@@ -134,6 +135,7 @@ export const useApplicationData = () => {
   const initialState = {
     taskData: [],
     taskToEdit: {},
+    taskDetails: {},
     showModal: false,
     showCreateModal: false,
     showDetailsModal: false,
@@ -207,8 +209,8 @@ export const useApplicationData = () => {
     dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK });
   };
 
-  const detailsToggleModal = () => {
-    dispatch({ type: ACTIONS.SHOW_MODAL_DETAIL_TASK });
+  const detailsToggleModal = (task) => {
+    dispatch({ type: ACTIONS.SHOW_MODAL_DETAIL_TASK, payload: task });
   };
 
 

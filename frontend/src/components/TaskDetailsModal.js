@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function TaskDetailsModal({closeTaskDetails}) {
+function TaskDetailsModal({closeTaskDetails, taskDetails}) {
   //  description: {task.description}
   //   actual start time: {task.actualstarttime}
   //   acutal start time: {task.actualendtime}
@@ -8,6 +8,15 @@ function TaskDetailsModal({closeTaskDetails}) {
   //   duadate: {task.duedate}
   //   estimated Start Time: {task.estimatedstarttime}
   //   estimated End Time: {task.estimatedendtime}
+
+  function getDateFromHours(time) {
+    time = time.split(':');
+    let now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
+  }
+  console.log(getDateFromHours(taskDetails.estimatedstarttime));
+
+  console.log("task details:-----", typeof taskDetails.estimatedstarttime);
 
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -35,36 +44,30 @@ function TaskDetailsModal({closeTaskDetails}) {
             </svg>
             {/* <span className="sr-only">Close modal</span> */}
           </button>
-          <div className="p-4 md:p-5 text-center">
+          <div className="md:p-2 flex flex-col -mt-24 text-gray-700">
             {/* content starts here */}
-            <form className="flex flex-col gap-5 mt-10">
-              <div className="">
-                <label
-                  className="text-gray-700 text-sm font-bold mb-2 mr-16"
-                >
-                  Title
+          
+             
+                <label className="px-8 p-5 text-md font-bold ">
+                  <p className="font-light">Description:</p> {taskDetails.description}
                 </label>
                 
-              </div>
-              <div>
-                <label
-                  className="text-gray-700 text-sm font-bold mb-2 mr-5"
-                >
-                  Description
+           
+              
+                <label className="px-8 p-5 text-md font-bold ">
+                  <p className="font-light">Category:</p> {taskDetails.category}
                 </label>
                 
-              </div>
-              <div>
-                <label
-                  className="text-gray-700 text-sm font-bold mb-2 mr-6"
-                >
-                  Start time
+             
+            
+                <label className="px-8 p-5 text-md font-bold">
+                  <p className="font-light">Start time:</p> {taskDetails.estimatedstarttime}
                 </label>
                 
 
                
-              </div>
-            </form>
+            
+          
           </div>
         </div>
       </div>
