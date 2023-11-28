@@ -15,9 +15,9 @@ async function resetDatabase() {
     database: process.env.DB_NAME || 'postgres', // Default database for creating other databases
   };
 
-  console.log(params);
+  // console.log(params);
   const pool = new Pool(params);
-  pool.connect()
+  pool.connect();
 
   // Check if the database exists
   const checkDbQuery = `SELECT 1 FROM pg_database WHERE datname = $1`;
@@ -29,7 +29,7 @@ async function resetDatabase() {
     await pool.query(createDbQuery);
   }
 
-  pool.end()
+  pool.end();
   // Connect to the specific database
   const db = new Pool({ ...params, database: dbName });
 
@@ -43,11 +43,13 @@ async function resetDatabase() {
     'utf8'
   );
 
+  // Run SQL queries
+  // await db.query(`SELECT 1 FROM pg_database WHERE datname='name'`)
   await db.query(tablesSQL);
   await db.query(seedsSQL);
 
   console.log('Database reset completed!');
-  db.end()
+  db.end();
 }
 
 resetDatabase();

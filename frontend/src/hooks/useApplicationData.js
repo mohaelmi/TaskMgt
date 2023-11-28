@@ -13,6 +13,7 @@ const ACTIONS = {
   EDIT_TASK: 'EDIT_TASK',
   USER_LOGIN: 'USER_LOGIN',
   USER_LOGOUT: 'USER_LOGOUT',
+  MOVE_TASK: 'MOVE_TASK',
 };
 
 const reducer = (state, action) => {
@@ -98,6 +99,22 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
+    case ACTIONS.MOVE_TASK:
+      const tasks = state.taskData.map((task) => {
+        if (task.id === action.payload.id) {
+          return { ...task, status: action.payload.status };
+        }
+
+        return task;
+      });
+
+      console.log(tasks);
+
+      return {
+        ...state,
+        taskData: tasks,
+      };
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -147,18 +164,18 @@ export const useApplicationData = () => {
       .then((res) => {
         // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
-        toast.success(res.data.message);
+        toast.success(res.data.message, { icon: '✅' });
       })
       .catch((error) => console.log(error));
   };
 
   const handleDeleteTask = (id) => {
     axios
-      .get(`/api/tasks/delete/${id}`)
+      .post(`/api/tasks/delete`, { taskId: id })
       .then((res) => {
         // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
         fetchTasks();
-        toast.success(res.data.message);
+        toast.success(res.data.message, { icon: '❌' });
       })
       .catch((error) => console.log(error));
   };
@@ -192,7 +209,7 @@ export const useApplicationData = () => {
     axios
       .post('/login', { email, password })
       .then((res) => {
-        // console.log("## user", res.data.user);
+        console.log('## user', res.data.user);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         // const user = localStorage.getItem("user_id");
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
@@ -201,7 +218,9 @@ export const useApplicationData = () => {
       })
 
       .catch((error) => {
-        toast.error('Login failed. Please check your credentials.');
+        navigate('/login');
+        toast.error(error.response.data.message, { duration: 5000 });
+        console.log(error.response.data);
       });
   };
 
@@ -209,7 +228,7 @@ export const useApplicationData = () => {
     // const { username, email, pwd } = userInfo;
     console.log(userInfo);
     axios
-      .post('/auth/register', userInfo)
+      .post('/register', userInfo)
       .then((res) => {
         console.log(res.data);
         // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
@@ -230,6 +249,18 @@ export const useApplicationData = () => {
       .catch((error) => console.log(error));
   };
 
+  const moveTask = (id, status) => {
+    dispatch({ type: ACTIONS.MOVE_TASK, payload: { id, status } });
+    // tasks.map( (task) => {
+    //   if(task.id === id) {
+    //     return task.status = status
+    //   }
+
+    //   return task
+    // })
+    console.log(id, status);
+  };
+
   return [
     state,
     createTask,
@@ -240,5 +271,6 @@ export const useApplicationData = () => {
     userLogin,
     userLogOut,
     userSignup,
+    moveTask,
   ];
 };
