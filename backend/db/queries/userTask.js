@@ -16,34 +16,15 @@ const getAllTasks = () => {
 };
 
 const createTask = (
-  userId,
-  title,
-  category,
-  description,
-  status,
-  importanceLevel,
-  dueDate,
-  estimatedStartTime,
-  estimatedEndTime,
-  actualStartTime,
-  actualEndTime
+  userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
 ) => {
   const query = `
-    INSERT INTO tasks (UserID, Title, Category, Description, Status, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
   `;
   const values = [
-    userId,
-    title,
-    category,
-    description,
-    status,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
-    actualStartTime,
-    actualEndTime,
+    userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
   ];
 
   return db
@@ -126,21 +107,23 @@ const updateTask = (task) => {
       Category = $2,
       Description = $3,
       Status = $4,
-      DueDate = $5,
+      ImportanceLevel = $5,
       EstimatedStartTime = $6,
-      EstimatedEndTime = $7,
+      duration = $7,
       ActualStartTime = $8,
       ActualEndTime = $9
     WHERE id = $10 
     RETURNING *;
     `, [
+      // userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
       task.title,
       task.category,
       task.description,
       task.status,
-      task.dueDate,
+      // task.dueDate,
+      task.importanceLevel,
       task.estimatedStartTime,
-      task.estimatedEndTime,
+      task.duration,
       task.actualStartTime,
       task.actualEndTime,
       task.id,
