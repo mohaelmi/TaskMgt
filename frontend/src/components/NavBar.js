@@ -38,31 +38,39 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
             }}
           >
             <RouterLink
-              to='/'
+              to='/login'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               TaskMgt
             </RouterLink>
           </Typography>
           {user ? (
-            <>
-              <div style={{ paddingLeft: '33%' }}>
-                <Tab
-                  label='Summary'
-                  component={RouterLink}
-                  to='/analytics'
-                  textColor='inherit'
-                  sx={{
-                    textTransform: 'none',
-                    fontSize: '1rem',
-                    '&:hover': {
-                      fontSize: '1.0rem',
-                      fontWeight: 'bold',
-                      textDecoration: 'none',
-                    },
-                  }}
-                />
-              </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 'auto',
+                paddingLeft: 'auto',
+              }}
+            >
+              {/* <div> */}
+              <Tab
+                label='Summary'
+                component={RouterLink}
+                to='/analytics'
+                textColor='inherit'
+                sx={{
+                  textTransform: 'none',
+                  fontSize: '1rem',
+                  '&:hover': {
+                    fontSize: '1.0rem',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                  },
+                }}
+              />
+              {/* </div> */}
               <Button
                 variant='text'
                 textColor='inherit'
@@ -70,6 +78,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                 sx={{
                   color: '#656565',
                   textTransform: 'none',
+                  marginLeft: '12px',
                   marginTop: '2px',
                   fontSize: '1rem',
                   '&:hover': {
@@ -80,7 +89,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               >
                 Add Task
               </Button>
-            </>
+            </div>
           ) : null}
           {!user ? (
             <>
@@ -115,15 +124,23 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               </Button>
             </>
           ) : (
-            <>
+            <section
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 'auto',
+                paddingLeft: 'auto',
+              }}
+            >
               <Typography
                 sx={{
-                  marginLeft: '25%',
                   color: '#5474d2',
                   fontWeight: 'bold',
                   textTransform: 'none',
                   marginTop: '4px',
                   fontSize: '1rem',
+                  marginRight: '5px',
                 }}
               >
                 Welcome: {user.username}
@@ -133,9 +150,10 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                 sx={{
                   width: '32px',
                   height: '32px',
-                  marginLeft: '8px',
+                  marginRight: '30px',
                 }}
               />
+
               <Button
                 sx={{
                   marginLeft: 'auto',
@@ -147,7 +165,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               >
                 Logout
               </Button>
-            </>
+            </section>
           )}
         </Toolbar>
       </AppBar>
