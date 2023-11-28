@@ -8,9 +8,9 @@ import { useApplicationData } from './hooks/useApplicationData';
 import TaskList from './components/TaskList';
 import NewTask from './components/NewTask';
 import EditTask from './components/EditTask';
-import Header from './components/Header';
 import CreateTask from './components/CreateTask';
 import TaskDetailsModal from './components/TaskDetailsModal';
+import NavBar from './components/NavBar';
 
 function App() {
   const [
