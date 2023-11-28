@@ -9,14 +9,22 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
   //   estimated Start Time: {task.estimatedstarttime}
   //   estimated End Time: {task.estimatedendtime}
 
-  function getDateFromHours(time) {
-    time = time.split(':');
+  function getTime(time) {
+    // time = time.split(':');
     let now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
+    return new Date(now.getHours(), now.getMinutes(), now.getSeconds());
   }
-  console.log(getDateFromHours(taskDetails.estimatedstarttime));
+  // console.log(getDateFromHours(taskDetails.estimatedstarttime));
 
-  console.log("task details:-----", typeof taskDetails.estimatedstarttime);
+
+  // const diff = Math.abs((start/1000) - Number(taskDetails.duration))
+  // console.log(start, diff);
+
+  let start_time = new Date().getTime(taskDetails.estimatedstarttime)
+  let diff = Math.abs( Date.now() - start_time)
+  console.log(diff);
+  console.log("time now : ", new Date().toLocaleTimeString());
+  console.log("start time :",  taskDetails.estimatedstarttime);
 
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
