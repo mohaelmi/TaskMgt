@@ -12,7 +12,7 @@ import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import AboutUs from '../pages/AboutUs';
 import Person2Icon from '@mui/icons-material/Person2';
-import Analytics from '../pages/Analytics';
+import samplechart from '../components/samplechart';
 // import TaskList from './TaskList';
 import AuthContext from './AuthProvider';
 import logout from '../pages/Logout';
@@ -21,7 +21,6 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
   const handleLogout = () => {
     userLogOut()
     Navigate('/login')
-
   }
   return (
     <React.Fragment>
@@ -81,6 +80,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               label='Analytics'
               component={RouterLink}
               to='/analytics'
+              // onClick={handleAnalyticsClick}
               textColor='inherit'
               sx={{
                 textTransform: 'none',
@@ -155,7 +155,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
         <Route path='/about' element={<AboutUs />} />
         {/* <Route path='/logout' element={<logout />} /> */}
         <Route path='/tasks' element={<AboutUs />} />
-        <Route path='/analytics' element={<Analytics />} />
+        <Route path='/analytics' component={samplechart} />
       </Routes>
     </React.Fragment>
   );

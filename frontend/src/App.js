@@ -1,5 +1,7 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from 'react-router-dom';
+
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { useApplicationData } from "./hooks/useApplicationData";
@@ -8,7 +10,8 @@ import NewTask from "./components/NewTask";
 import EditTask from "./components/EditTask";
 import Header from "./components/Header";
 import CreateTask from "./components/CreateTask";
-
+// import Analytics from './pages/Analytics';
+import SampleChart from './components/samplechart';
 function App() {
   const [
     state,
@@ -27,6 +30,7 @@ function App() {
   console.log(Boolean(state.user));
 
   return (
+    
     <>
       <Toaster />
       <Header
@@ -48,7 +52,7 @@ function App() {
               createTask={createTask}
             />
           )}
-
+          <SampleChart />
           <TaskList
             tasks={state.taskData}
             deleteTask={handleDeleteTask}
