@@ -33,14 +33,14 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     description,
     status,
     importanceLevel,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
+    estimatedstartTime,
+    duration,
     actualStartTime,
     actualEndTime,
   } = req.body;
 
-  userQueries.createTask(userId, title, category, description, status, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
+  // UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime
+  userQueries.createTask(userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime)
     .then(() => {
       res.json({ message: 'Task added successfully' });
     })

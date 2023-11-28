@@ -16,34 +16,15 @@ const getAllTasks = () => {
 };
 
 const createTask = (
-  userId,
-  title,
-  category,
-  description,
-  status,
-  importanceLevel,
-  dueDate,
-  estimatedStartTime,
-  estimatedEndTime,
-  actualStartTime,
-  actualEndTime
+  userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
 ) => {
   const query = `
-    INSERT INTO tasks (UserID, Title, Category, Description, Status, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+    INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
   `;
   const values = [
-    userId,
-    title,
-    category,
-    description,
-    status,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
-    actualStartTime,
-    actualEndTime,
+    userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
   ];
 
   return db
@@ -126,19 +107,34 @@ const updateTask = (task) => {
       Category = $2,
       Description = $3,
       Status = $4,
+<<<<<<< HEAD
       EstimatedStartTime = $5,
       Duration = $6,
       ActualStartTime = $7,
       ActualEndTime = $8
     WHERE id = $9 
+=======
+      ImportanceLevel = $5,
+      EstimatedStartTime = $6,
+      duration = $7,
+      ActualStartTime = $8,
+      ActualEndTime = $9
+    WHERE id = $10 
+>>>>>>> 68a8f5bc6694ab1a881bb2f9fd38e58e4a3a9798
     RETURNING *;
     `, [
+      // userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
       task.title,
       task.category,
       task.description,
       task.status,
+<<<<<<< HEAD
+=======
+      // task.dueDate,
+      task.importanceLevel,
+>>>>>>> 68a8f5bc6694ab1a881bb2f9fd38e58e4a3a9798
       task.estimatedStartTime,
-      task.estimatedEndTime,
+      task.duration,
       task.actualStartTime,
       task.actualEndTime,
       task.id,

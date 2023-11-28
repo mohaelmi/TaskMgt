@@ -13,29 +13,31 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     console.log("updated title", description.value);
 
     const task = {
-      userId: 2, 
-      title: title.value, //"Play soccer", 
-      category: "Leisure", 
-      description: description.value, 
-      status: "Todo", 
-      importanceLevel: "Medium", 
-      dueDate: "20:00:00",
-      estimatedStartTime: '15:00:00', 
-      estimatedEndTime: '16:00:00', 
+      userId: 2,
+      title: title.value, //"Play soccer",
+      category: 'Leisure',
+      description: description.value,
+      status: 'Todo',
+      importanceLevel: 'Medium',
+      estimatedStartTime: '15:00:00',
+      duration: '20',
       actualStartTime: null,
       actualEndTime: null
     }
     
     if(taskToEdit) {
       const updatedTask = {
-        ...taskToEdit, title: title.value, description: description.value,estimatedStartTime: task_start.value,
-      }
-      console.log("## taskToEdit", updatedTask);
-      callback(updatedTask)
-    }else {
-      console.log("NEW task",task);
-      callback(task)
-      closeModal(null)  
+        ...taskToEdit,
+        title: title.value,
+        description: description.value,
+        estimatedstarttime: task_start.value,
+      };
+      console.log('## taskToEdit', updatedTask);
+      callback(updatedTask);
+    } else {
+      console.log('NEW task', task);
+      callback(task);
+      closeModal(null);
     }
 
     console.log("before update",taskToEdit);
@@ -113,11 +115,11 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                   Start time
                 </label>
                 <input
-                  type="time"
-                  id="task_start"
-                  className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
-                  name="task_start"
-                  value={task.estimatedStartTime}
+                  type='time'
+                  id='task_start'
+                  className=' border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1'
+                  name='task_start'
+                  value={task.estimatedstarttime}
                   // onChange={(e) =>
                   //   setTask({ ...task, estimatedStartTime: e.target.value })
                   // }
