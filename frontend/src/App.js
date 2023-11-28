@@ -56,8 +56,10 @@ function App() {
             />
           )}
           {/* pie chartzz */}
-          <CategoryPiechart categoryCounts={taskCategoryPie} />
-          <StatusPiechart statusCounts={taskStatusPie}/>
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <CategoryPiechart categoryCounts={taskCategoryPie} />
+            <StatusPiechart statusCounts={taskStatusPie} />
+          </div>
           <TaskList
             tasks={state.taskData}
             deleteTask={handleDeleteTask}
