@@ -1,13 +1,12 @@
-import "./App.css";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Toaster } from "react-hot-toast";
-import { useApplicationData } from "./hooks/useApplicationData";
-import TaskList from "./components/TaskList";
-import NewTask from "./components/NewTask";
-import EditTask from "./components/EditTask";
-import Header from "./components/Header";
-import CreateTask from "./components/CreateTask";
+import './App.css';
+import React, { useEffect, useState } from 'react';
+import NavBar from './components/NavBar';
+import { Toaster } from 'react-hot-toast';
+import { useApplicationData } from './hooks/useApplicationData';
+import TaskList from './components/TaskList';
+import NewTask from './components/NewTask';
+import EditTask from './components/EditTask';
+import CreateTask from './components/CreateTask';
 
 function App() {
   const [
@@ -23,13 +22,13 @@ function App() {
   ] = useApplicationData();
 
   // console.log("## show model", state.showCreateModal)
-  console.log("## user", state.user);
+  console.log('## user', state.user);
   console.log(Boolean(state.user));
 
   return (
     <>
       <Toaster />
-      <Header
+      <NavBar
         openModal={createToggleModal}
         userLogin={userLogin}
         userLogOut={userLogOut}
@@ -38,7 +37,7 @@ function App() {
       />
 
       {state.user ? (
-        <div className="bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md">
+        <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
           {/* <NewTask createTask={createTask} /> */}
           {/* <p>tasklist is below</p> */}
           {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}

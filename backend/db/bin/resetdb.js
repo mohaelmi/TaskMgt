@@ -11,8 +11,8 @@ async function resetDatabase() {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
- 
-    database: 'postgres', // Default database for creating other databases
+
+    database: process.env.DB_NAME || 'postgres', // Default database for creating other databases
   };
 
   console.log(params);
@@ -32,23 +32,20 @@ async function resetDatabase() {
   pool.end()
   // Connect to the specific database
   const db = new Pool({ ...params, database: dbName });
-  
+
   // Read SQL files
   const tablesSQL = fs.readFileSync(
     path.join(__dirname, '../../db/schema/tables.sql'),
     'utf8'
-    );
-    const seedsSQL = fs.readFileSync(
-      path.join(__dirname, '../../db/schema/seeds.sql'),
-      'utf8'
-      );
-      
-      console.log("FFFFFFFFFGGGGGGGGGGGGGGFFF");
-      // Run SQL queries
-      // await db.query(`SELECT 1 FROM pg_database WHERE datname='name'`)
-      await db.query(tablesSQL);
-      await db.query(seedsSQL);
-      
+  );
+  const seedsSQL = fs.readFileSync(
+    path.join(__dirname, '../../db/schema/seeds.sql'),
+    'utf8'
+  );
+
+  await db.query(tablesSQL);
+  await db.query(seedsSQL);
+
   console.log('Database reset completed!');
   db.end()
 }
