@@ -16,7 +16,7 @@ const getAllTasks = () => {
 };
 
 const createTask = (
-  userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
+  userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
 ) => {
   const query = `
     INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
@@ -24,7 +24,7 @@ const createTask = (
     RETURNING *;
   `;
   const values = [
-    userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
+    userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
   ];
 
   return db
@@ -100,6 +100,7 @@ const deleteTask = (taskId) => {
 
 //update task as a user //check later
 const updateTask = (task) => {
+  console.log(task);
   return db
     .query(`UPDATE tasks 
     SET
@@ -121,11 +122,11 @@ const updateTask = (task) => {
       task.description,
       task.status,
       // task.dueDate,
-      task.importanceLevel,
-      task.estimatedStartTime,
+      task.importancelevel,
+      task.estimatedstarttime,
       task.duration,
-      task.actualStartTime,
-      task.actualEndTime,
+      task.actualstarttime,
+      task.actualendtime,
       task.id,
     ])
     .then((result) => {
