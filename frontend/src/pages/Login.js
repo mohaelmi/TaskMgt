@@ -3,20 +3,12 @@ import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
-import axios from 'axios';
-import AuthContext from '../components/AuthProvider';
 
-// import axios from '../api/axios';
-// const LOGIN_URL = '/'
-
-const Login = ({userLogin}) => {
-  // const { setAuth } = useContext(AuthContext);
+const Login = ({ userLogin }) => {
   const navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
 
-  // const [userEmail, setUserEmail] = useState('');
-  // const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
   const [enteredValues, setEnteredValues] = useState({
@@ -32,12 +24,12 @@ const Login = ({userLogin}) => {
     setErrMsg('');
   }, [enteredValues]);
 
-  const handleSubmit =  (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login", enteredValues);
-    const {email, password} = enteredValues;
-    userLogin(email, password)
-    navigate('/');
+    console.log('Login', enteredValues);
+    const { email, password } = enteredValues;
+    userLogin(email, password);
+    // navigate('/');
     // setUserEmail('');
     // setPwd('');
     // setSuccess(true);
@@ -54,147 +46,203 @@ const Login = ({userLogin}) => {
   };
 
   return (
-    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
+    <div
+      style={{
+        // paddingTop: '8%',
+        minHeight: '100vh',
+        display: 'grid',
+        placeItems: 'center',
+        border: '3px solid #ccc',
+      }}
+    >
       <CssBaseline />
-      {success ? (
+      <Box
+        display='grid'
+        gridTemplateColumns={['1fr', '1fr', '1fr', '1fr', '1fr 1fr']}
+        gap={5}
+        maxWidth={1250}
+        justifyContent={'center'}
+      >
         <section>
-          <h1>You are logged in!</h1>
-        </section>
-      ) : (
-        <section>
-          <p
-            ref={errRef}
-            className={errMsg ? 'errmsg' : 'offscreen'}
-            aria-live='assertive'
+          <Typography
+            variant='h2'
+            mb={3}
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              textDecoration: 'none',
+            }}
           >
-            {errMsg}
-          </p>
-          <form onSubmit={handleSubmit}>
-            <Box
-              display='flex'
-              flexDirection={'column'}
-              maxWidth={500}
-              alignItems={'center'}
-              justifyContent={'center'}
-              margin='auto'
-              marginTop={5}
-              marginBottom={5}
-              padding={3}
-              borderRadius={2}
-              boxShadow={'5px 5px 10px #ccc'}
-              sx={{ ':hover': { boxShadow: '10px 10px 20px #ccc' } }}
-            >
-              <Typography
-                marginBottom={1}
-                marginTop={5}
-                variant='h4'
-                textAlign='center'
-              >
-                Login to your Account
-              </Typography>
-
-              <TextField
-                type={'email'}
-                margin='normal'
-                id='email'
-                ref={userRef}
-                label='Enter your email'
-                variant='outlined'
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                value={enteredValues.email}
-                required
-                sx={{
-                  width: '80%',
-                }}
-              />
-              <TextField
-                type={'password'}
-                margin='normal'
-                id='password'
-                label='Password'
-                variant='outlined'
-                required
-                onChange={(e) => handleInputChange('password', e.target.value)}
-                value={enteredValues.password}
-                sx={{
-                  width: '80%',
-                }}
-              />
-              <Button
-                type='submit'
-                variant='contained'
-                sx={{
-                  marginTop: 3,
-                  height: 50,
-                  backgroundColor: '#28282B',
-                  width: '80%',
-                  ':hover': { backgroundColor: '#0C0908' },
-                  fontWeight: 800,
-                  letterSpacing: '.3rem',
-                }}
-              >
-                SIGN IN
-              </Button>
-
-              <Typography
-                variant='h4'
-                sx={{
-                  color: 'Grey',
-                  fontSize: 18,
-                  marginTop: 2,
-                  marginBottom: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                Login using &nbsp;{' '}
-                <GoogleIcon
-                  fontSize='large'
-                  color='disabled'
-                  sx={{
-                    color: '#DB4437',
-                    marginRight: 1,
-                    ':hover': { color: 'darkred' },
-                  }}
-                />
-                <FacebookRoundedIcon
-                  fontSize='large'
-                  color='disabled'
-                  sx={{
-                    color: '#4267B2 ',
-                    ':hover': { color: 'darkblue' },
-                  }}
-                />
-              </Typography>
-
-              <Typography
-                marginTop={1}
-                marginBottom={1}
-                variant='p'
-                textAlign='center'
-                fontStyle={'oblique'}
-                color='primary'
-              >
-                New user? Create an account
-              </Typography>
-              <Button
-                variant='standard'
-                sx={{
-                  borderRadius: 3,
-                  backgroundColor: 'white',
-                  color: 'black', // Fix: Change Color to color
-                  textDecoration: 'underline',
-                  fontWeight: 'bold',
-                  marginBottom: 5,
-                }}
-                onClick={handleSignupClick}
-              >
-                Sign Up
-              </Button>
-            </Box>
-          </form>
+            Manage your tasks productivity
+          </Typography>
+          <Typography variant='h6' marginBottom={5}>
+            TaskMgt helps you manage and optimize your time for a more
+            fulfilling and balanced life.
+          </Typography>
+          <Button
+            type='submit'
+            variant='contained'
+            onClick={handleSignupClick}
+            sx={{
+              marginTop: 3,
+              height: 50,
+              borderRadius: '15px 0 15px',
+              background: [
+                'rgb(63,95,159)',
+                `radial-gradient(circle, rgba(63,95,159,1) 12%, rgba(167,195,227,1) 100%)`,
+              ],
+              width: '40%',
+              // ':hover': { backgroundColor: '#0C0908' },
+              fontWeight: 800,
+              letterSpacing: '.2rem',
+            }}
+          >
+            Get Started
+          </Button>
         </section>
-      )}
+        <section>
+          {success ? (
+            <section>
+              <h1>You are logged in!</h1>
+            </section>
+          ) : (
+            <section>
+              <p
+                ref={errRef}
+                className={errMsg ? 'errmsg' : 'offscreen'}
+                aria-live='assertive'
+              >
+                {errMsg}
+              </p>
+              <form onSubmit={handleSubmit}>
+                <Box
+                  display='flex'
+                  flexDirection={'column'}
+                  maxWidth={500}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  margin='auto'
+                  padding={3}
+                  borderRadius={2}
+                  boxShadow={'4px 5px 11px #ccc'}
+                  sx={{ ':hover': { boxShadow: '10px 10px 20px #ccc' } }}
+                >
+                  <Typography
+                    marginBottom={1}
+                    marginTop={5}
+                    variant='h4'
+                    textAlign='center'
+                  >
+                    Login to your Account
+                  </Typography>
+
+                  <TextField
+                    type={'email'}
+                    margin='normal'
+                    id='email'
+                    ref={userRef}
+                    label='Enter your email'
+                    variant='outlined'
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    value={enteredValues.email}
+                    required
+                    sx={{
+                      width: '80%',
+                    }}
+                  />
+                  <TextField
+                    type={'password'}
+                    margin='normal'
+                    id='password'
+                    label='Password'
+                    variant='outlined'
+                    required
+                    onChange={(e) =>
+                      handleInputChange('password', e.target.value)
+                    }
+                    value={enteredValues.password}
+                    sx={{
+                      width: '80%',
+                    }}
+                  />
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    sx={{
+                      marginTop: 3,
+                      height: 50,
+                      backgroundColor: '#28282B',
+                      width: '80%',
+                      ':hover': { backgroundColor: '#0C0908' },
+                      fontWeight: 800,
+                      letterSpacing: '.3rem',
+                    }}
+                  >
+                    SIGN IN
+                  </Button>
+
+                  <Typography
+                    variant='h4'
+                    sx={{
+                      color: 'Grey',
+                      fontSize: 18,
+                      marginTop: 2,
+                      marginBottom: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    Login using &nbsp;{' '}
+                    <GoogleIcon
+                      fontSize='large'
+                      color='disabled'
+                      sx={{
+                        color: '#DB4437',
+                        marginRight: 1,
+                        ':hover': { color: 'darkred' },
+                      }}
+                    />
+                    <FacebookRoundedIcon
+                      fontSize='large'
+                      color='disabled'
+                      sx={{
+                        color: '#4267B2 ',
+                        ':hover': { color: 'darkblue' },
+                      }}
+                    />
+                  </Typography>
+
+                  <Typography
+                    marginTop={1}
+                    marginBottom={1}
+                    variant='p'
+                    textAlign='center'
+                    fontStyle={'oblique'}
+                    color='primary'
+                  >
+                    New user? Create an account
+                  </Typography>
+                  <Button
+                    variant='standard'
+                    sx={{
+                      borderRadius: 3,
+                      backgroundColor: 'white',
+                      color: 'black',
+                      textDecoration: 'underline',
+                      fontWeight: 'bold',
+                      marginBottom: 5,
+                    }}
+                    onClick={handleSignupClick}
+                  >
+                    Sign Up
+                  </Button>
+                </Box>
+              </form>
+            </section>
+          )}
+        </section>
+      </Box>
     </div>
   );
 };
