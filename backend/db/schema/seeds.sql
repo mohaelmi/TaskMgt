@@ -4,17 +4,17 @@ VALUES
     ( 'Moha', '$2b$10$NC.NL6nD/HsOX7iDqVLIT.8JTUedj18Qqvjb4UZLjkB4t7rCHImRu', 'moha@example.com'),
     ( 'Ony', '$2b$10$bllTfrew/CYO5n9CrEhB5.fMykRWQGUWBC1io8i/cjnAE29DuY9Cy', 'ony@example.com');
 
-INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, DueDate, EstimatedStartTime, EstimatedEndTime, ActualStartTime, ActualEndTime)
+INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
 VALUES
     
-    (1, 'Read a Book', 'Leisure', 'Read a novel for relaxation.', 'Todo', 'Low', '20:00:00', '19:00:00', '20:00:00', NULL, NULL),
-    (1, 'Learning New Skill', 'Education', 'Spend an hour learning something new.', 'In Progress', 'Medium', '11:00:00', '11:00:00', '12:00:00', '11:00:00', NULL),
+    (1, 'Read a Book', 'Leisure', 'Read a novel for relaxation.', 'Todo', 'Low',  '19:00:00', '30', NULL, NULL),
+    (1, 'Learning New Skill', 'Education', 'Spend an hour learning something new.', 'In Progress', 'Medium', '11:00:00', '25', NULL, NULL),
     
-    (2, 'Read a Book', 'Leisure', 'Read the new novel for at least an hour.', 'Todo',  'Medium', '15:00:00', '15:00:00', '16:00:00', NULL, NULL),
-    (2, 'Cooking Experiment', 'Cooking', 'Try a new recipe for dinner tonight.', 'Closed',  'Low', '21:00:00', '18:00:00', '19:00:00', '18:00:00', '18:00:00'),
+    (2, 'Read a Book', 'Leisure', 'Read the new novel for at least an hour.', 'Todo',  'Medium',  '15:00:00', '45', NULL, NULL),
+    (2, 'Cooking Experiment', 'Cooking', 'Try a new recipe for dinner tonight.', 'Closed',  'Low',  '18:00:00', '60', '18:00:00', '19:00:00'),
 
-    (3, 'Morning Jog', 'Fitness', 'Go for a 30-minute jog in the morning.', 'In Progress', 'Low', '07:00:00', '06:00:00', '06:30:00', '06:00:00', NULL),
-    (3, 'Learn Coding', 'Education', 'Practice coding for an hour.', 'Todo',  'High', '19:00:00', '14:00:00', '15:00:00', NULL, NULL);
+    (3, 'Morning Jog', 'Fitness', 'Go for a 30-minute jog in the morning.', 'In Progress', 'Low',  '06:00:00', '25', '06:00:00', NULL),
+    (3, 'Learn Coding', 'Education', 'Practice coding for an hour.', 'Todo',  'High', '14:00:00', '20', NULL, NULL);
     
 
 INSERT INTO notifications ( UserID, TaskID, NotificationType, NotificationDate, Message)
