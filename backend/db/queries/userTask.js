@@ -16,7 +16,6 @@ const getAllTasks = () => {
 };
 
 const createTask = (
-<<<<<<< HEAD
   userId,
   title,
   category,
@@ -27,9 +26,6 @@ const createTask = (
   duration,
   actualstarttime,
   actualendtime,
-=======
-  userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
->>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
 ) => {
   const query = `
     INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
@@ -37,7 +33,6 @@ const createTask = (
     RETURNING *;
   `;
   const values = [
-<<<<<<< HEAD
     userId,
     title,
     category,
@@ -48,9 +43,6 @@ const createTask = (
     duration,
     actualstarttime,
     actualendtime,
-=======
-    userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
->>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
   ];
 
   return db

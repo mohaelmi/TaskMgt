@@ -21,19 +21,11 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
       importancelevel: 'Medium',
       estimatedstarttime: '15:00:00',
       duration: '20',
-<<<<<<< HEAD
-      actualStartTime: null,
-      actualEndTime: null
-    }
-    
-    if(taskToEdit) {
-=======
       actualstarttime: null,
       actualendtime: null,
     };
 
     if (taskToEdit) {
->>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
       const updatedTask = {
         ...taskToEdit,
         title: title.value,
