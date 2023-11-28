@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
-const SignUp = ({userSignup}) => {
+const SignUp = ({ userSignup }) => {
   const navigate = useNavigate();
   const userRef = useRef();
   const emailRef = useRef();
@@ -27,7 +26,7 @@ const SignUp = ({userSignup}) => {
     e.preventDefault();
     console.log(enteredValues);
 
-    userSignup(enteredValues)
+    userSignup(enteredValues);
     setSuccess(true);
   };
 
@@ -43,7 +42,7 @@ const SignUp = ({userSignup}) => {
   };
 
   return (
-    <div style={{ paddingTop: '15%', paddingBottom: '5%' }}>
+    <div style={{ paddingTop: '8%', minHeight: '100vh' }}>
       <CssBaseline />
       {success ? (
         <section>
@@ -123,12 +122,14 @@ const SignUp = ({userSignup}) => {
           <Button
             type='submit'
             variant='contained'
+            fullWidth
             sx={{
               marginTop: 3,
               height: 50,
               backgroundColor: '#28282B',
-              width: '80%',
-              '&:hover': { backgroundColor: '#0C0908' },
+              borderRadius: 3,
+              // width: '80%',
+              '&:hover': { backgroundColor: '#1a1817' },
               fontWeight: 800,
               letterSpacing: '.3rem',
             }}

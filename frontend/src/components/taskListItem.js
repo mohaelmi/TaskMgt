@@ -1,6 +1,7 @@
 import React from 'react'
 import Taskheader from './Taskheader';
 import TaskCard from './TaskCard';
+import { useDrop } from 'react-dnd';
 
 function TaskListItem({
   status,
@@ -10,29 +11,44 @@ function TaskListItem({
   done,
   deleteTask,
   openModal,
-  showEditTask
+  showEditTask,
+  moveTask,
+  openTaskDetail
 }) {
+
+
+  const [{ isOver }, drop] = useDrop(() => ({ 
+    accept: "task",
+    drop: (item) => moveTask(item.id, status),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver()
+    })
+  }))
+
+  // console.log("is over", tasks);
+
+
   // console.log(status);
-  let text = 'todos';
+  let text = 'Todo';
   let tasksToMap = todos;
   let bg = "bg-slate-600";
 
-  if (status === 'progress') {
+  if (status === 'In Progress') {
     text = 'In Progress';
     tasksToMap = inprogress;
     bg = "bg-indigo-600"
   }
 
-  if (status === 'done') {
+  if (status === 'Closed') {
     text = 'Completed';
     tasksToMap = done;
     bg = "bg-green-600"
   }
  
   return (
-    <div className='w-64'>
+    <div ref={drop} className={`w-64 ${isOver ? "bg-slate-200 rounded-md p-2" : "opacity-100" }`}>
       <Taskheader text= {text}  count = {tasksToMap?.length} bg = {bg} />
-      {tasksToMap?.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} /> ) }
+      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} openTaskDetail={openTaskDetail} /> ) }
       {/* list */}
     </div>
   );

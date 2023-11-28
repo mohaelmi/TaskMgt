@@ -7,21 +7,21 @@ function TaskList(props) {
   const [todos, setTodos] = useState([]);
   const [progress, setProgress] = useState([]);
   const [done, setDone] = useState([]);
-  // console.log(props.tasks);
-
+  
   useEffect(() => {
     const tasksTodo = props.tasks?.filter((task) => task.status === 'Todo');
-    const tasksInProgress = props.tasks?.filter(
+    const tasksInProgress = props.tasks.filter(
       (task) => task.status === 'In Progress'
-    );
-    const closedTasks = props.tasks?.filter((task) => task.status === 'Closed');
+      );
+      // console.log(tasksInProgress);
+      const closedTasks = props.tasks?.filter((task) => task.status === 'Closed');
 
     setTodos(tasksTodo);
     setProgress(tasksInProgress);
     setDone(closedTasks);
   }, [props.tasks]);
 
-  const statuses = ['up_coming', 'progress', 'done'];
+  const statuses = ['Todo', 'In Progress', 'Closed'];
 
   // const renderTasks = () => {
   //   return statuses?.map((status, index) => (
@@ -47,6 +47,8 @@ function TaskList(props) {
           done={done}
           deleteTask={props.deleteTask}
           openModal={props.openModal}
+          moveTask={props.moveTask}
+          openTaskDetail={props.openTaskDetail}
           // showEditTask = {props.showEditTask} // maybe use it post edited task
         />
       ))}

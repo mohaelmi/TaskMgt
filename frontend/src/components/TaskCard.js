@@ -1,12 +1,36 @@
 import React from "react";
+import { useDrag } from "react-dnd";
 
-function TaskCard({ task, tasks, deleteTask, openModel, showEditComponent }) {
+
+function TaskCard({ task, tasks, deleteTask, openModel, showEditComponent, openTaskDetail }) {
+  // console.log(typeof task.actualstarttime);
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "task",
+    item: {id: task.id},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }))
+
+  // console.log(isDragging);
+
 
   return (
-    <div className={`relative pb-8 p-4 mt-8 shadow-md rounded-md cursor-grab `}>
+    <div ref={drag}  className={`relative pb-8 p-4 mt-8 shadow-md rounded-md cursor-grab ${isDragging ? "opacity-0" : "opacity-100"} `}>
+      <div onClick={() => openTaskDetail(task)} className="w-40 cursor-default" >
       <p className="font-bold">{task.title}</p>
-      <p>{task.description}</p>
-      <p className="absolute bottom-20 right-1 w-16 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importancelevel} </p>
+      {/* <p>{task.description}</p> */}
+      <p className="absolute bottom-10 right-1 w-16 flex items-center justify-center bg-slate-500 rounded-full text-white">{task.importancelevel} </p>
+      </div>
+      {/* <p>actual start time: {task.actualstarttime}</p>
+      <p>acutal start time: {task.actualendtime}</p>
+      <p>category: {task.category}</p>
+      <p>duadate: {task.duedate}</p>
+      <p>estimated Start Time: {task.estimatedstarttime}</p>
+      <p>estimated End Time: {task.estimatedendtime}</p> */}
+
+
       <button
         onClick={deleteTask}
         className="absolute bottom-1 right-1 text-slate-500"

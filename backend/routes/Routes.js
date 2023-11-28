@@ -52,7 +52,7 @@ router.post('/new', ensureAuthenticated, (req, res) => {
 router.post('/delete', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // get logged-in user ID
   const taskId = req.body.taskId; // get task ID from the request body
-
+  console.log(taskId);
   if (!taskId) {
     return res.status(400).json({ error: 'Task ID is missing in the request body' });
   }
