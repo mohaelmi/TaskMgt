@@ -175,7 +175,7 @@ export const useApplicationData = () => {
 
   const handleDeleteTask = (id) => {
     axios
-      .get(`/api/tasks/delete/${id}`)
+      .post(`/api/tasks/delete/`, {taskId: id})
       .then((res) => {
         // dispatch({ type: ACTIONS.DELETE_TASK, payload: res.data.tasks });
         fetchTasks();
