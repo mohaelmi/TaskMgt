@@ -64,7 +64,7 @@ const NavBar = ({
               <Tab
                 label='Summary'
                 component={RouterLink}
-                to='/analytics'
+                to='/summary'
                 textColor='inherit'
                 sx={{
                   textTransform: 'none',
@@ -185,7 +185,7 @@ const NavBar = ({
           element={!user ? <Login userLogin={userLogin} /> : null}
         />
         <Route
-          path='/analytics'
+          path='/summary'
           element={
             <Analytics
               categoryCounts={taskCategoryPie}

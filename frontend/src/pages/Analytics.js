@@ -8,7 +8,7 @@ const Analytics = (props) => {
     <div
       style={{
         margin: ' 2rem auto',
-        padding: '2rem',
+        padding: '3rem',
         maxWidth: '1200px',
         display: 'grid',
         placeItems: 'center',
