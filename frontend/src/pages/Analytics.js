@@ -7,11 +7,12 @@ const Analytics = (props) => {
   return (
     <div
       style={{
-        margin: ' auto',
+        margin: ' 2rem auto',
+        padding: '2rem',
         maxWidth: '1200px',
         display: 'grid',
         placeItems: 'center',
-        minHeight: '50vh',
+        // minHeight: '50vh',
       }}
     >
       <Grid container spacing={7} justifyContent='center'>
