@@ -16,7 +16,20 @@ const getAllTasks = () => {
 };
 
 const createTask = (
+<<<<<<< HEAD
+  userId,
+  title,
+  category,
+  description,
+  status,
+  importancelevel,
+  estimatedstarttime,
+  duration,
+  actualstarttime,
+  actualendtime,
+=======
   userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
+>>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
 ) => {
   const query = `
     INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
@@ -24,7 +37,20 @@ const createTask = (
     RETURNING *;
   `;
   const values = [
+<<<<<<< HEAD
+    userId,
+    title,
+    category,
+    description,
+    status,
+    importancelevel,
+    estimatedstarttime,
+    duration,
+    actualstarttime,
+    actualendtime,
+=======
     userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstartTime, actualendtime
+>>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
   ];
 
   return db
@@ -49,11 +75,11 @@ const createTask = (
 const setActualStartTime = (startTime, taskId) => {
   const query = `
     UPDATE tasks
-    SET ActualStartTime = $1
-    WHERE id = $2
+    SET ActualStartTime = $1 ,Status = $2,
+    WHERE id = $3
     RETURNING *;
   `;
-  const values = [startTime, taskId];
+  const values = [startTime,'In Progress', taskId];
 
   return db
     .query(query, values)
@@ -108,20 +134,18 @@ const updateTask = (task) => {
       Category = $2,
       Description = $3,
       Status = $4,
-      ImportanceLevel = $5,
+      ImportanceLevel=$5,
       EstimatedStartTime = $6,
       duration = $7,
       ActualStartTime = $8,
       ActualEndTime = $9
-    WHERE id = $10 
+      WHERE id = $10
     RETURNING *;
     `, [
-      // userId, title, category, description, status, importanceLevel, estimatedstartTime, duration,  actualStartTime, actualEndTime
       task.title,
       task.category,
       task.description,
       task.status,
-      // task.dueDate,
       task.importancelevel,
       task.estimatedstarttime,
       task.duration,
@@ -138,11 +162,11 @@ const updateTask = (task) => {
 const setActualEndTime = (endTime, taskId) => {
   const query = `
     UPDATE tasks
-    SET ActualEndTime = $1
-    WHERE id = $2
+    SET ActualEndTime = $1, Status = $2,
+    WHERE id = $3
     RETURNING *;
   `;
-  const values = [endTime, taskId];
+  const values = [endTime, 'closed',taskId];
 
   return db
     .query(query, values)
