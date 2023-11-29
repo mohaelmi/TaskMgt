@@ -74,7 +74,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               <Button
                 variant='text'
                 textColor='inherit'
-                onClick={() => openModal(true)}
+                onClick={() => openModal()}
                 sx={{
                   color: '#656565',
                   textTransform: 'none',
@@ -143,7 +143,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                   marginRight: '5px',
                 }}
               >
-                Welcome: {user.username}
+              Welcome: {user.username}
               </Typography>
               <Avatar
                 variant='solid'

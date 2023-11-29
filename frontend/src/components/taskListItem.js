@@ -12,7 +12,8 @@ function TaskListItem({
   deleteTask,
   openModal,
   showEditTask,
-  moveTask
+  moveTask,
+  openTaskDetail
 }) {
 
 
@@ -47,7 +48,7 @@ function TaskListItem({
   return (
     <div ref={drop} className={`w-64 ${isOver ? "bg-slate-200 rounded-md p-2" : "opacity-100" }`}>
       <Taskheader text= {text}  count = {tasksToMap?.length} bg = {bg} />
-      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} /> ) }
+      {tasksToMap.length > 0 && tasksToMap.map(task => <TaskCard key = {task.id } task = {task} tasks = {tasks} deleteTask = {()=> deleteTask(task.id)} openModel ={() => openModal(task)} showEditTask ={()=> showEditTask(task)} openTaskDetail={openTaskDetail} /> ) }
       {/* list */}
     </div>
   );
