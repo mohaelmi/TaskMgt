@@ -18,14 +18,22 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
       category: 'Leisure',
       description: description.value,
       status: 'Todo',
-      importanceLevel: 'Medium',
-      estimatedStartTime: '15:00:00',
+      importancelevel: 'Medium',
+      estimatedstarttime: '15:00:00',
       duration: '20',
+<<<<<<< HEAD
       actualStartTime: null,
       actualEndTime: null
     }
     
     if(taskToEdit) {
+=======
+      actualstarttime: null,
+      actualendtime: null,
+    };
+
+    if (taskToEdit) {
+>>>>>>> 86a63c494da8b753bc5fb830e93c003d201d9280
       const updatedTask = {
         ...taskToEdit,
         title: title.value,
@@ -119,7 +127,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                   id='task_start'
                   className=' border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1'
                   name='task_start'
-                  value={task.estimatedstarttime}
+                  defaultValue={task.estimatedstarttime}
                   // onChange={(e) =>
                   //   setTask({ ...task, estimatedStartTime: e.target.value })
                   // }
