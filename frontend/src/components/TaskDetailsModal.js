@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 
 function TaskDetailsModal({closeTaskDetails, taskDetails}) {
   //  description: {task.description}
@@ -14,9 +15,11 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
     let now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
   }
-  console.log(getDateFromHours(taskDetails.estimatedstarttime));
+//  console.log(getDateFromHours(taskDetails.estimatedstarttime));
 
-  console.log("task details:-----", typeof taskDetails.estimatedstarttime);
+
+
+ const start = moment(getDateFromHours(taskDetails.estimatedstarttime), "HHMMSS").fromNow();
 
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -61,7 +64,7 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
              
             
                 <label className="px-8 p-5 text-md font-bold">
-                  <p className="font-light">Start time:</p> {taskDetails.estimatedstarttime}
+                  <p className="font-light">Start time:</p> {start}
                 </label>
                 
 

@@ -14,7 +14,9 @@ const ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
   USER_LOGOUT: "USER_LOGOUT",
   MOVE_TASK: "MOVE_TASK",
-  SHOW_MODAL_DETAIL_TASK: "SHOW_MODAL_DETAIL_TASK"
+  SHOW_MODAL_DETAIL_TASK: "SHOW_MODAL_DETAIL_TASK",
+  SET_CATEGORY_COUNTS: "SET_CATEGORY_COUNTS", //piechart1
+  SET_STATUS_COUNTS: "SET_STATUS_COUNTS",//piechart1
 };
 
 const reducer = (state, action) => {
@@ -116,13 +118,44 @@ const reducer = (state, action) => {
         ...state,
         taskData: tasks,
       };
-
+      //pie chart 1
+      case ACTIONS.SET_CATEGORY_COUNTS:
+        return {
+          ...state,
+          taskCategoryPie: action.payload,
+        };
+      //pie chart 2
+      case ACTIONS.SET_STATUS_COUNTS:
+        return {
+          ...state,
+          taskStatusPie: action.payload,
+        };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
       );
   }
 };
+//function to calculate category counts(pie chart 1)
+const calculateCategoryCounts = (tasks) => {
+  const categoryCounts = {};
+  tasks.forEach((task) => {
+    categoryCounts[task.category] = (categoryCounts[task.category] || 0) + 1;
+  });
+  return categoryCounts;
+};
+
+//function to calculate status counts(pie chart 2)
+const calculateStatusCounts = (tasks) => {
+  const statusCounts = {};
+  tasks.forEach((task) => {
+    statusCounts[task.status] = (statusCounts[task.status] || 0) + 1;
+  });
+  return statusCounts;
+};
+
+
+
 
 export const useApplicationData = () => {
   const userInfo = localStorage.getItem("user");
@@ -136,6 +169,8 @@ export const useApplicationData = () => {
     taskData: [],
     taskToEdit: {},
     taskDetails: {},
+    taskStatusPie:{}, //pie 2
+    taskCategoryPie:{}, //pie 1
     showModal: false,
     showCreateModal: false,
     showDetailsModal: false,
@@ -151,8 +186,16 @@ export const useApplicationData = () => {
         console.log("data related to user ", res.data);
         if (res.data.length < 1) {
           navigate("/login");
+        } else {
+          dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
+
+          // calculate counts for categories and statuses
+          const categoryCounts = calculateCategoryCounts(res.data);
+          const statusCounts = calculateStatusCounts(res.data);
+
+          dispatch({ type: ACTIONS.SET_CATEGORY_COUNTS, payload: categoryCounts });
+          dispatch({ type: ACTIONS.SET_STATUS_COUNTS, payload: statusCounts });
         }
-        dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
       })
       .catch((error) => console.log(error));
   };

@@ -32,15 +32,15 @@ router.post('/new', ensureAuthenticated, (req, res) => {
     category,
     description,
     status,
-    importanceLevel,
-    dueDate,
-    estimatedStartTime,
-    estimatedEndTime,
-    actualStartTime,
-    actualEndTime,
+    importancelevel,
+    estimatedstarttime,
+    duration,
+    actualstarttime,
+    actualendtime,
   } = req.body;
 
-  userQueries.createTask(userId, title, category, description, status, importanceLevel, dueDate, estimatedStartTime, estimatedEndTime, actualStartTime, actualEndTime)
+  // UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime
+  userQueries.createTask(userId, title, category, description, status, importancelevel, estimatedstarttime, duration,  actualstarttime, actualendtime)
     .then(() => {
       res.json({ message: 'Task added successfully' });
     })
@@ -115,7 +115,8 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
         res.json({ message: 'Task updated successfully', updatedTaskDetails });
       })
       .catch((error) => {
-        res.status(500).json({ error: 'Error updating task', details: error });
+        console.log(error);
+        // res.status(500).json({ error: 'Error updating task', details: error });
       });
 });
 

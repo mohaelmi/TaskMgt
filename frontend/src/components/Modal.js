@@ -17,12 +17,11 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
       category: 'Leisure',
       description: description.value,
       status: 'Todo',
-      importanceLevel: 'Medium',
-      dueDate: '20:00:00',
-      estimatedStartTime: '15:00:00',
-      estimatedEndTime: '16:00:00',
-      actualStartTime: null,
-      actualEndTime: null,
+      importancelevel: 'Medium',
+      estimatedstarttime: '15:00:00',
+      duration: '20',
+      actualstarttime: null,
+      actualendtime: null,
     };
 
     if (taskToEdit) {
@@ -30,7 +29,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
         ...taskToEdit,
         title: title.value,
         description: description.value,
-        estimatedStartTime: task_start.value,
+        estimatedstarttime: task_start.value,
       };
       console.log('## taskToEdit', updatedTask);
       callback(updatedTask);
@@ -112,13 +111,12 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                 >
                   Start time
                 </label>
-
                 <input
                   type='time'
                   id='task_start'
                   className=' border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1'
                   name='task_start'
-                  value={task.estimatedStartTime}
+                  defaultValue={task.estimatedstarttime}
                   // onChange={(e) =>
                   //   setTask({ ...task, estimatedStartTime: e.target.value })
                   // }

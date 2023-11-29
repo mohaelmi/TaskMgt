@@ -6,7 +6,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Toaster } from 'react-hot-toast';
 import { useApplicationData } from './hooks/useApplicationData';
 import TaskList from './components/TaskList';
-import NewTask from './components/NewTask';
+import CategoryPiechart from './components/CategoryPiechart';
+import StatusPiechart from './components/StatusPiechart';
 import EditTask from './components/EditTask';
 import CreateTask from './components/CreateTask';
 import TaskDetailsModal from './components/TaskDetailsModal';
@@ -26,7 +27,8 @@ function App() {
     moveTask,
     detailsToggleModal
   ] = useApplicationData();
-
+  //geting data for pie charts
+  const { taskCategoryPie, taskStatusPie } = state;
   // console.log("## show model", state.showCreateModal)
   // console.log("## user", state.taskData);
   // console.log(Boolean(state.user));
@@ -53,7 +55,11 @@ function App() {
               createTask={createTask}
             />
           )}
-
+          {/* pie chartzz */}
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <CategoryPiechart categoryCounts={taskCategoryPie} />
+            <StatusPiechart statusCounts={taskStatusPie} />
+          </div>
           <TaskList
             tasks={state.taskData}
             deleteTask={handleDeleteTask}
