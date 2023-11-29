@@ -42,10 +42,6 @@ const StatusChart = () => {
       </Typography>
       <Chart
         chartType='PieChart'
-        // maxWidth={'900px'}
-        // maxHeight={'500px'}
-        // margin={'auto'}
-        // alignItems={'center'}
         loader={<div>Loading Chart</div>}
         data={chartData}
         options={chartOptions}

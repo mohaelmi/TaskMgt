@@ -29,8 +29,6 @@ const DailyChart = () => {
         My Daily Activities
       </Typography>
       <Chart
-        // maxWidth={'1200PX'}
-        // maxHeigh={'700px'}
         chartType='PieChart'
         loader={<div>Loading Chart</div>}
         data={[

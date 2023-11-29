@@ -74,7 +74,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
             <form onSubmit={handleSubmit} className='flex flex-col gap-5 mt-10'>
               <div className=''>
                 <label
-                  className='text-gray-700 text-sm font-bold mb-2 mr-16'
+                  className='text-white text-sm font-bold mb-2 mr-16'
                   htmlFor='title'
                 >
                   Title
@@ -90,7 +90,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
               </div>
               <div>
                 <label
-                  className='text-gray-700 text-sm font-bold mb-2 mr-5'
+                  className='text-white text-sm font-bold mb-2 mr-6'
                   htmlFor='description'
                 >
                   Description
@@ -107,7 +107,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
               </div>
               <div>
                 <label
-                  className='text-gray-700 text-sm font-bold mb-2 mr-6'
+                  className='text-white text-sm font-bold mb-2 mr-7'
                   htmlFor='start_level'
                 >
                   Start time
@@ -127,7 +127,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
               <div className='flex items-center justify-end mr-3'>
                 <button
                   type='submit'
-                  className='bg-cyan-500 rounded-md px-4 h-12 text-white w-4/12 '
+                  className='bg-blue-500  rounded-md px-4 h-12 text-white w-4/12'
                 >
                   {text}
                 </button>
