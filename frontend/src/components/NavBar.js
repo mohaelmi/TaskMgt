@@ -7,9 +7,15 @@ import Login from '../pages/Login';
 import Analytics from '../pages/Analytics';
 import Avatar from '@mui/material/Avatar';
 
-// ... (imports remain the same)
-
-const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
+const NavBar = ({
+  openModal,
+  userLogin,
+  userLogOut,
+  userSignup,
+  user,
+  taskCategoryPie,
+  taskStatusPie,
+}) => {
   return (
     <React.Fragment>
       <AppBar
@@ -58,7 +64,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
               <Tab
                 label='Summary'
                 component={RouterLink}
-                to='/analytics'
+                to='/summary'
                 textColor='inherit'
                 sx={{
                   textTransform: 'none',
@@ -143,7 +149,7 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
                   marginRight: '5px',
                 }}
               >
-              Welcome: {user.username}
+                Welcome: {user.username}
               </Typography>
               <Avatar
                 variant='solid'
@@ -178,7 +184,15 @@ const NavBar = ({ openModal, userLogin, userLogOut, userSignup, user }) => {
           path='/login'
           element={!user ? <Login userLogin={userLogin} /> : null}
         />
-        <Route path='/analytics' element={<Analytics />} />
+        <Route
+          path='/summary'
+          element={
+            <Analytics
+              categoryCounts={taskCategoryPie}
+              statusCounts={taskStatusPie}
+            />
+          }
+        />
 
         {/* <Route path='*' element={<Navigate to='/' />} /> */}
       </Routes>

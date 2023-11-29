@@ -1,46 +1,46 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import DailyChart from '../components/DailyChart';
-import StatusChart from '../components/StatusChart';
+import CategoryPieChart from '../components/CategoryPieChart';
+import StatusPieChart from '../components/StatusPieChart';
 
-const Analytics = () => {
+const Analytics = (props) => {
   return (
     <div
       style={{
-        marginTop: '2em',
-        paddingTop: '3em',
-        margin: ' auto',
+        margin: ' 2rem auto',
+        padding: '3rem',
         maxWidth: '1200px',
         display: 'grid',
         placeItems: 'center',
+        // minHeight: '50vh',
       }}
     >
       <Grid container spacing={7} justifyContent='center'>
         <Grid item xs={10} md={6}>
           <Paper
             style={{
-              padding: '5px',
+              padding: '3px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               backgroundColor: '#f0ecf4',
             }}
           >
-            <DailyChart />
+            <CategoryPieChart categoryCounts={props.categoryCounts} />
           </Paper>
         </Grid>
 
         <Grid item xs={10} md={6}>
           <Paper
             style={{
-              padding: '5px',
+              padding: '3px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               backgroundColor: '#f0ecf4',
             }}
           >
-            <StatusChart />
+            <StatusPieChart statusCounts={props.statusCounts} />
           </Paper>
         </Grid>
       </Grid>
