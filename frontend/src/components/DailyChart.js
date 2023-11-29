@@ -1,8 +1,20 @@
 import React from 'react';
-import { Paper, Typography, Grid } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { Chart } from 'react-google-charts';
 
-const DailyChart = () => {
+const DailyChart = ({ categoryCounts }) => {
+  const data = [['Category', 'Count']];
+  console.log(categoryCounts);
+  for (const category in categoryCounts) {
+    data.push([category, categoryCounts[category]]);
+  }
+
+  const options = {
+    // title: 'Tasks by Category',
+    pieHole: 0.4,
+    is3D: true,
+    chartArea: { width: '100%', height: '100%' },
+  };
   return (
     <Paper
       sx={{
@@ -26,22 +38,13 @@ const DailyChart = () => {
           width: '100%',
         }}
       >
-        My Daily Activities
+        Tasks by Category
       </Typography>
       <Chart
-        chartType='PieChart'
         loader={<div>Loading Chart</div>}
-        data={[
-          ['Task', 'Hours per Day'],
-          ['Work', 8],
-          ['Leisure', 2],
-          ['Reading', 2],
-        ]}
-        options={{
-          chartArea: { width: '100%', height: '100%' },
-          //   title: 'My Daily Activities',
-        }}
-        rootProps={{ 'data-testid': '1' }}
+        chartType='PieChart'
+        data={data}
+        options={options}
       />
     </Paper>
   );
