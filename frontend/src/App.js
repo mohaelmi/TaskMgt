@@ -6,8 +6,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Toaster } from 'react-hot-toast';
 import { useApplicationData } from './hooks/useApplicationData';
 import TaskList from './components/TaskList';
-import CategoryPiechart from './components/CategoryPiechart';
-import StatusPiechart from './components/StatusPiechart';
 import EditTask from './components/EditTask';
 import CreateTask from './components/CreateTask';
 import TaskDetailsModal from './components/TaskDetailsModal';
@@ -25,7 +23,7 @@ function App() {
     userLogOut,
     userSignup,
     moveTask,
-    detailsToggleModal
+    detailsToggleModal,
   ] = useApplicationData();
   //geting data for pie charts
   const { taskCategoryPie, taskStatusPie } = state;
@@ -42,10 +40,18 @@ function App() {
         userLogOut={userLogOut}
         userSignup={userSignup}
         user={state.user}
+        taskCategoryPie={taskCategoryPie}
+        taskStatusPie={taskStatusPie}
       />
+
       {state.user ? (
         <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
-          {state.showDetailsModal && <TaskDetailsModal closeTaskDetails={detailsToggleModal} taskDetails={state.taskDetails} /> }
+          {state.showDetailsModal && (
+            <TaskDetailsModal
+              closeTaskDetails={detailsToggleModal}
+              taskDetails={state.taskDetails}
+            />
+          )}
           {/* <NewTask createTask={createTask} /> */}
           {/* <p>tasklist is below</p> */}
           {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
@@ -55,11 +61,6 @@ function App() {
               createTask={createTask}
             />
           )}
-          {/* pie chartzz */}
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <CategoryPiechart categoryCounts={taskCategoryPie} />
-            <StatusPiechart statusCounts={taskStatusPie} />
-          </div>
           <TaskList
             tasks={state.taskData}
             deleteTask={handleDeleteTask}
