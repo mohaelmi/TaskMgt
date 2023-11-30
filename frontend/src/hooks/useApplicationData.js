@@ -298,8 +298,15 @@ export const useApplicationData = () => {
       .catch((error) => console.log(error));
   };
 
-  const moveTask = (id, status) => {
-
+  const moveTask = (id, prevStatus, status) => {
+    console.log('prev status', prevStatus);
+    console.log('status',  status);
+    if(prevStatus === 'Todo' && status === 'Closed') {
+      toast.error('please start working on the task before you finish it or just delete it', { icon: "😕" })
+      return;
+    }
+    if(prevStatus !== status) {
+      console.log('sdddddddddddddddd');
     if(status === 'In Progress') {
       axios
       .post("/api/tasks/setStartTime", {taskId: id,  status})
@@ -329,7 +336,7 @@ export const useApplicationData = () => {
       })
       .catch((error) => console.log(error));
     }
- 
+  }
 
   };
 
