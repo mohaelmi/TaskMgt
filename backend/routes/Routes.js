@@ -123,8 +123,9 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
 
 router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const {startTime, taskId } = req.body;
-
+  const {taskId } = req.body;
+  const currentTime = new Date().toLocaleTimeString([], { hour12: false }); // Get current time in HH:mm:ss format without AM/PM
+  const startTime = currentTime; // updating task's startTime with current time
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
   if (!task) {
@@ -144,9 +145,11 @@ router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
 
 router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const { taskId,endTime} = req.body;
-
+  const {taskId} = req.body;
+  const currentTime = new Date().toLocaleTimeString([], { hour12: false }); // Get current time in HH:mm:ss format without AM/PM
+  const endTime = currentTime; // updating task's endTime with current time
   const task = await userQueries.getTaskById(taskId); // Fetch task details
+
 
   if (!task) {
     return res.status(404).json({ error: 'Task not found' });
