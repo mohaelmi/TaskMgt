@@ -13,6 +13,7 @@ const Analytics = (props) => {
         maxWidth: '1200px',
         display: 'grid',
         placeItems: 'center',
+        
         // minHeight: '50vh',
       }}
     >

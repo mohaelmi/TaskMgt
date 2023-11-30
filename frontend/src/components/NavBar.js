@@ -6,6 +6,8 @@ import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import Analytics from '../pages/Analytics';
 import Avatar from '@mui/material/Avatar';
+import { Notifications } from './Notifications';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const NavBar = ({
   openModal,
@@ -15,6 +17,8 @@ const NavBar = ({
   user,
   taskCategoryPie,
   taskStatusPie,
+  toggleNotification,
+  notificationState,
   tasktimelineData
 }) => {
   return (
@@ -45,10 +49,10 @@ const NavBar = ({
             }}
           >
             <RouterLink
-              to='/login'
+              to='/'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              TaskMgt
+              Home
             </RouterLink>
           </Typography>
           {user ? (
@@ -61,6 +65,7 @@ const NavBar = ({
                 paddingLeft: 'auto',
               }}
             >
+              <Notifications notificationState={notificationState} toggleNotification={toggleNotification}/>
               {/* <div> */}
               <Tab
                 label='Summary'
@@ -142,7 +147,7 @@ const NavBar = ({
             >
               <Typography
                 sx={{
-                  color: '#5474d2',
+                  color: 'inherit',
                   fontWeight: 'bold',
                   textTransform: 'none',
                   marginTop: '4px',
@@ -150,7 +155,7 @@ const NavBar = ({
                   marginRight: '5px',
                 }}
               >
-                Welcome: {user.username}
+              {user.username}
               </Typography>
               <Avatar
                 variant='solid'
