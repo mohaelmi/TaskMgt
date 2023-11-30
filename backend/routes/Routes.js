@@ -123,10 +123,11 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
 
 router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const {startTime, taskId } = req.body;
+  const {taskId, status } = req.body;
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
+  console.log('ssssssssssssss', taskId, status);
   if (!task) {
     return res.status(404).json({ error: 'Task not found' });
   }
@@ -137,14 +138,14 @@ router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   }
 
     // Proceed to update the start time as it's the user's task
-    await userQueries.setActualStartTime(startTime, taskId);
-    res.json({ message: 'Actual start time updated successfully' });
+    const updatedTask = await userQueries.setActualStartTime(taskId, status);
+    res.json({ message: 'Actual start time updated successfully', task: updatedTask });
   
 });
 
 router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const { taskId,endTime} = req.body;
+  const {taskId, status } = req.body;
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
@@ -158,9 +159,27 @@ router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
   }
 
   // Proceed to update the end time as it's the user's task
-  await userQueries.setActualEndTime(endTime, taskId);
+  await userQueries.setActualEndTime(taskId, status);
   res.json({ message: 'Actual End time updated successfully' });
 });
+
+
+
+router.post('/startAgain',ensureAuthenticated,  (req, res) => {
+  const {taskId, status } = req.body;
+
+
+    userQueries.setBeginning(taskId, status)
+    .then((task) => {
+      console.log("-------------", task);
+          res.json({ message: 'Task set initials successfully'});
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(500).json({ error: 'Error setting up task into inital', error });
+        });
+
+  })
 
 
 

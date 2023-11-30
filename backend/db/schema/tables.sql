@@ -19,7 +19,7 @@ CREATE TABLE tasks (
     Status VARCHAR(20),
     ImportanceLevel VARCHAR(20),
     EstimatedStartTime TIME,
-    duration TIME,
+    duration VARCHAR(20),
     ActualStartTime TIME,
     ActualEndTime TIME,
     FOREIGN KEY (UserID) REFERENCES users(id) ON DELETE CASCADE

@@ -13,7 +13,7 @@ const ACTIONS = {
   EDIT_TASK: "EDIT_TASK",
   USER_LOGIN: "USER_LOGIN",
   USER_LOGOUT: "USER_LOGOUT",
-  MOVE_TASK: "MOVE_TASK",
+  MOVE_TASK_INTO_PROGRESS: "MOVE_TASK_INTO_PROGRESS",
   SHOW_MODAL_DETAIL_TASK: "SHOW_MODAL_DETAIL_TASK",
   SET_CATEGORY_COUNTS: "SET_CATEGORY_COUNTS", //piechart1
   SET_STATUS_COUNTS: "SET_STATUS_COUNTS",//piechart1
@@ -103,21 +103,17 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
-    case ACTIONS.MOVE_TASK:
-      const tasks = state.taskData.map((task) => {
-        if (task.id === action.payload.id) {
-          return {...task, status: action.payload.status}
-        }
+    // case ACTIONS.MOVE_TASK_INTO_PROGRESS:
+      
+    // const filteredTasks = state.taskData.filter(task => task.id !== action.payload.id)
+    // console.log(filteredTasks);
+    // const newTaskData = [...filteredTasks, {...action.payload} ]
 
-        return task;
-      });
 
-      console.log(tasks);
-
-      return {
-        ...state,
-        taskData: tasks,
-      };
+    //   return {
+    //     ...state,
+    //     taskData: newTaskData,
+    //   };
       //pie chart 1
       case ACTIONS.SET_CATEGORY_COUNTS:
         return {
@@ -188,6 +184,7 @@ export const useApplicationData = () => {
           navigate("/login");
         } else {
           dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
+          
 
           // calculate counts for categories and statuses
           const categoryCounts = calculateCategoryCounts(res.data);
@@ -271,7 +268,7 @@ export const useApplicationData = () => {
 
       .catch((error) => {
         navigate("/login");
-        toast.error(error.response.data.message, { duration: 5000 });
+        toast.error(error.response.data.message, { duration: 3000 });
         console.log(error.response.data);
       });
   };
@@ -302,15 +299,38 @@ export const useApplicationData = () => {
   };
 
   const moveTask = (id, status) => {
-    dispatch({ type: ACTIONS.MOVE_TASK, payload: { id, status } });
-    // tasks.map( (task) => {
-    //   if(task.id === id) {
-    //     return task.status = status
-    //   }
 
-    //   return task
-    // })
-    console.log(id, status);
+    if(status === 'In Progress') {
+      axios
+      .post("/api/tasks/setStartTime", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.task);
+        // dispatch({ type: ACTIONS.MOVE_TASK_INTO_PROGRESS, payload: res.data.task });
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }else if(status === 'Closed') {
+      axios
+      .post("/api/tasks/setEndTime", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.message);
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }else {
+      axios
+      .post("/api/tasks/startAgain", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.message);
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }
+ 
+
   };
 
   return [

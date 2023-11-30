@@ -64,19 +64,27 @@ const createTask = (
 //     console.error('Error creating task:', error);
 //   });
 
-const setActualStartTime = (startTime, taskId) => {
+const setActualStartTime = (taskId, status) => {
+let date = new Date()
+let hours = date.getHours();
+let minutes = date.getMinutes();
+let seconds = date.getSeconds();
+let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
+console.log("time", time);
   const query = `
     UPDATE tasks
-    SET ActualStartTime = $1 ,Status = $2,
-    WHERE id = $3
+    SET Status = $2,
+    ActualStartTime = $3
+    WHERE id = $1
     RETURNING *;
   `;
-  const values = [startTime,'In Progress', taskId];
+  const values = [taskId, status, time];
 
   return db
     .query(query, values)
     .then((result) => result.rows[0])
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       throw new Error('Error setting actual start time');
     });
 };
@@ -151,19 +159,25 @@ const updateTask = (task) => {
     });
 };
 
-const setActualEndTime = (endTime, taskId) => {
+const setActualEndTime = (taskId, status) => {
+  let date = new Date()
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let seconds = date.getSeconds();
+  let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
   const query = `
     UPDATE tasks
-    SET ActualEndTime = $1, Status = $2,
+    SET ActualEndTime = $2, Status = $1
     WHERE id = $3
     RETURNING *;
   `;
-  const values = [endTime, 'closed',taskId];
+  const values = [status, time, taskId];
 
   return db
     .query(query, values)
     .then((result) => result.rows[0])
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       throw new Error('Error setting actual end time');
     });
 };
@@ -324,6 +338,26 @@ const getUserByEmail = (email) => {
 //   }
 // };
 
+
+const setBeginning = (taskId, status) => {
+
+  const query = `
+    UPDATE tasks
+    SET ActualStartTime = $1, ActualEndTime = $2, status = $3
+    WHERE id = $4
+    RETURNING *;
+  `;
+  const values = [null, null, status, taskId];
+
+  return db
+    .query(query, values)
+    .then((result) => result.rows[0])
+    .catch((error) => {
+      console.log(error);
+      throw new Error('Error setting back to initail');
+    });
+};
+
 module.exports = {
   getAllTasks,
   createTask,
@@ -337,5 +371,6 @@ module.exports = {
   getUserByEmail,
   getUserById,
   getTaskById,
+  setBeginning
   // hashExistingUsersPasswords,
 };
