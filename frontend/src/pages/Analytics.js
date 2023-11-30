@@ -1,9 +1,10 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import CategoryPieChart from '../components/CategoryPieChart';
-import StatusPieChart from '../components/StatusPieChart';
-
+import CategoryPieChart from '../components/CategoryPiechart';
+import StatusPieChart from '../components/StatusPiechart';
+import TaskTimeline from '../components/Timeline';
 const Analytics = (props) => {
+  console.log('analytics',props.tasktimelineData);
   return (
     <div
       style={{
@@ -41,9 +42,11 @@ const Analytics = (props) => {
             }}
           >
             <StatusPieChart statusCounts={props.statusCounts} />
+            
           </Paper>
         </Grid>
       </Grid>
+      <TaskTimeline tasks={props.tasktimelineData} />
     </div>
   );
 };
