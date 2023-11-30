@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import CategoryPieChart from '../components/CategoryPieChart';
-import StatusPieChart from '../components/StatusPieChart';
+import CategoryPieChart from '../components/CategoryPiechart';
+import StatusPieChart from '../components/StatusPiechart';
 
 const Analytics = (props) => {
   return (
