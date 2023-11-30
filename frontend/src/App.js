@@ -30,7 +30,6 @@ function App() {
   // console.log("## show model", state.showCreateModal)
   // console.log("## user", state.taskData);
   // console.log(Boolean(state.user));
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Toaster />
