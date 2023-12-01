@@ -262,6 +262,7 @@ export const useApplicationData = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         // const user = localStorage.getItem("user_id");
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
+        navigate("/");
         console.log("response when login", res.data.user);
         // console.log("local storage", user);
       })

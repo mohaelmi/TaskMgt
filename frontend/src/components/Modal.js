@@ -6,20 +6,21 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
   }
   // console.log("title", task.title);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description, task_start } = e.target.elements;
-    console.log("updated title", description.value);
+    const { title, description, start_time, duration, category } = e.target.elements;
+    console.log("duration", start_time.value);
 
     const task = {
       userId: 2,
       title: title.value, //"Play soccer",
-      category: "Leisure", // dropdown
+      category:  category.value,  // "Leisure", // dropdown
       description: description.value,
       status: "Todo", // dropdown
-      importancelevel: "Medium", // dropdown
-      estimatedstarttime: "15:00:00", //dropdown time
-      duration: "20", 
+      importancelevel: "Medium", // dropdown // maybe no need it =>>>
+      estimatedstarttime: start_time.value,  //"15:00:00", //dropdown time
+      duration: duration.value, //"20",
       actualstarttime: null,
       actualendtime: null,
     };
@@ -29,7 +30,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
         ...taskToEdit,
         title: title.value,
         description: description.value,
-        estimatedstarttime: task_start.value,
+        duration: duration.value,
+        category: category.value,
+        estimatedstarttime: start_time.value,
       };
       console.log("## taskToEdit", updatedTask);
       callback(updatedTask);
@@ -41,7 +44,6 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
 
     console.log("before update", taskToEdit);
   };
-
 
   return (
     <div className="flex justify-center items-center  overflow-x-hidden round-lg overflow-y-auto fixed inset-0 z-50  outline-none focus:outline-none">
@@ -69,17 +71,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
             </svg>
             {/* <span className="sr-only">Close modal</span> */}
           </button>
-          <div className="p-4 md:p-5 text-center bg-slate-600 rounded-lg">
+          <div className="p-4 md:p-5 text-center bg-slate-600 rounded-lg w-full">
             {/* content starts here */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10">
-
-
-
-
-
-
-
-
               <div className="text-gray-800">
                 <label
                   className="text-white text-sm font-bold mb-2 mr-16"
@@ -105,7 +99,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                 </label>
                 <input
                   type="text"
-                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-14 w-64 px-1"
+                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1"
                   name="description"
                   defaultValue={task.description}
                   // onChange={(e) =>
@@ -113,18 +107,51 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                   // }
                 />
               </div>
+
+
+              
+              {/* dropdown */}
+              <div className="text-gray-800">
+                <label
+                  className="text-white text-sm font-bold mb-2 mr-10"
+                  htmlFor="duration"
+                >
+                  Duration
+                </label>
+                <select name="duration" className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1 cursor-pointer">
+                  <option value="30">{30}</option>
+                  <option value="60">{60}</option>
+                </select>
+              </div>
+
+              {/* dropdown */}
+              <div className="text-gray-800">
+                <label
+                  className="text-white text-sm font-bold mb-2 mr-10"
+                  htmlFor="duration"
+                >
+                  Category
+                </label>
+                <select name="category" className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1 cursor-pointer" >
+                  <option value="Leisure">leisure</option>
+                  <option value="House Chores">House Chores</option>
+                  <option value="Self Improvement">Self development</option>
+                </select>
+              </div>
+
+
+
               <div>
                 <label
-                  className="text-white text-sm font-bold mb-2 mr-7"
+                  className="text-white text-sm font-bold mb-2 -ml-5 mr-9"
                   htmlFor="start_level"
                 >
                   Start time
                 </label>
                 <input
                   type="time"
-                  id="task_start"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
-                  name="task_start"
+                  name="start_time"
                   defaultValue={task.estimatedstarttime}
                   // onChange={(e) =>
                   //   setTask({ ...task, estimatedStartTime: e.target.value })
@@ -149,9 +176,6 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
 
 export default Modal;
 
-
-
-
 // <div className="">
 // <label
 //   className="block text-gray-200 text-sm font-bold mb-2 pr-44" for="title"> Title
@@ -162,7 +186,6 @@ export default Modal;
 //   placeholder="Title"
 // />
 // </div>
-
 
 // <div className="">
 // <label

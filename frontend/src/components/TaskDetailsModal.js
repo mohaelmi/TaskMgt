@@ -19,7 +19,7 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
 
 
 
- const start = moment(getDateFromHours(taskDetails.estimatedstarttime), "HHMMSS").fromNow();
+ const start = moment(getDateFromHours(taskDetails.estimatedstarttime)).fromNow();
 
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
