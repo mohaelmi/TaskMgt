@@ -26,8 +26,9 @@ router.get('/', (req, res) => {
 });
 
 router.post('/new', ensureAuthenticated, (req, res) => {
+  const userId =  req.session.userId;
+ 
   const {
-    userId,
     title,
     category,
     description,

@@ -13,7 +13,6 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
     console.log("duration", start_time.value);
 
     const task = {
-      userId: 2,
       title: title.value, //"Play soccer",
       category:  category.value,  // "Leisure", // dropdown
       description: description.value,
