@@ -2,18 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userQueries = require('../db/queries/userTask');
 
-// Register a new user
-router.post('/register', (req, res) => {
-  const { username,email, password } = req.body;
 
-  userQueries.createUser(username,email, password)
-    .then(newUser => {
-      res.status(200).json(newUser);
-    })
-    .catch(error => {
-      res.status(500).json({ error: 'Error registering new user' });
-    });
-});
 
 
 // Get user profile route

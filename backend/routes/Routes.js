@@ -124,7 +124,7 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
 
 router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const {startTime, taskId } = req.body;
+  const {taskId, status } = req.body;
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
@@ -146,10 +146,9 @@ router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
 
 router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const { taskId,endTime} = req.body;
+  const {taskId, status } = req.body;
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
-
 
   if (!task) {
     return res.status(404).json({ error: 'Task not found' });

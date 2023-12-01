@@ -10,8 +10,8 @@ function TaskTimelineChart({ tasks }) {
       const endTime = new Date(0, 0, 0, ...task.estimatedendtime.split(':'));
     //   console.log('s',startTime);
       return [
-        task.title,
         task.category,
+        task.title, 
         startTime,
         endTime,
       ];
@@ -19,8 +19,9 @@ function TaskTimelineChart({ tasks }) {
   };
 
   const columns = [
-    { type: "string", id: "task title" },
+    
     { type: "string", id: "task category" },
+    { type: "string", id: "task title" },
     { type: "date", id: "Start" },
     { type: "date", id: "End" },
   ];
