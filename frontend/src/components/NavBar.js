@@ -64,7 +64,7 @@ const NavBar = ({
                 paddingLeft: 'auto',
               }}
             >
-              <Notifications notificationState={notificationState} toggleNotification={toggleNotification}/>
+            
               {/* <div> */}
               <Tab
                 label='Summary'
@@ -144,6 +144,7 @@ const NavBar = ({
                 paddingLeft: 'auto',
               }}
             >
+              
               <Typography
                 sx={{
                   color: 'inherit',
@@ -165,6 +166,7 @@ const NavBar = ({
                 }}
               />
 
+              <Notifications notificationState={notificationState} toggleNotification={toggleNotification}/>
               <Button
                 sx={{
                   marginLeft: 'auto',

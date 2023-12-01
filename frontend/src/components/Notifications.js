@@ -9,6 +9,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Modal from './TaskDetailsModal'
 import moment from 'moment';
 
 const Notifications = (props) => {
@@ -33,6 +34,7 @@ const Notifications = (props) => {
     >
       <div>
         <Badge color="primary" badgeContent={count} onClick={()=> props.toggleNotification(!props.notificationState)}>
+          {/* <Modal /> */}
           <NotificationsIcon   />
         </Badge>
       </div>
