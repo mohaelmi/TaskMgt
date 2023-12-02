@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, Route, Routes } from 'react-router-dom';
+import { Link as RouterLink, Route, Routes, Navigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
 import TodayIcon from '@mui/icons-material/Today';
 import SignUp from '../pages/Signup';
@@ -61,6 +61,23 @@ const NavBar = ({
               }}
             >
               {/* <div> */}
+              <Tab
+                label='My Tasks'
+                component={RouterLink}
+                to='/'
+                textColor='inherit'
+                sx={{
+                  textTransform: 'none',
+                  fontSize: '1rem',
+
+                  '&:hover': {
+                    fontSize: '1.0rem',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                  },
+                }}
+              />
+
               <Tab
                 label='Summary'
                 component={RouterLink}
@@ -180,6 +197,7 @@ const NavBar = ({
           path='/signup'
           element={!user ? <SignUp userSignup={userSignup} /> : null}
         />
+        <Route path='/my_task' element={<Navigate to='/' />} />
         <Route
           path='/login'
           element={!user ? <Login userLogin={userLogin} /> : null}

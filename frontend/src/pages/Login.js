@@ -1,5 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Box, TextField, Typography, Button, CssBaseline } from '@mui/material';
+import {
+  Box,
+  TextField,
+  Typography,
+  Button,
+  CssBaseline,
+  Paper,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -48,11 +55,12 @@ const Login = ({ userLogin }) => {
   return (
     <div
       style={{
-        // paddingTop: '8%',
         minHeight: '100vh',
         display: 'grid',
         placeItems: 'center',
-        border: '3px solid #ccc',
+        margin: ' 1rem auto',
+        padding: '3rem',
+        border: '4px solid #ccc',
       }}
     >
       <CssBaseline />
@@ -60,13 +68,36 @@ const Login = ({ userLogin }) => {
         display='grid'
         gridTemplateColumns={['1fr', '1fr', '1fr', '1fr', '1fr 1fr']}
         gap={5}
-        maxWidth={1250}
+        maxWidth={1200}
         justifyContent={'center'}
+        margin='auto'
+        sx={{
+          gridTemplateAreas: {
+            xs: "'content'",
+            md: "'header content'",
+          },
+        }}
       >
-        <section>
+        <Paper
+          elevation={0}
+          marginRight={'3rem'}
+          padding={'4rem'}
+          width={'80%'}
+          margin={'auto'}
+          sx={{
+            gridArea: {
+              xs: 'content',
+              md: 'header',
+            },
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'center',
+            // // justifyContent: 'center',
+          }}
+        >
           <Typography
             variant='h2'
-            mb={3}
+            mb={2}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -74,9 +105,17 @@ const Login = ({ userLogin }) => {
               textDecoration: 'none',
             }}
           >
-            Manage your tasks productivity
+            Manage your <br />
+            tasks <br />
+            productivity
           </Typography>
-          <Typography variant='h6' marginBottom={5}>
+          <Typography
+            variant='h5'
+            marginBottom={5}
+            sx={{
+              fontSize: '1.37rem',
+            }}
+          >
             TaskMgt helps you manage and optimize your time for a more
             fulfilling and balanced life.
           </Typography>
@@ -93,21 +132,26 @@ const Login = ({ userLogin }) => {
                 `radial-gradient(circle, rgba(63,95,159,1) 12%, rgba(167,195,227,1) 100%)`,
               ],
               width: '40%',
-              // ':hover': { backgroundColor: '#0C0908' },
               fontWeight: 800,
               letterSpacing: '.2rem',
             }}
           >
             Get Started
           </Button>
-        </section>
-        <section>
+        </Paper>
+        <div
+          sx={{
+            gridArea: {
+              xs: 'content',
+            },
+          }}
+        >
           {success ? (
             <section>
               <h1>You are logged in!</h1>
             </section>
           ) : (
-            <section>
+            <div>
               <p
                 ref={errRef}
                 className={errMsg ? 'errmsg' : 'offscreen'}
@@ -119,18 +163,19 @@ const Login = ({ userLogin }) => {
                 <Box
                   display='flex'
                   flexDirection={'column'}
-                  maxWidth={500}
+                  // maxWidth={500}
                   alignItems={'center'}
+                  width={'30rem'}
                   justifyContent={'center'}
                   margin='auto'
-                  padding={3}
+                  padding={'3rem'}
                   borderRadius={2}
                   boxShadow={'4px 5px 11px #ccc'}
                   sx={{ ':hover': { boxShadow: '10px 10px 20px #ccc' } }}
                 >
                   <Typography
-                    marginBottom={1}
-                    marginTop={5}
+                    marginBottom={2}
+                    marginTop={3}
                     variant='h4'
                     textAlign='center'
                   >
@@ -239,9 +284,9 @@ const Login = ({ userLogin }) => {
                   </Button>
                 </Box>
               </form>
-            </section>
+            </div>
           )}
-        </section>
+        </div>
       </Box>
     </div>
   );
