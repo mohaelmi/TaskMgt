@@ -13,6 +13,21 @@ import NavBar from './components/NavBar';
 import { NotificationsContent } from './components/Notifications';
 
 
+const notificationData = [
+  {
+    type: "reminder",
+    message: 'Task "Complete Project Proposal" will start within 1 minute.'
+  },
+  {
+    type: "reminder",
+    message: 'Task "Read a Book" will start within an 5 minutes'
+  },
+  {
+    type: "reminder",
+    message: 'Task "Cooking experiment" will start within 3 minutes.'
+  },
+];
+
 
 function App() {
   const [
@@ -28,14 +43,13 @@ function App() {
     moveTask,
     detailsToggleModal,
   ] = useApplicationData();
-  //geting data for pie charts
-  // const { taskCategoryPie, taskStatusPie,timelineData } = state;
-  // console.log("## show model", state.showCreateModal)
-  // console.log("## user", state.taskData);
-  // console.log(Boolean(state.user));
-  // console.log('inapp',state.tasktimelineData);
-  // const { taskCategoryPie, taskStatusPie } = state;
   const [notificationState, setNotificationState] = useState(false);
+
+  const notificationElement = notificationData.map((notification, idx) => {
+    return <NotificationsContent key={idx} notification={notification} />
+  })
+
+  console.log(notificationElement);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -51,11 +65,13 @@ function App() {
         tasktimelineData={state.tasktimelineData}
         toggleNotification={setNotificationState} 
         notificationState={notificationState}
+        countNotification={notificationData.length}
       />
 
       {state.user ? (
         <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
-          {notificationState && <NotificationsContent tasks={state.taskData} /> }
+          <h1 className='text-lg font-bold'>test Notifications</h1> 
+          {notificationState && notificationElement }
           {state.showDetailsModal && (
             <TaskDetailsModal
               closeTaskDetails={detailsToggleModal}

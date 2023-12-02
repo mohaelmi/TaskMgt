@@ -19,7 +19,8 @@ const NavBar = ({
   taskStatusPie,
   toggleNotification,
   notificationState,
-  tasktimelineData
+  tasktimelineData,
+  countNotification
 }) => {
   return (
     <React.Fragment>
@@ -52,7 +53,7 @@ const NavBar = ({
               to='/'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              Home
+              TaskMgt
             </RouterLink>
           </Typography>
           {user ? (
@@ -184,7 +185,7 @@ const NavBar = ({
                 }}
               />
 
-              <Notifications notificationState={notificationState} toggleNotification={toggleNotification}/>
+              <Notifications countNotification={countNotification} notificationState={notificationState} toggleNotification={toggleNotification}/>
               <Button
                 sx={{
                   marginLeft: 'auto',
