@@ -6,6 +6,8 @@ import SignUp from '../pages/Signup';
 import Login from '../pages/Login';
 import Analytics from '../pages/Analytics';
 import Avatar from '@mui/material/Avatar';
+import { Notifications } from './Notifications';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const NavBar = ({
   openModal,
@@ -15,6 +17,9 @@ const NavBar = ({
   user,
   taskCategoryPie,
   taskStatusPie,
+  toggleNotification,
+  notificationState,
+  tasktimelineData
 }) => {
   return (
     <React.Fragment>
@@ -44,10 +49,10 @@ const NavBar = ({
             }}
           >
             <RouterLink
-              to='/login'
+              to='/'
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              TaskMgt
+              Home
             </RouterLink>
           </Typography>
           {user ? (
@@ -60,6 +65,7 @@ const NavBar = ({
                 paddingLeft: 'auto',
               }}
             >
+            
               {/* <div> */}
               <Tab
                 label='My Tasks'
@@ -156,9 +162,10 @@ const NavBar = ({
                 paddingLeft: 'auto',
               }}
             >
+              
               <Typography
                 sx={{
-                  color: '#5474d2',
+                  color: 'inherit',
                   fontWeight: 'bold',
                   textTransform: 'none',
                   marginTop: '4px',
@@ -166,7 +173,7 @@ const NavBar = ({
                   marginRight: '5px',
                 }}
               >
-                Welcome: {user.username}
+              {user.username}
               </Typography>
               <Avatar
                 variant='solid'
@@ -177,6 +184,7 @@ const NavBar = ({
                 }}
               />
 
+              <Notifications notificationState={notificationState} toggleNotification={toggleNotification}/>
               <Button
                 sx={{
                   marginLeft: 'auto',
@@ -208,6 +216,7 @@ const NavBar = ({
             <Analytics
               categoryCounts={taskCategoryPie}
               statusCounts={taskStatusPie}
+              tasktimelineData={tasktimelineData}
             />
           }
         />

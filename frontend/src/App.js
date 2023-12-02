@@ -10,6 +10,9 @@ import EditTask from './components/EditTask';
 import CreateTask from './components/CreateTask';
 import TaskDetailsModal from './components/TaskDetailsModal';
 import NavBar from './components/NavBar';
+import { NotificationsContent } from './components/Notifications';
+
+
 
 function App() {
   const [
@@ -26,10 +29,13 @@ function App() {
     detailsToggleModal,
   ] = useApplicationData();
   //geting data for pie charts
-  const { taskCategoryPie, taskStatusPie } = state;
+  // const { taskCategoryPie, taskStatusPie,timelineData } = state;
   // console.log("## show model", state.showCreateModal)
   // console.log("## user", state.taskData);
   // console.log(Boolean(state.user));
+  // console.log('inapp',state.tasktimelineData);
+  // const { taskCategoryPie, taskStatusPie } = state;
+  const [notificationState, setNotificationState] = useState(false);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -40,12 +46,16 @@ function App() {
         userLogOut={userLogOut}
         userSignup={userSignup}
         user={state.user}
-        taskCategoryPie={taskCategoryPie}
-        taskStatusPie={taskStatusPie}
+        taskCategoryPie={state.taskCategoryPie}
+        taskStatusPie={state.taskStatusPie}
+        tasktimelineData={state.tasktimelineData}
+        toggleNotification={setNotificationState} 
+        notificationState={notificationState}
       />
 
       {state.user ? (
         <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
+          {notificationState && <NotificationsContent tasks={state.taskData} /> }
           {state.showDetailsModal && (
             <TaskDetailsModal
               closeTaskDetails={detailsToggleModal}

@@ -13,11 +13,13 @@ const ACTIONS = {
   EDIT_TASK: "EDIT_TASK",
   USER_LOGIN: "USER_LOGIN",
   USER_LOGOUT: "USER_LOGOUT",
-  MOVE_TASK: "MOVE_TASK",
+  MOVE_TASK_INTO_PROGRESS: "MOVE_TASK_INTO_PROGRESS",
   SHOW_MODAL_DETAIL_TASK: "SHOW_MODAL_DETAIL_TASK",
-  SET_CATEGORY_COUNTS: "SET_CATEGORY_COUNTS", //piechart1
-  SET_STATUS_COUNTS: "SET_STATUS_COUNTS",//piechart1
+  SET_CATEGORY_COUNTS: "SET_CATEGORY_COUNTS", //piechart category
+  SET_STATUS_COUNTS: "SET_STATUS_COUNTS",//piechart1 status
+  SET_TASK_TIMELINE:"SET_TASK_TIMELINE",// timeline chart
 };
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -103,21 +105,17 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
-    case ACTIONS.MOVE_TASK:
-      const tasks = state.taskData.map((task) => {
-        if (task.id === action.payload.id) {
-          return {...task, status: action.payload.status}
-        }
+    // case ACTIONS.MOVE_TASK_INTO_PROGRESS:
+      
+    // const filteredTasks = state.taskData.filter(task => task.id !== action.payload.id)
+    // console.log(filteredTasks);
+    // const newTaskData = [...filteredTasks, {...action.payload} ]
 
-        return task;
-      });
 
-      console.log(tasks);
-
-      return {
-        ...state,
-        taskData: tasks,
-      };
+    //   return {
+    //     ...state,
+    //     taskData: newTaskData,
+    //   };
       //pie chart 1
       case ACTIONS.SET_CATEGORY_COUNTS:
         return {
@@ -130,6 +128,12 @@ const reducer = (state, action) => {
           ...state,
           taskStatusPie: action.payload,
         };
+      case ACTIONS.SET_TASK_TIMELINE:
+        return {
+          ...state,
+          tasktimelineData: action.payload,
+        };
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -153,8 +157,33 @@ const calculateStatusCounts = (tasks) => {
   });
   return statusCounts;
 };
+//function to get timeline data(Timeline chart 3):
+// Function to calculate EstimatedEndTime
+const calculateEstimatedEndTime = (startTime, duration) => {
+  const [hours, minutes, seconds] = startTime.split(':').map(Number);
+  const start = new Date().setHours(hours, minutes, seconds);
 
+  const endTime = new Date(start + duration * 60000);
+  const formattedEndTime = endTime.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 
+  return formattedEndTime;
+};
+const creatTimelineData = (tasks) => {
+  return tasks.map((task) => {
+    return {
+      id: task.id.toString(),
+      title: task.title,
+      category: task.category,
+      estimatedstarttime: task.estimatedstarttime,
+      estimatedendtime: calculateEstimatedEndTime(task.estimatedstarttime,parseInt(task.duration, 10)), // Convert duration to a number if it's a string
+    };
+  });
+};
 
 
 export const useApplicationData = () => {
@@ -171,6 +200,7 @@ export const useApplicationData = () => {
     taskDetails: {},
     taskStatusPie:{}, //pie 2
     taskCategoryPie:{}, //pie 1
+    tasktimelineData:{},//timeline
     showModal: false,
     showCreateModal: false,
     showDetailsModal: false,
@@ -188,13 +218,17 @@ export const useApplicationData = () => {
           navigate("/login");
         } else {
           dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
+          
 
-          // calculate counts for categories and statuses
+          // calculate counts for categories and statuses and timeline
           const categoryCounts = calculateCategoryCounts(res.data);
           const statusCounts = calculateStatusCounts(res.data);
-
+          const tasktimelineData = creatTimelineData(res.data);
+          // console.log('fetch',tasktimelineData);
           dispatch({ type: ACTIONS.SET_CATEGORY_COUNTS, payload: categoryCounts });
           dispatch({ type: ACTIONS.SET_STATUS_COUNTS, payload: statusCounts });
+          dispatch({ type: ACTIONS.SET_TASK_TIMELINE, payload: tasktimelineData });
+          // console.log('dispatch',tasktimelineData);
         }
       })
       .catch((error) => console.log(error));
@@ -265,13 +299,14 @@ export const useApplicationData = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         // const user = localStorage.getItem("user_id");
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
+        navigate("/");
         console.log("response when login", res.data.user);
         // console.log("local storage", user);
       })
 
       .catch((error) => {
         navigate("/login");
-        toast.error(error.response.data.message, { duration: 5000 });
+        toast.error(error.response.data.message, { duration: 3000 });
         console.log(error.response.data);
       });
   };
@@ -301,16 +336,46 @@ export const useApplicationData = () => {
       .catch((error) => console.log(error));
   };
 
-  const moveTask = (id, status) => {
-    dispatch({ type: ACTIONS.MOVE_TASK, payload: { id, status } });
-    // tasks.map( (task) => {
-    //   if(task.id === id) {
-    //     return task.status = status
-    //   }
+  const moveTask = (id, prevStatus, status) => {
+    console.log('prev status', prevStatus);
+    console.log('status',  status);
+    if(prevStatus === 'Todo' && status === 'Closed') {
+      toast.error('please start working on the task before you finish it or just delete it', { icon: "😕" })
+      return;
+    }
+    if(prevStatus !== status) {
+      console.log('sdddddddddddddddd');
+    if(status === 'In Progress') {
+      axios
+      .post("/api/tasks/setStartTime", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.task);
+        // dispatch({ type: ACTIONS.MOVE_TASK_INTO_PROGRESS, payload: res.data.task });
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }else if(status === 'Closed') {
+      axios
+      .post("/api/tasks/setEndTime", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.message);
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }else {
+      axios
+      .post("/api/tasks/startAgain", {taskId: id,  status})
+      .then((res) => {
+        fetchTasks()
+        console.log("task:", res.data.message);
+        toast.success(res.data.message)
+      })
+      .catch((error) => console.log(error));
+    }
+  }
 
-    //   return task
-    // })
-    console.log(id, status);
   };
 
   return [

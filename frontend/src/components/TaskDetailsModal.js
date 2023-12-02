@@ -19,16 +19,16 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
 
 
 
- const start = moment(getDateFromHours(taskDetails.estimatedstarttime), "HHMMSS").fromNow();
+ const start = moment(getDateFromHours(taskDetails.estimatedstarttime)).fromNow();
 
   return (
     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
       <div className="relative p-4 w-full max-w-md max-h-full">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="relative rounded-lg shadow dark:bg-gray-700">
           <button
           onClick={() => closeTaskDetails()}
             type="button"
-            className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="absolute top-3 end-2.5 text-gray-400  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <svg
               className="w-3 h-3"
@@ -47,24 +47,28 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
             </svg>
             {/* <span className="sr-only">Close modal</span> */}
           </button>
-          <div className="md:p-2 flex flex-col -mt-24 text-gray-700">
+          <div className="md:p-2 flex flex-col -mt-24 text-slate-200  bg-slate-600 rounded-lg justify-center gap-6">
             {/* content starts here */}
           
              
-                <label className="px-8 p-5 text-md font-bold ">
+                <label className="px-14 pt-5 text-md font-bold ">
                   <p className="font-light">Description:</p> {taskDetails.description}
                 </label>
                 
            
               
-                <label className="px-8 p-5 text-md font-bold ">
+                <label className="px-14 text-md font-bold ">
                   <p className="font-light">Category:</p> {taskDetails.category}
                 </label>
                 
              
             
-                <label className="px-8 p-5 text-md font-bold">
+                <label className="px-14 text-md font-bold">
                   <p className="font-light">Start time:</p> {start}
+                </label>
+
+                <label className="px-14 text-md font-bold pb-5">
+                  <p className="font-light">Duration:</p> {taskDetails.duration} minutes
                 </label>
                 
 

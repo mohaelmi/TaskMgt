@@ -7,7 +7,7 @@ function TaskCard({ task, tasks, deleteTask, openModel, showEditComponent, openT
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
-    item: {id: task.id},
+    item: {id: task.id, prevStatus: task.status},
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging()
     })

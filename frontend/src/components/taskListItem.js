@@ -19,7 +19,7 @@ function TaskListItem({
 
   const [{ isOver }, drop] = useDrop(() => ({ 
     accept: "task",
-    drop: (item) => moveTask(item.id, status),
+    drop: (item) => moveTask(item.id, item.prevStatus, status),
     collect: (monitor) => ({
       isOver: !!monitor.isOver()
     })
