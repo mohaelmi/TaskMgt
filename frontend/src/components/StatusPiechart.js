@@ -10,9 +10,15 @@ const StatusPieChart = ({ statusCounts }) => {
 
   const options = {
     // title: 'Tasks by Status',
-    chartArea: { width: '100%', height: '100%' },
+    chartArea: {
+      width: '100%',
+      height: '90%',
+      margin: '0 auto',
+    },
     // pieHole: 0.4,
+
     is3D: true,
+    backgroundColor: 'white',
     slices: {
       1: { offset: 0.1, color: 'gray' },
       2: { offset: 0.1, color: 'blue' },
@@ -23,10 +29,14 @@ const StatusPieChart = ({ statusCounts }) => {
   return (
     <Paper
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '1rem',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        // padding: '1rem',
+        backgroundColor: 'white',
+        borderRadius: '7px',
+        boxShadow: 'none',
+        marginBottom: '4px',
       }}
     >
       <Typography
