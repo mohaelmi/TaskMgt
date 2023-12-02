@@ -13,15 +13,20 @@ const CategoryPieChart = ({ categoryCounts }) => {
     // title: 'Tasks by Category',
     pieHole: 0.4,
     is3D: true,
-    chartArea: { width: '100%', height: '100%' },
+    chartArea: { width: '100%', height: '90%', margin: '0 auto' },
+    backgroundColor: 'white',
   };
   return (
     <Paper
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '1rem',
+        // display: 'flex',
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        // padding: '1rem',
+        backgroundColor: 'white',
+        borderRadius: '7px',
+        boxShadow: 'none',
+        marginBottom: '4px',
       }}
     >
       <Typography
