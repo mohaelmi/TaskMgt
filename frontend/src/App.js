@@ -29,7 +29,12 @@ function App() {
     detailsToggleModal,
   ] = useApplicationData();
   //geting data for pie charts
-  const { taskCategoryPie, taskStatusPie } = state;
+  // const { taskCategoryPie, taskStatusPie,timelineData } = state;
+  // console.log("## show model", state.showCreateModal)
+  // console.log("## user", state.taskData);
+  // console.log(Boolean(state.user));
+  // console.log('inapp',state.tasktimelineData);
+  // const { taskCategoryPie, taskStatusPie } = state;
   const [notificationState, setNotificationState] = useState(false);
 
   return (
@@ -41,8 +46,9 @@ function App() {
         userLogOut={userLogOut}
         userSignup={userSignup}
         user={state.user}
-        taskCategoryPie={taskCategoryPie}
-        taskStatusPie={taskStatusPie}
+        taskCategoryPie={state.taskCategoryPie}
+        taskStatusPie={state.taskStatusPie}
+        tasktimelineData={state.tasktimelineData}
         toggleNotification={setNotificationState} 
         notificationState={notificationState}
       />

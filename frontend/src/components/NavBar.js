@@ -19,6 +19,7 @@ const NavBar = ({
   taskStatusPie,
   toggleNotification,
   notificationState,
+  tasktimelineData
 }) => {
   return (
     <React.Fragment>
@@ -195,6 +196,7 @@ const NavBar = ({
             <Analytics
               categoryCounts={taskCategoryPie}
               statusCounts={taskStatusPie}
+              tasktimelineData={tasktimelineData}
             />
           }
         />
