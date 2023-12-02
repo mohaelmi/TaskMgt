@@ -20,6 +20,7 @@ const NavBar = ({
   toggleNotification,
   notificationState,
   tasktimelineData,
+  countNotification
 }) => {
   return (
     <React.Fragment>
@@ -182,10 +183,7 @@ const NavBar = ({
                 }}
               />
 
-              <Notifications
-                notificationState={notificationState}
-                toggleNotification={toggleNotification}
-              />
+              <Notifications countNotification={countNotification} notificationState={notificationState} toggleNotification={toggleNotification}/>
               <Button
                 sx={{
                   marginLeft: 'auto',
