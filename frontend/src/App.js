@@ -42,14 +42,18 @@ function App() {
     userSignup,
     moveTask,
     detailsToggleModal,
+    timeDifference,
   ] = useApplicationData();
+  let counter = 0;
   const [notificationState, setNotificationState] = useState(false);
 
-  const notificationElement = notificationData.map((notification, idx) => {
-    return <NotificationsContent key={idx} notification={notification} />
+  const notificationElement = state.taskData.filter(task => task.status === 'Todo') .map((task, idx) => {
+    if(timeDifference(task) > 0) {
+      counter++
+      return <NotificationsContent key={idx} task={task} timeDifference={timeDifference(task) } />
+    }
   })
-
-  console.log(notificationElement);
+  
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -65,12 +69,12 @@ function App() {
         tasktimelineData={state.tasktimelineData}
         toggleNotification={setNotificationState} 
         notificationState={notificationState}
-        countNotification={notificationData.length}
+        countNotification={counter}
       />
 
       {state.user ? (
         <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
-          <h1 className='text-lg font-bold'>test Notifications</h1> 
+          {/* <h1 className='text-lg font-bold'>test Notifications</h1>  */}
           {notificationState && notificationElement }
           {state.showDetailsModal && (
             <TaskDetailsModal

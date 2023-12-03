@@ -64,13 +64,8 @@ const createTask = (
 //     console.error('Error creating task:', error);
 //   });
 
-const setActualStartTime = (taskId, status) => {
-let date = new Date()
-let hours = date.getHours();
-let minutes = date.getMinutes();
-let seconds = date.getSeconds();
-let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
-console.log("time", time);
+const setActualStartTime = (taskId, status, time) => {
+
   const query = `
     UPDATE tasks
     SET Status = $2,

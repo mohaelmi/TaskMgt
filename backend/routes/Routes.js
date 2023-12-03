@@ -124,11 +124,11 @@ router.post('/edit',ensureAuthenticated,  (req, res) => {
 
 router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // Get logged-in user ID from session
-  const {taskId, status } = req.body;
+  const {taskId, status, time } = req.body;
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
-  console.log('ssssssssssssss', taskId, status);
+  // console.log('ssssssssssssss', taskId, status);
   if (!task) {
     return res.status(404).json({ error: 'Task not found' });
   }
@@ -139,7 +139,7 @@ router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
   }
 
     // Proceed to update the start time as it's the user's task
-    const updatedTask = await userQueries.setActualStartTime(taskId, status);
+    const updatedTask = await userQueries.setActualStartTime(taskId, status, time);
     res.json({ message: 'Actual start time updated successfully', task: updatedTask });
   
 });
