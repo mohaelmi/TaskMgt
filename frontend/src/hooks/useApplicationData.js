@@ -405,7 +405,7 @@ export const useApplicationData = () => {
     return diff <= 5 ? diff : null
   }
 
-  return [
+  return {
     state,
     createTask,
     handleDeleteTask,
@@ -418,5 +418,5 @@ export const useApplicationData = () => {
     moveTask,
     detailsToggleModal, 
     timeDifference
-  ];
+  };
 };
