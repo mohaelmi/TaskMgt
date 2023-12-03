@@ -133,6 +133,7 @@ const reducer = (state, action) => {
           ...state,
           tasktimelineData: action.payload,
         };
+  
 
     default:
       throw new Error(
@@ -339,15 +340,22 @@ export const useApplicationData = () => {
   const moveTask = (id, prevStatus, status) => {
     console.log('prev status', prevStatus);
     console.log('status',  status);
+
+    let date = new Date()
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
+
     if(prevStatus === 'Todo' && status === 'Closed') {
       toast.error('please start working on the task before you finish it or just delete it', { icon: "😕" })
       return;
     }
     if(prevStatus !== status) {
-      console.log('sdddddddddddddddd');
+      // console.log('sdddddddddddddddd');
     if(status === 'In Progress') {
       axios
-      .post("/api/tasks/setStartTime", {taskId: id,  status})
+      .post("/api/tasks/setStartTime", {taskId: id,  status, time})
       .then((res) => {
         fetchTasks()
         console.log("task:", res.data.task);
@@ -378,6 +386,25 @@ export const useApplicationData = () => {
 
   };
 
+
+  // return difference from estimated start time and actual system for alert
+  const timeDifference = (task) => {
+    // console.log(length);
+    // gett entire date
+    function getDateFromTime(time) {
+      time = time.split(':');
+      let now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
+    }
+    
+    // dispatch({ type: ACTIONS.SET_ALERT_LENGTH, payload: length });
+    
+    const stimatedTimeInMilliseconds = new Date(getDateFromTime(task.estimatedstarttime)).getTime()
+    const currentTime = new Date().getTime() 
+    const diff = (((stimatedTimeInMilliseconds - currentTime)/1000)/60).toFixed(0)
+    return diff <= 5 ? diff : null
+  }
+
   return [
     state,
     createTask,
@@ -389,6 +416,7 @@ export const useApplicationData = () => {
     userLogOut,
     userSignup,
     moveTask,
-    detailsToggleModal
+    detailsToggleModal, 
+    timeDifference
   ];
 };
