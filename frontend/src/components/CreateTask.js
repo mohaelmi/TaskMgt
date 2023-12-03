@@ -31,7 +31,7 @@ function CreateTask({ closeModal, createTask }) {
 
     // createTask(task)
   };
-  return <Modal closeModal={closeModal} text={"ADD"} callback={createTask} />;
+  return <Modal closeModal={closeModal} text={"ADD"} callback={createTask} title={"CREATE NEW TASK"} />;
 }
 
 export default CreateTask;
