@@ -6,7 +6,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 // import Modal from "./TaskDetailsModal";
 // import moment from "moment";
 
-const Notifications = (props) => {
+//
+function NotificationsBellIcon (props) {
+  console.log(props.countNotification);
   const openDialog = () => {
     if (props.countNotification) {
       props.toggleNotification(true);
@@ -27,7 +29,7 @@ const Notifications = (props) => {
       <div>
         <Badge
           color="error"
-          badgeContent={props.countNotification}
+          badgeContent={props.countNotification && props.countNotification}
           onClick={() => openDialog()}
         >
           <NotificationsIcon />
@@ -37,17 +39,5 @@ const Notifications = (props) => {
   );
 };
 
-const NotificationsContent = ({ task, timeDifference }) => {
-  console.log(timeDifference);
 
-  return (
-    <section className=" border-b-gray-700 bg-red-200 flex flex-col items-start justify-end w-96 rounded-md p-2 mt-5">
-      <div className="flex flex-row justify-around">
-        <p>{`${task.title} will start in   ${timeDifference} minutes `}</p>
-        {/* <button className="font-bold text-lg flex items-end justify-end">x</button> */}
-      </div>
-    </section>
-  );
-};
-
-export { Notifications, NotificationsContent };
+export default NotificationsBellIcon
