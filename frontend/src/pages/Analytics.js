@@ -8,23 +8,39 @@ const Analytics = (props) => {
   return (
     <div
       style={{
-        margin: ' 2rem auto ',
-        marginTop: '4rem ',
-        padding: '3.5rem',
+        margin: '4% auto',
+        marginBottom: '5px',
+        padding: '0.6rem',
         maxWidth: '1000px',
-        // backgroundColor: '#eff4f8bb',
-        maxHeight: '100vh',
+        backgroundColor: '#e6e8e9bb',
+        maxHeight: '60vh',
         borderRadius: '10px',
       }}
     >
+      <Grid item xs={12} md={12}>
+        <Paper
+          style={{
+            padding: '3px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            backgroundColor: 'white',
+            boxShadow: 'none',
+            borderRadius: '7px',
+          }}
+        >
+          <TaskTimeline tasks={props.tasktimelineData} />
+        </Paper>
+      </Grid>
+
       <div
         style={{
-          marginTop: '-1.5rem',
+          marginTop: '11px',
+          backgroundColor: '#e6e8e9bb',
           // maxWidth: '1200px',
           display: 'grid',
           placeItems: 'center',
-          // backgroundColor: '#eff4f8',
-          paddingBottom: '2px',
+          // paddingBottom: '2px',
         }}
       >
         <Grid container spacing={3} justifyContent='center'>
@@ -36,7 +52,6 @@ const Analytics = (props) => {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 backgroundColor: 'white',
-                marginBottom: '4px',
                 boxShadow: 'none',
                 borderRadius: '7px',
               }}
@@ -61,14 +76,6 @@ const Analytics = (props) => {
             </Paper>
           </Grid>
         </Grid>
-      </div>
-      <div
-        style={{
-          marginTop: '1.5rem',
-          borderRadius: '7px',
-        }}
-      >
-        <TaskTimeline tasks={props.tasktimelineData} />
       </div>
     </div>
   );

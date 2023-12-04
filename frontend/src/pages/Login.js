@@ -58,9 +58,10 @@ const Login = ({ userLogin }) => {
         minHeight: '100vh',
         display: 'grid',
         placeItems: 'center',
-        margin: ' 1rem auto',
-        padding: '3rem',
-        border: '4px solid #ccc',
+        marginLeft: '30px',
+        marginRight: '30px',
+        backgroundColor: 'white',
+        // maxWidth: '100%',
       }}
     >
       <CssBaseline />
@@ -70,18 +71,18 @@ const Login = ({ userLogin }) => {
         gap={5}
         maxWidth={1200}
         justifyContent={'center'}
-        margin='auto'
         sx={{
           gridTemplateAreas: {
             xs: "'content'",
             md: "'header content'",
           },
+          backgroundColor: 'white',
         }}
       >
         <Paper
           elevation={0}
           marginRight={'3rem'}
-          padding={'4rem'}
+          // padding={'4rem'}
           width={'80%'}
           margin={'auto'}
           sx={{
@@ -91,6 +92,7 @@ const Login = ({ userLogin }) => {
             },
             display: 'flex',
             flexDirection: 'column',
+
             // alignItems: 'center',
             // // justifyContent: 'center',
           }}
@@ -163,9 +165,8 @@ const Login = ({ userLogin }) => {
                 <Box
                   display='flex'
                   flexDirection={'column'}
-                  // maxWidth={500}
+                  maxWidth={500}
                   alignItems={'center'}
-                  width={'30rem'}
                   justifyContent={'center'}
                   margin='auto'
                   padding={'3rem'}
@@ -175,7 +176,7 @@ const Login = ({ userLogin }) => {
                 >
                   <Typography
                     marginBottom={2}
-                    marginTop={3}
+                    marginTop={1}
                     variant='h4'
                     textAlign='center'
                   >

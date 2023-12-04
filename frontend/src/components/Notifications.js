@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Badge from '@mui/material/Badge';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -9,12 +9,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import Modal from './TaskDetailsModal'
+import Modal from './TaskDetailsModal';
 import moment from 'moment';
 
 const Notifications = (props) => {
   const [count, setCount] = useState(1);
-  
 
   // const handleBadgeVisibility = () => {
   //   setInvisible(!invisible);
@@ -29,13 +28,17 @@ const Notifications = (props) => {
         '& .MuiBadge-root': {
           marginRight: 4,
         },
-        cursor: "pointer"
+        cursor: 'pointer',
       }}
     >
       <div>
-        <Badge color="primary" badgeContent={count} onClick={()=> props.toggleNotification(!props.notificationState)}>
+        <Badge
+          color='primary'
+          badgeContent={count}
+          onClick={() => props.toggleNotification(!props.notificationState)}
+        >
           {/* <Modal /> */}
-          <NotificationsIcon   />
+          <NotificationsIcon />
         </Badge>
       </div>
 
@@ -49,43 +52,35 @@ const Notifications = (props) => {
           label="Show Badge"
         />
       </div> */}
-
     </Box>
   );
-}
+};
 
-
-const NotificationsContent = ({tasks}) => {
-
+const NotificationsContent = ({ tasks }) => {
   function getDateFromHours(time) {
     time = time.split(':');
     let now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
   }
 
-const remainingTime = tasks.map((task) => {
-  return moment(getDateFromHours(task.estimatedstarttime)).fromNow() + ',';
-})
+  const remainingTime = tasks.map((task) => {
+    return moment(getDateFromHours(task.estimatedstarttime)).fromNow() + ',';
+  });
 
+  const t = remainingTime.map((time, idx) => {
+    return time.split(' ')[1], idx;
+    console.log('time ', time[idx]);
+  });
 
-const t = remainingTime.map((time, idx) => {
-  return time.split(' ')[1], idx 
-  console.log("time ", time[idx]);
-});
-
-
-  console.log("tasks :", t);
+  console.log('tasks :', t);
   return (
     <>
-   <div>{remainingTime}, {t}</div>
-   <div>NotificationContent</div>
-   </>
-   
-  )
-}
+      <div>
+        {remainingTime}, {t}
+      </div>
+      <div>NotificationContent</div>
+    </>
+  );
+};
 
-
-export {
-  Notifications,
-  NotificationsContent
-}
+export { Notifications, NotificationsContent };

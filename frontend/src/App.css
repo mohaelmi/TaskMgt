@@ -4,7 +4,7 @@
 
 body,
 html {
-  margin: 0;
+  margin: '0';
   padding: 0;
   background-color: whitesmoke;
 }
@@ -12,7 +12,7 @@ html {
 .App {
   text-align: center;
   background-color: whitesmoke;
-  padding-top: 7%;
+  /* padding-top: 7%; */
 }
 
 .App-logo {
