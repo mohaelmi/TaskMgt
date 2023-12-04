@@ -3,6 +3,7 @@ import TaskList from './TaskList';
 import EditTask from './EditTask';
 import CreateTask from './CreateTask';
 import TaskDetailsModal from './TaskDetailsModal';
+import AlertDialogSlide from "./Dialog";
 
 
 function TasksContainer({
@@ -20,16 +21,18 @@ function TasksContainer({
   // timeDifference,
   notificationState,
   notificationElement,
+  toggleNotification
  }) {
 
   
+   console.log(notificationState);
 
   return (
     <>
     {state.user ? (
       <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
 
-        {notificationState && notificationElement }
+        {notificationState && <AlertDialogSlide  toggleNotification={toggleNotification} notificationState={notificationState} notificationElement={notificationElement} /> }
         {state.showDetailsModal && (
           <TaskDetailsModal
             closeTaskDetails={detailsToggleModal}

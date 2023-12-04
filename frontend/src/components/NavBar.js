@@ -184,6 +184,7 @@ const NavBar = ({
               />
 
               <Notifications countNotification={countNotification} notificationState={notificationState} toggleNotification={toggleNotification}/>
+              
               <Button
                 sx={{
                   marginLeft: 'auto',

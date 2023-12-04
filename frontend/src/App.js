@@ -17,8 +17,9 @@ function App() {
   const [notificationState, setNotificationState] = useState(false);
 
   const notificationElement = data.state.taskData.filter(task => task.status === 'Todo') .map((task, idx) => {
-    if(data.timeDifference(task) > 0) {
+    if(data.timeDifference(task) > 0 && data.timeDifference(task) < 5) {
       counter++
+      // return <AlertDialogSlide  toggleNotification={setNotificationState} notificationState={notificationState} key={idx} task={task} timeDifference={data.timeDifference(task) } />
       return <NotificationsContent key={idx} task={task} timeDifference={data.timeDifference(task) } />
     }
   })
@@ -41,7 +42,7 @@ function App() {
         countNotification={counter}
       />
 
-      <TasksContainer {...data } notificationState ={notificationState} notificationElement={notificationElement} />
+      <TasksContainer {...data } notificationState ={notificationState} toggleNotification={setNotificationState}  notificationElement={notificationElement} />
     </DndProvider>
   );
 }
