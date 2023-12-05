@@ -18,20 +18,27 @@ function App() {
   // check data.timeDifference(task) with settinh counter state every 5 seconds to update alert counter -> but alert number is blinking -> if you can fix go ahead!
   
   // useEffect(() => {
+  //   console.log('use effect called');
   //   const interVal = setInterval(() => {
+  //     console.log('inside setInterval');
   //     const notificationCount = data.state.taskData.filter((task) => {
   //     return task.status === 'Todo' && data.timeDifference(task) > 0 && data.timeDifference(task) < 5
   //     }).length
 
-  //     if(counter < notificationCount){
+  //     if(counter !== notificationCount){
   //       setCounter(notificationCount)
   //     }
 
   //     console.log(notificationCount, counter);
-  //   if(notificationCount === 0  ) clearInterval(interVal)
+ 
   //   }, 5000)
 
-  // }, [data.state.taskData, counter])
+  //   return () => {
+  //     if(counter === 0  ) clearInterval(interVal)
+  //   }
+    
+
+  // }, [counter])
 
 
 
@@ -40,7 +47,7 @@ function App() {
     .filter((task) => task.status === "Todo")
     .map((task, idx) => {
       if (data.timeDifference(task) > 0 && data.timeDifference(task) <= 5) {
-        counter++;
+        counter++
         return (
           <NotificationListItem
             key={idx}
