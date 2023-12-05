@@ -353,7 +353,7 @@ export const useApplicationData = () => {
     let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
 
     if(prevStatus === 'Todo' && status === 'Closed') {
-      toast.error('please start working on the task before you finish it or just delete it', { icon: "😕" })
+      toast.error('please start working on the task before you finish it or just delete it'.toUpperCase(), { icon: "😕" })
       return;
     }
     if(prevStatus !== status) {
