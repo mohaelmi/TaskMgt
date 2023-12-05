@@ -5,6 +5,15 @@ import { Chart } from 'react-google-charts';
 const StatusPieChart = ({ statusCounts }) => {
   const data = [['Status', 'Count']];
   for (const status in statusCounts) {
+    // const color="";
+    // if(status=='Closed') {
+    //   color='green';
+    // }
+    // else if (status=="ToDo"){
+    //   color='gray';
+    // }else{
+    //   color='blue';
+    // }
     data.push([status, statusCounts[status]]);
   }
 
@@ -20,9 +29,9 @@ const StatusPieChart = ({ statusCounts }) => {
     is3D: true,
     backgroundColor: 'white',
     slices: {
-      1: { offset: 0.1, color: 'gray' },
-      2: { offset: 0.1, color: 'blue' },
-      3: { offset: 0.1, color: 'light green' },
+      0: { offset: 0.1, color: 'gray' },
+      1: { offset: 0.1, color: 'blue' },
+      2: { offset: 0.1, color: 'green'},
     },
   };
 
