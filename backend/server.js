@@ -37,14 +37,18 @@ app.post('/register', (req, res) => {
   const { username,email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
-  try {
+  
     // Call the createUser query function to add a new user to the database
-    const newUser = userQueries.createUser(username, email, hashedPassword);
-    res.status(201).json({ message: 'User registered successfully', newUser });
-  } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ error: 'Error registering user' });
-  }
+    userQueries.createUser(username, email, hashedPassword)
+    .then((newUser) => {
+      res.status(201).json({ message: 'User registered successfully', newUser });
+    })
+    .catch (error => {
+      console.log(error);
+     console.error('Error registering user:', error);
+     res.status(500).json({ error: 'Error registering user' });
+   }) 
+  
 });
 // userQueries.hashExistingUsersPasswords();
 // Login route
