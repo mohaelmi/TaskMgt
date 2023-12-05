@@ -215,7 +215,7 @@ export const useApplicationData = () => {
       .get("/api/tasks")
       .then((res) => {
         console.log("data related to user ", res.data);
-        if (res.data.length < 1) {
+        if (res.data.emptyUser === 'no user signed') {
           navigate("/login");
         } else {
           dispatch({ type: ACTIONS.SET_TASK_DATA, payload: res.data });
@@ -316,9 +316,12 @@ export const useApplicationData = () => {
     // const { username, email, pwd } = userInfo;
     console.log(userInfo);
     axios
-      .post("/auth/register", userInfo)
+      .post("/register", userInfo)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.newUser);
+        localStorage.setItem("user", JSON.stringify(res.data.newUser));
+        dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.newUser });
+        navigate("/");
         // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
       })
       .catch((error) => console.log(error));
