@@ -39,7 +39,7 @@ function App() {
   const notificationElement = data.state.taskData
     .filter((task) => task.status === "Todo")
     .map((task, idx) => {
-      if (data.timeDifference(task) > 0 && data.timeDifference(task) < 5) {
+      if (data.timeDifference(task) > 0 && data.timeDifference(task) <= 5) {
         counter++;
         return (
           <NotificationListItem

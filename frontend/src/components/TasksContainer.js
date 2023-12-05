@@ -30,7 +30,7 @@ function TasksContainer({
   return (
     <>
     {state.user ? (
-      <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
+      <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-20 pb-10 mx-auto gap-16 rounded-md'>
 
         {notificationState && <NotificationsModal  toggleNotification={toggleNotification} notificationState={notificationState} notificationElement={notificationElement} /> }
         {state.showDetailsModal && (

@@ -140,7 +140,7 @@ router.post('/setStartTime', ensureAuthenticated, async (req, res) => {
 
     // Proceed to update the start time as it's the user's task
     const updatedTask = await userQueries.setActualStartTime(taskId, status, time);
-    res.json({ message: 'Actual start time updated successfully', task: updatedTask });
+    res.json({ message: `YOU STARTED ${updatedTask.title.toUpperCase()}`, task: updatedTask });
   
 });
 
@@ -160,8 +160,8 @@ router.post('/setEndTime', ensureAuthenticated, async (req, res) => {
   }
 
   // Proceed to update the end time as it's the user's task
-  await userQueries.setActualEndTime(taskId, status);
-  res.json({ message: 'Actual End time updated successfully' });
+  const updatedTask = await userQueries.setActualEndTime(taskId, status);
+  res.json({ message: `CONGRATS FINISHED ${updatedTask.title.toUpperCase()}` });
 });
 
 
@@ -173,7 +173,7 @@ router.post('/startAgain',ensureAuthenticated,  (req, res) => {
     userQueries.setBeginning(taskId, status)
     .then((task) => {
       console.log("-------------", task);
-          res.json({ message: 'Task set initials successfully'});
+          res.json({ message: `RESET ${task.title.toUpperCase()}`});
         })
         .catch((error) => {
           console.log(error);

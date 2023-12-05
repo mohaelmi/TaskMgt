@@ -97,9 +97,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                 >
                   Description
                 </label>
-                <input
-                  type="text"
-                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-10 w-64 px-1"
+                <textarea
+                  rows={2}
+                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-16 w-64 px-1"
                   name="description"
                   defaultValue={task.description}
                   // onChange={(e) =>

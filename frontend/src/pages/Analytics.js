@@ -9,12 +9,14 @@ const Analytics = (props) => {
     <div
       style={{
         margin: '4% auto',
-        marginBottom: '5px',
+        paddingTop: '2%',
+        marginBottom: '3px',
         padding: '0.6rem',
         maxWidth: '1000px',
         backgroundColor: '#e6e8e9bb',
-        maxHeight: '60vh',
+        maxHeight: '30%',
         borderRadius: '10px',
+        marginTop: '5%'
       }}
     >
       <Grid item xs={12} md={12}>
