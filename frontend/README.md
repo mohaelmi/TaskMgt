@@ -27,3 +27,11 @@ TaskMgt is a full stack web application built with React that helps users manage
 - cd backend
 - Install all dependencies (using the `npm install` command).
 - Run the development web server using the `npm start` command on Frontend and Backend.
+
+## Readme template
+
+- [] Summary of the application
+- [] Purpose of the application/functionalities
+- [] Impact of the application
+- [] Alternatives considers
+- [] Improvements
