@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import CategoryPieChart from '../components/CategoryPiechart';
+import CategoryPieChart from '../components/CategoryPieChart';
 import StatusPieChart from '../components/StatusPiechart';
 import TaskTimeline from '../components/Timeline';
 const Analytics = (props) => {
