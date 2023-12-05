@@ -1,93 +1,79 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Toaster } from 'react-hot-toast';
-import { useApplicationData } from './hooks/useApplicationData';
-import TaskList from './components/TaskList';
-import EditTask from './components/EditTask';
-import CreateTask from './components/CreateTask';
-import TaskDetailsModal from './components/TaskDetailsModal';
-import NavBar from './components/NavBar';
-import { NotificationsContent } from './components/Notifications';
-
-
+import "./App.css";
+import React, { useEffect, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Toaster } from "react-hot-toast";
+import { useApplicationData } from "./hooks/useApplicationData";
+import NavBar from "./components/NavBar";
+import TasksContainer from "./components/TasksContainer";
+import NotificationListItem from "./components/NotificationListItem";
 
 function App() {
-  const [
-    state,
-    createTask,
-    handleDeleteTask,
-    updateTask,
-    toggleModal,
-    createToggleModal,
-    userLogin,
-    userLogOut,
-    userSignup,
-    moveTask,
-    detailsToggleModal,
-  ] = useApplicationData();
-  //geting data for pie charts
-  // const { taskCategoryPie, taskStatusPie,timelineData } = state;
-  // console.log("## show model", state.showCreateModal)
-  // console.log("## user", state.taskData);
-  // console.log(Boolean(state.user));
-  // console.log('inapp',state.tasktimelineData);
-  // const { taskCategoryPie, taskStatusPie } = state;
+  const data = useApplicationData();
+
   const [notificationState, setNotificationState] = useState(false);
+  // const [counter, setCounter] = useState(0);
+  let counter = 0;
+
+  // check data.timeDifference(task) with settinh counter state every 5 seconds to update alert counter -> but alert number is blinking -> if you can fix go ahead!
+  
+  // useEffect(() => {
+  //   const interVal = setInterval(() => {
+  //     const notificationCount = data.state.taskData.filter((task) => {
+  //     return task.status === 'Todo' && data.timeDifference(task) > 0 && data.timeDifference(task) < 5
+  //     }).length
+
+  //     if(counter < notificationCount){
+  //       setCounter(notificationCount)
+  //     }
+
+  //     console.log(notificationCount, counter);
+  //   if(notificationCount === 0  ) clearInterval(interVal)
+  //   }, 5000)
+
+  // }, [data.state.taskData, counter])
+
+
+
+  // loop only Todo task
+  const notificationElement = data.state.taskData
+    .filter((task) => task.status === "Todo")
+    .map((task, idx) => {
+      if (data.timeDifference(task) > 0 && data.timeDifference(task) < 5) {
+        counter++;
+        return (
+          <NotificationListItem
+            key={idx}
+            task={task}
+            timeDifference={data.timeDifference(task)}
+          />
+        );
+      }
+    });
 
   return (
     <DndProvider backend={HTML5Backend}>
       <Toaster />
       <NavBar
-        openModal={createToggleModal}
-        userLogin={userLogin}
-        userLogOut={userLogOut}
-        userSignup={userSignup}
-        user={state.user}
-        taskCategoryPie={state.taskCategoryPie}
-        taskStatusPie={state.taskStatusPie}
-        tasktimelineData={state.tasktimelineData}
-        toggleNotification={setNotificationState} 
+        openModal={data.createToggleModal}
+        userLogin={data.userLogin}
+        userLogOut={data.userLogOut}
+        userSignup={data.userSignup}
+        user={data.state.user}
+        taskCategoryPie={data.state.taskCategoryPie}
+        taskStatusPie={data.state.taskStatusPie}
+        tasktimelineData={data.state.tasktimelineData}
+        toggleNotification={setNotificationState}
         notificationState={notificationState}
+        countNotification={counter}
       />
 
-      {state.user ? (
-        <div className='bg-slate-100 w-9/12 flex flex-col justify-center items-center pt-32 pb-10 mx-auto gap-16 rounded-md'>
-          {notificationState && <NotificationsContent tasks={state.taskData} /> }
-          {state.showDetailsModal && (
-            <TaskDetailsModal
-              closeTaskDetails={detailsToggleModal}
-              taskDetails={state.taskDetails}
-            />
-          )}
-          {/* <NewTask createTask={createTask} /> */}
-          {/* <p>tasklist is below</p> */}
-          {/* <TaskList tasks={state.taskData} deleteTask={handleDeleteTask} /> */}
-          {state.showCreateModal && (
-            <CreateTask
-              closeModal={createToggleModal}
-              createTask={createTask}
-            />
-          )}
-          <TaskList
-            tasks={state.taskData}
-            deleteTask={handleDeleteTask}
-            openModal={toggleModal}
-            moveTask={moveTask}
-            openTaskDetail={detailsToggleModal}
-          />
-
-          {state.showModal && (
-            <EditTask
-              taskToEdit={state.taskToEdit}
-              closeModal={toggleModal}
-              updateTask={updateTask}
-            />
-          )}
-        </div>
-      ) : null}
+      <TasksContainer
+        {...data}
+        notificationState={notificationState}
+        toggleNotification={setNotificationState}
+        notificationElement={notificationElement}
+      />
     </DndProvider>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
+function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title }) {
   if (!task || task === undefined) {
     task = {};
   }
@@ -45,7 +45,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
   };
 
   return (
-    <div className="flex justify-center items-center  overflow-x-hidden round-lg overflow-y-auto fixed inset-0 z-50  outline-none focus:outline-none">
+    <div className="flex justify-center items-center  overflow-x-hidden round-lg overflow-y-auto fixed inset-0 z-50  outline-none focus:outline-none mt-12">
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relativ rounded-md shadow dark:bg-gray-200">
           <button
@@ -72,6 +72,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
           </button>
           <div className="p-4 md:p-5 text-center bg-slate-600 rounded-lg w-full">
             {/* content starts here */}
+            <h1 className="text-gray-100 font-bold text-lg " >{title}</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-10">
               <div className="text-gray-800">
                 <label
@@ -98,9 +99,28 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                 </label>
                 <input
                   type="text"
-                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1"
+                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-10 w-64 px-1"
                   name="description"
                   defaultValue={task.description}
+                  // onChange={(e) =>
+                  //   setTask({ ...task, description: e.target.value })
+                  // }
+                />
+              </div>
+
+              <div>
+                <label
+                  className="text-white text-sm font-bold mb-2 mr-10"
+                  htmlFor="duration"
+                >
+                Duration
+                </label>
+                <input
+                  type="text"
+                  className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-10 w-64 px-1"
+                  name="duration"
+                  placeholder="Duration in minutes"
+                  defaultValue={task.duration}
                   // onChange={(e) =>
                   //   setTask({ ...task, description: e.target.value })
                   // }
@@ -112,14 +132,15 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
               {/* dropdown */}
               <div className="text-gray-800">
                 <label
-                  className="text-white text-sm font-bold mb-2 mr-10"
-                  htmlFor="duration"
+                  className="text-white text-sm font-bold mb-2 -ml-5 mr-8"
+                  htmlFor="importancelevel"
                 >
-                  Duration
+                Importance
                 </label>
-                <select name="duration" className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1 cursor-pointer">
-                  <option value="30">{30}</option>
-                  <option value="60">{60}</option>
+                <select name="imortancelevel" className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1 cursor-pointer">
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
                 </select>
               </div>
 
@@ -132,7 +153,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit }) {
                   Category
                 </label>
                 <select name="category" className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1 cursor-pointer" >
-                  <option value="Leisure">leisure</option>
+                  <option value="Leisure">Leisure</option>
                   <option value="House Chores">House Chores</option>
                   <option value="Self Improvement">Self development</option>
                 </select>

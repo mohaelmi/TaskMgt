@@ -22,7 +22,7 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
  const start = moment(getDateFromHours(taskDetails.estimatedstarttime)).fromNow();
 
   return (
-    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10">
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative rounded-lg shadow dark:bg-gray-700">
           <button
@@ -47,9 +47,9 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
             </svg>
             {/* <span className="sr-only">Close modal</span> */}
           </button>
-          <div className="md:p-2 flex flex-col -mt-24 text-slate-200  bg-slate-600 rounded-lg justify-center gap-6">
+          <div className="md:p-2 flex flex-col -mt-24 text-slate-200  bg-slate-600 rounded-lg justify-center gap-6 ">
+          <h1 className="text-lg font-bold text-center mt-5"> Task Details</h1>
             {/* content starts here */}
-          
              
                 <label className="px-14 pt-5 text-md font-bold ">
                   <p className="font-light">Description:</p> {taskDetails.description}
