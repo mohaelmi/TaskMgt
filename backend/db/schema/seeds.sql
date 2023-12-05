@@ -4,7 +4,6 @@ VALUES
     ( 'Moha', '$2b$10$NC.NL6nD/HsOX7iDqVLIT.8JTUedj18Qqvjb4UZLjkB4t7rCHImRu', 'moha@example.com'),
     ( 'Ony', '$2b$10$bllTfrew/CYO5n9CrEhB5.fMykRWQGUWBC1io8i/cjnAE29DuY9Cy', 'ony@example.com');
 
-    
 INSERT INTO tasks (UserID, Title, Category, Description, Status, ImportanceLevel, EstimatedStartTime, duration, ActualStartTime, ActualEndTime)
 VALUES
     (1, 'Read a Book', 'Leisure', 'Read a novel for relaxation.', 'Todo', 'Low', '19:00:00', '30', NULL, NULL),
@@ -24,10 +23,6 @@ VALUES
     (3, 'Painting Session', 'Leisure', 'Express creativity through painting.', 'Closed', 'High', '16:00:00', '45','16:00:00', '16:45:00'),
     (3, 'Family Dinner', 'Family Time', 'Have a family dinner together.', 'Todo', 'Medium', '19:00:00', '90', NULL, NULL);
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> fb3f78a5afcae15358d5185e48094b641450547a
 
 INSERT INTO notifications ( UserID, TaskID, NotificationType, NotificationDate, Message)
 VALUES
