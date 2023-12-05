@@ -66,7 +66,7 @@ function TaskTimelineChart({ tasks }) {
           width: '100%',
         }}
       >
-        Timeline of Tasks
+        Tasks Timeline
       </Typography>
       <Chart
         chartType='Timeline'
