@@ -51,24 +51,24 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
           <h1 className="text-lg font-bold text-center mt-5"> Task Details</h1>
             {/* content starts here */}
              
-                <label className="px-14 pt-5 text-md font-bold ">
-                  <p className="font-light">Description:</p> {taskDetails.description}
+                <label className="px-8 pt-3 text-md font-bold flex flex-col gap-4 bg-slate-800 pb-3 rounded-lg">
+                  <p className="font-bold">Description</p>  {taskDetails.description}
                 </label>
                 
            
               
-                <label className="px-14 text-md font-bold ">
-                  <p className="font-light">Category:</p> {taskDetails.category}
+                <label className="px-8 pt-3 text-md font-bold flex flex-row items-center justify-between bg-slate-800 pb-3 rounded-lg">
+                  <p className="font-bold">Category</p> {taskDetails.category}
                 </label>
                 
              
             
-                <label className="px-14 text-md font-bold">
-                  <p className="font-light">Start time:</p> {start}
+                <label className="px-8 pt-3 text-md font-bold flex flex-row items-center justify-between bg-slate-800 pb-3 rounded-lg">
+                  <p className="font-bold">Start time</p> {start}
                 </label>
 
-                <label className="px-14 text-md font-bold pb-5">
-                  <p className="font-light">Duration:</p> {taskDetails.duration} minutes
+                <label className="px-8 pt-3 text-md font-bold flex flex-row items-center justify-between bg-slate-800 pb-3 rounded-lg mb-5">
+                  <p className="font-bold">Duration</p> {taskDetails.duration} minutes
                 </label>
                 
 
