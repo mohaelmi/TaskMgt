@@ -46,26 +46,11 @@ const reducer = (state, action) => {
         ...state,
         showModal: null,
       };
-    // //  console.log("payload", action.payload)
-    // //  console.log("state", state.taskData)
-
-    //  const found = state.taskData.find((task) => task.id === action.payload.id)
-    //  const tasks = state.taskData.filter((task) => {
-    //   if(task.id === found.id) {
-    //     return found
-    //   }
-    //   return task
-    //  })
-    // //  console.log("## updated tasks", tasks);
-    //   return {
-    //     ...state,
-    //     taskData: tasks,
-    //   };
-
+  
     case ACTIONS.SHOW_MODAL_CREATE_TASK:
       return {
         ...state,
-        showCreateModal: !state.showCreateModal,
+        showCreateModal: action.payload
       };
 
     case ACTIONS.SHOW_EDIT_TASK:
@@ -246,7 +231,6 @@ export const useApplicationData = () => {
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
-        // dispatch({ type: ACTIONS.CREAT_TASK, payload:  task}); // set update data from server  ) });
         fetchTasks();
         toast.success(res.data.message, { icon: "✅" });
       })
@@ -278,15 +262,14 @@ export const useApplicationData = () => {
   };
 
   const toggleModal = (task) => {
-    // state.showModal = id;
     dispatch({
       type: ACTIONS.SHOW_EDIT_TASK,
       payload: task,
     });
   };
 
-  const createToggleModal = () => {
-    dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK });
+  const createToggleModal = (value) => {
+    dispatch({ type: ACTIONS.SHOW_MODAL_CREATE_TASK, payload: value });
   };
 
   const detailsToggleModal = (task) => {
@@ -315,8 +298,6 @@ export const useApplicationData = () => {
   };
 
   const userSignup = (userInfo) => {
-    // const { username, email, pwd } = userInfo;
-    console.log(userInfo);
     axios
       .post("/register", userInfo)
       .then((res) => {
@@ -324,7 +305,7 @@ export const useApplicationData = () => {
         localStorage.setItem("user", JSON.stringify(res.data.newUser));
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.newUser });
         navigate("/");
-        // dispatch({ type: ACTIONS.USER_SIGNUP, payload: res.data });
+      
       })
       .catch((error) => console.log(error));
   };
@@ -336,7 +317,6 @@ export const useApplicationData = () => {
         dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
         localStorage.setItem("user", null);
         navigate("/login");
-        // console.log("response when login", res.data.user)
         console.log("log out", res.data);
       })
       .catch((error) => console.log(error));
@@ -357,7 +337,7 @@ export const useApplicationData = () => {
       return;
     }
     if(prevStatus !== status) {
-      // console.log('sdddddddddddddddd');
+ 
     if(status === 'In Progress') {
       if(prevStatus === 'Todo') {
         axios
@@ -365,7 +345,6 @@ export const useApplicationData = () => {
         .then((res) => {
           fetchTasks()
           console.log("task:", res.data.task);
-          // dispatch({ type: ACTIONS.MOVE_TASK_INTO_PROGRESS, payload: res.data.task });
           toast.success(res.data.message)
         })
         .catch((error) => console.log(error));
@@ -407,7 +386,6 @@ export const useApplicationData = () => {
 
   // return difference from estimated start time and actual system for alert
   const timeDifference = (task) => {
-    // console.log(length);
     // gett entire date
     function getDateFromTime(time) {
       time = time.split(':');

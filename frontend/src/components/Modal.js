@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from "react";
 
-function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title }) {
-  if (!taskToEdit || taskToEdit === undefined) {
-    taskToEdit = {};
-  }
+function Modal({ task, callback, closeModal, text, title }) {
 
+  //set empty object to task if there is no task property coming from EditTask component 
+  if (!task || task === undefined) {
+    task = {};
+  }
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title, description, start_time, duration, category, imortancelevel } = e.target.elements;
-    // const startTime = taskDetails.actualstarttime ? taskDetails.actualstarttime : taskDetails.estimatedstarttime;
     console.log("duration", start_time.value);
 
-    const task = {
-      title: title.value, //"Play soccer",
-      category:  category.value,  // "Leisure", // dropdown
+    const newTask = {
+      title: title.value, 
+      category:  category.value,  
       description: description.value,
-      status: "Todo", // dropdown
-      importancelevel: imortancelevel.value, // dropdown // maybe no need it =>>>
-      duration: duration.value, //"20",
-      estimatedstarttime: start_time.value,  //"15:00:00", //dropdown time
+      status: "Todo",
+      importancelevel: imortancelevel.value, 
+      duration: duration.value, 
+      estimatedstarttime: start_time.value, 
       actualstarttime: null,
       actualendtime: null,
     };
 
-    if (taskToEdit) {
+    if (Object.keys(task).length > 0) {
       const updatedTask = {
-        ...taskToEdit,
+        ...task,
         title: title.value,
         description: description.value,
         duration: duration.value,
@@ -38,12 +38,13 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
       console.log("## taskToEdit", updatedTask);
       callback(updatedTask);
     } else {
+
+      // if not task then means user clicked create Task buton so will create new task
       console.log("NEW task", task);
-      callback(task);
+      callback(newTask);
       closeModal(null);
     }
 
-    console.log("before update", taskToEdit);
   };
 
   return (
@@ -70,7 +71,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
               />
             </svg>
-            {/* <span className="sr-only">Close modal</span> */}
+         
           </button>
           <div className="p-4 md:p-5 text-center bg-slate-600 rounded-lg w-full">
             {/* content starts here */}
@@ -87,9 +88,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   type="text"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1"
                   name="title"
-                  defaultValue={taskToEdit.title}
+                  defaultValue={task.title}
 
-                  // onChange={(e) => setTask({ ...task, title: e.target.value })}
+              
                 />
               </div>
               <div>
@@ -103,10 +104,8 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   rows={2}
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-16 w-64 px-1"
                   name="description"
-                  defaultValue={taskToEdit.description}
-                  // onChange={(e) =>
-                  //   setTask({ ...task, description: e.target.value })
-                  // }
+                  defaultValue={task.description}
+        
                 />
               </div>
 
@@ -122,10 +121,8 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-10 w-64 px-1"
                   name="duration"
                   placeholder="Duration in minutes"
-                  defaultValue={taskToEdit.duration}
-                  // onChange={(e) =>
-                  //   setTask({ ...task, description: e.target.value })
-                  // }
+                  defaultValue={task.duration}
+       
                 />
               </div>
 
@@ -163,8 +160,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
 
 
             
-            { ( taskToEdit.status === 'Todo' || Object.keys(taskToEdit).length === 0 ) &&
-          
+            { (task?.status === 'Todo' || Object.keys(task).length === 0 ) &&
 
               <div>
                 <label
@@ -177,10 +173,8 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   type="time"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
                   name="start_time"
-                  defaultValue={taskToEdit.estimatedstarttime}
-                  // onChange={(e) =>
-                  //   setTask({ ...task, estimatedStartTime: e.target.value })
-                  // }
+                  defaultValue={task.estimatedstarttime}
+      
                 />
               </div> 
               }
@@ -201,25 +195,3 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
 }
 
 export default Modal;
-
-// <div className="">
-// <label
-//   className="block text-gray-200 text-sm font-bold mb-2 pr-44" for="title"> Title
-// </label>
-// <input
-//   className="shadow appearance-none border rounded-md w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//   type="text"
-//   placeholder="Title"
-// />
-// </div>
-
-// <div className="">
-// <label
-//   className="block text-gray-200 text-sm font-bold mb-2 pr-32" for="description"> Description
-// </label>
-// <input
-//   className="shadow appearance-none border rounded-md w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-12"
-//   type="text"
-//   placeholder="description"
-// />
-// </div>

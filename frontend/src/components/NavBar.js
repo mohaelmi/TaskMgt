@@ -102,7 +102,7 @@ const NavBar = ({
               <Button
                 variant="text"
                 textColor="inherit"
-                onClick={() => openModal()}
+                onClick={() => openModal(true)}
                 sx={{
                   color: "#656565",
                   textTransform: "none",
