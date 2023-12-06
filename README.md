@@ -13,7 +13,7 @@ The application is a comprehensive task management system designed to assist use
 ## Purpose of the Application/Functionalities:
 
 The primary purpose of the application is to facilitate effective task management for users. Key functionalities include user registration and authentication, allowing users to create and log in to accounts. Users can create tasks with titles, descriptions, due dates, and estimation times. The application supports categorization of tasks into projects or categories, assignment of priority levels, and verification of task estimation accuracy.
-The intuitive interface allows users to drag tasks seamlessly from "TODO" to "In Progress" and ultimately to "Completed."
+The intuitive interface allows users to drag and drop tasks seamlessly from "TODO" to "In Progress" and ultimately to "Completed."
 The application's summary page provides a visual representation of the task timeline, categorized tasks, and their respective statuses, Users can filter tasks based on status and track time spent on each task. The application also offers notification features for upcoming tasks and deadlines.
 
 ## Impact of the Application:

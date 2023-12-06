@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import CategoryPieChart from '../components/CategoryPiechart';
+import CategoryPieChart from '../components/CategoryPieChart';
 import StatusPieChart from '../components/StatusPiechart';
 import TaskTimeline from '../components/Timeline';
 const Analytics = (props) => {
@@ -16,7 +16,7 @@ const Analytics = (props) => {
         backgroundColor: '#e6e8e9bb',
         maxHeight: '30%',
         borderRadius: '10px',
-        marginTop: '5%'
+        marginTop: '5%',
       }}
     >
       <Grid item xs={12} md={12}>
