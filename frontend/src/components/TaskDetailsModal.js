@@ -10,8 +10,8 @@ function TaskDetailsModal({closeTaskDetails, taskDetails}) {
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
   }
 
-const startTime = taskDetails.actualstarttime ? taskDetails.actualstarttime : taskDetails.estimatedstarttime
-;
+const startTime = taskDetails.actualstarttime ? taskDetails.actualstarttime : taskDetails.estimatedstarttime;
+
  const start = moment(getDateFromHours(startTime)).fromNow();
 
   return (
