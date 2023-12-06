@@ -36,11 +36,12 @@ app.use(
 app.post('/register', (req, res) => {
   const { username,email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
-
+  // req.session.userId = user.id;
   
     // Call the createUser query function to add a new user to the database
     userQueries.createUser(username, email, hashedPassword)
     .then((newUser) => {
+      req.session.userId = newUser.id;
       res.status(201).json({ message: 'User registered successfully', newUser });
     })
     .catch (error => {

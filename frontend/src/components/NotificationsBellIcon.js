@@ -29,7 +29,7 @@ function NotificationsBellIcon (props) {
       <div>
         <Badge
           color="error"
-          badgeContent={props.countNotification && props.countNotification}
+          badgeContent={props.countNotification}
           onClick={() => openDialog()}
         >
           <NotificationsIcon />

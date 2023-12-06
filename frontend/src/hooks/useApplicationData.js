@@ -357,18 +357,31 @@ export const useApplicationData = () => {
     if(prevStatus !== status) {
       // console.log('sdddddddddddddddd');
     if(status === 'In Progress') {
-      axios
-      .post("/api/tasks/setStartTime", {taskId: id,  status, time})
-      .then((res) => {
-        fetchTasks()
-        console.log("task:", res.data.task);
-        // dispatch({ type: ACTIONS.MOVE_TASK_INTO_PROGRESS, payload: res.data.task });
-        toast.success(res.data.message)
-      })
-      .catch((error) => console.log(error));
+      if(prevStatus === 'Todo') {
+        axios
+        .post("/api/tasks/setStartTime", {taskId: id,  status, time})
+        .then((res) => {
+          fetchTasks()
+          console.log("task:", res.data.task);
+          // dispatch({ type: ACTIONS.MOVE_TASK_INTO_PROGRESS, payload: res.data.task });
+          toast.success(res.data.message)
+        })
+        .catch((error) => console.log(error));
+
+      }else if(prevStatus === 'Closed'){
+        console.log('wwwwwwwww');
+        axios
+        .post("/api/tasks/setEndTimeToNull", {taskId: id,  status})
+        .then((res) => {
+          fetchTasks()
+          console.log("task:", res.data.message);
+          toast.success(res.data.message)
+        })
+        .catch((error) => console.log(error));
+      }
     }else if(status === 'Closed') {
       axios
-      .post("/api/tasks/setEndTime", {taskId: id,  status})
+      .post("/api/tasks/setEndTime", {taskId: id,  status, time})
       .then((res) => {
         fetchTasks()
         console.log("task:", res.data.message);
