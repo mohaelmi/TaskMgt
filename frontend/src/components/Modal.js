@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title }) {
-  if (!task || task === undefined) {
-    task = {};
+  if (!taskToEdit || taskToEdit === undefined) {
+    taskToEdit = {};
   }
-  // console.log("title", task.title);
+
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description, start_time, duration, category } = e.target.elements;
+    const { title, description, start_time, duration, category, imortancelevel } = e.target.elements;
+    // const startTime = taskDetails.actualstarttime ? taskDetails.actualstarttime : taskDetails.estimatedstarttime;
     console.log("duration", start_time.value);
 
     const task = {
@@ -17,9 +18,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
       category:  category.value,  // "Leisure", // dropdown
       description: description.value,
       status: "Todo", // dropdown
-      importancelevel: "Medium", // dropdown // maybe no need it =>>>
-      estimatedstarttime: start_time.value,  //"15:00:00", //dropdown time
+      importancelevel: imortancelevel.value, // dropdown // maybe no need it =>>>
       duration: duration.value, //"20",
+      estimatedstarttime: start_time.value,  //"15:00:00", //dropdown time
       actualstarttime: null,
       actualendtime: null,
     };
@@ -32,6 +33,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
         duration: duration.value,
         category: category.value,
         estimatedstarttime: start_time.value,
+        importancelevel: imortancelevel.value,
       };
       console.log("## taskToEdit", updatedTask);
       callback(updatedTask);
@@ -85,7 +87,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   type="text"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-10 w-64 px-1"
                   name="title"
-                  defaultValue={task.title}
+                  defaultValue={taskToEdit.title}
 
                   // onChange={(e) => setTask({ ...task, title: e.target.value })}
                 />
@@ -101,7 +103,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   rows={2}
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-16 w-64 px-1"
                   name="description"
-                  defaultValue={task.description}
+                  defaultValue={taskToEdit.description}
                   // onChange={(e) =>
                   //   setTask({ ...task, description: e.target.value })
                   // }
@@ -120,7 +122,7 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md mr-5 h-10 w-64 px-1"
                   name="duration"
                   placeholder="Duration in minutes"
-                  defaultValue={task.duration}
+                  defaultValue={taskToEdit.duration}
                   // onChange={(e) =>
                   //   setTask({ ...task, description: e.target.value })
                   // }
@@ -160,6 +162,9 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
               </div>
 
 
+            
+            { ( taskToEdit.status === 'Todo' || Object.keys(taskToEdit).length === 0 ) &&
+          
 
               <div>
                 <label
@@ -172,12 +177,13 @@ function Modal({ task, setTask, callback, closeModal, text, taskToEdit, title })
                   type="time"
                   className=" border-2 border-slate-400 bg-slate-100 rounded-md h-10 w-64 px-1"
                   name="start_time"
-                  defaultValue={task.estimatedstarttime}
+                  defaultValue={taskToEdit.estimatedstarttime}
                   // onChange={(e) =>
                   //   setTask({ ...task, estimatedStartTime: e.target.value })
                   // }
                 />
-              </div>
+              </div> 
+              }
               <div className="flex items-center justify-end mr-3">
                 <button
                   type="submit"
