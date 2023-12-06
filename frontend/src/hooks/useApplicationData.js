@@ -182,6 +182,8 @@ const creatTimelineData = (tasks) => {
       category: task.category,
       estimatedstarttime: task.estimatedstarttime,
       estimatedendtime: calculateEstimatedEndTime(task.estimatedstarttime,parseInt(task.duration, 10)), // Convert duration to a number if it's a string
+      actualstart:task.actualstarttime,
+      actualend:task.actualendtime,
     };
   });
 };
