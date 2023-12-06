@@ -154,12 +154,8 @@ const updateTask = (task) => {
     });
 };
 
-const setActualEndTime = (taskId, status) => {
-  let date = new Date()
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  let seconds = date.getSeconds();
-  let time = `${hours.toString()}:${minutes.toString()}:${seconds.toString()}`
+const setActualEndTime = (taskId, status, time) => {
+ 
   const query = `
     UPDATE tasks
     SET ActualEndTime = $2, Status = $1
@@ -353,6 +349,27 @@ const setBeginning = (taskId, status) => {
     });
 };
 
+const setEndTimeToNull = (taskId, status) => {
+
+  const query = `
+    UPDATE tasks
+    SET ActualEndTime = $1, status = $2
+    WHERE id = $3
+    RETURNING *;
+  `;
+  const values = [null, status, taskId];
+
+  return db
+    .query(query, values)
+    .then((result) => result.rows[0])
+    .catch((error) => {
+      console.log(error);
+      throw new Error('Error setting back to initail');
+    });
+};
+
+
+
 module.exports = {
   getAllTasks,
   createTask,
@@ -366,6 +383,7 @@ module.exports = {
   getUserByEmail,
   getUserById,
   getTaskById,
-  setBeginning
+  setBeginning,
+  setEndTimeToNull
   // hashExistingUsersPasswords,
 };
