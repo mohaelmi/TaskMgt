@@ -48,12 +48,18 @@ const NavBar = ({
               ml: 1,
             }}
           >
+          { user ? 
             <RouterLink
               to="/"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               TaskMgt
-            </RouterLink>
+            </RouterLink> :  <RouterLink
+              to="/login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              TaskMgt
+            </RouterLink> }
           </Typography>
           {user ? (
             <div

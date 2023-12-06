@@ -11,33 +11,36 @@ function Modal({ task, callback, closeModal, text, title }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title, description, start_time, duration, category, imortancelevel } = e.target.elements;
-    console.log("duration", start_time.value);
+    const startTime = start_time ? start_time.value : task.estimatedstarttime
 
-    const newTask = {
-      title: title.value, 
-      category:  category.value,  
-      description: description.value,
-      status: "Todo",
-      importancelevel: imortancelevel.value, 
-      duration: duration.value, 
-      estimatedstarttime: start_time.value, 
-      actualstarttime: null,
-      actualendtime: null,
-    };
+  
 
     if (Object.keys(task).length > 0) {
+    
       const updatedTask = {
         ...task,
         title: title.value,
         description: description.value,
         duration: duration.value,
         category: category.value,
-        estimatedstarttime: start_time.value,
+        estimatedstarttime: startTime,
         importancelevel: imortancelevel.value,
       };
       console.log("## taskToEdit", updatedTask);
       callback(updatedTask);
     } else {
+
+      const newTask = {
+        title: title.value, 
+        category:  category.value,  
+        description: description.value,
+        status: "Todo",
+        importancelevel: imortancelevel.value, 
+        duration: duration.value, 
+        estimatedstarttime: start_time.value, 
+        actualstarttime: null,
+        actualendtime: null,
+      };
 
       // if not task then means user clicked create Task buton so will create new task
       console.log("NEW task", task);
@@ -160,7 +163,7 @@ function Modal({ task, callback, closeModal, text, title }) {
 
 
             
-            { (task?.status === 'Todo' || Object.keys(task).length === 0 ) &&
+            { (task.status === 'Todo' || Object.keys(task).length === 0 ) &&
 
               <div>
                 <label
