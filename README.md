@@ -44,7 +44,8 @@ The application significantly enhances users' productivity and organization by p
 - Express
 - bcryptjs
 - cookie-session
-
+- React DnD
+- moment
 ## Getting Started
 
 - cd frontend
