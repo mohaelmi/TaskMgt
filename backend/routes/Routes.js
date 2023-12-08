@@ -11,7 +11,6 @@ const ensureAuthenticated = (req, res, next) => {
 
 router.get("/", (req, res) => {
   const userId = req.session.userId;
-  console.log("session id", userId);
   if (!userId) {
     res.json([]);
   } else {
@@ -66,7 +65,6 @@ router.post("/new", ensureAuthenticated, (req, res) => {
 router.post("/delete", ensureAuthenticated, async (req, res) => {
   const userId = req.session.userId; // get logged-in user ID
   const taskId = req.body.taskId; // get task ID from the request body
-  console.log(taskId);
   if (!taskId) {
     return res
       .status(400)
@@ -91,13 +89,6 @@ router.post("/delete", ensureAuthenticated, async (req, res) => {
     // Delete the task
     await userQueries.deleteTask(taskId);
 
-    // //Delete notifications related to the task
-    // const notificationsDeleted = await userQueries.deleteNotificationsByTaskID(taskId);
-
-    // if (!notificationsDeleted) {
-    //   return res.status(500).json({ error: 'Error deleting notifications' });
-    // }
-
     res.json({ message: "Task deleted successfully" });
   } catch (error) {
     res.status(503).json({ error: "Error deleting task", details: error });
@@ -116,7 +107,6 @@ router.get("/s", (req, res) => {
 router.post("/edit", ensureAuthenticated, (req, res) => {
   const userId = req.session.userId; // get logged-in user ID
   const updatedTask = req.body; // get task ID from the route
-  console.log("updated task user id", updatedTask.userid);
   // check if the task belongs to the logged-in user
   if (updatedTask.userid !== userId) {
     return res
@@ -127,12 +117,10 @@ router.post("/edit", ensureAuthenticated, (req, res) => {
   userQueries
     .updateTask(updatedTask)
     .then((updatedTaskDetails) => {
-      console.log("-------------", updatedTaskDetails);
       res.json({ message: "Task updated successfully", updatedTaskDetails });
     })
-    .catch((error) => {
-      console.log(error);
-      // res.status(500).json({ error: 'Error updating task', details: error });
+    .catch(() => {
+      res.status(500).json({ error: 'Error updating task'});
     });
 });
 
@@ -142,7 +130,6 @@ router.post("/setStartTime", ensureAuthenticated, async (req, res) => {
 
   const task = await userQueries.getTaskById(taskId); // Fetch task details
 
-  // console.log('ssssssssssssss', taskId, status);
   if (!task) {
     return res.status(404).json({ error: "Task not found" });
   }
@@ -194,11 +181,9 @@ router.post("/startAgain", ensureAuthenticated, (req, res) => {
   userQueries
     .setBeginning(taskId, status)
     .then((task) => {
-      console.log("-------------", task);
       res.json({ message: `RESET ${task.title.toUpperCase()}` });
     })
     .catch((error) => {
-      console.log(error);
       res
         .status(500)
         .json({ error: "Error setting up task into inital", error });
@@ -215,7 +200,6 @@ router.post("/setEndTimeToNull", ensureAuthenticated, (req, res) => {
       res.json({ message: `${task.title.toUpperCase()} BACK INTO PROGRESS` });
     })
     .catch((error) => {
-      console.log(error);
       res
         .status(500)
         .json({ error: "Error setting up task into inital", error });
