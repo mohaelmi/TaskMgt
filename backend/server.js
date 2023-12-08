@@ -26,11 +26,7 @@ app.use(
     name: "session",
     keys: ["key1"],
   })
-  // session({
-  //   secret: 'secret_key',
-  //   resave: false,
-  //   saveUninitialized: true,
-  // })
+
 );
 // Register a new user
 app.post('/register', (req, res) => {
@@ -45,20 +41,18 @@ app.post('/register', (req, res) => {
       res.status(201).json({ message: 'User registered successfully', newUser });
     })
     .catch (error => {
-      console.log(error);
      console.error('Error registering user:', error);
      res.status(500).json({ error: 'Error registering user' });
    }) 
   
 });
-// userQueries.hashExistingUsersPasswords();
+
 // Login route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userQueries.getUserByEmail(email);
     if (!user || user === undefined) {
-      console.log("user is undefined");
       return res.status(401).json({ message: 'Invalid username or password' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -74,25 +68,13 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Logout route
-// app.post('/logout', (req, res) => {
-//   req.session.destroy((err) => {
-//     if (err) {
-//       return res.status(500).json({ message: 'Logout failed' });
-//     }
-//     // res.json({ message: 'Logged out successfully' });
-//     res.redirect('/login');
-//   });
-// });
+
 
 app.get('/logout', (req, res) => {
   const id = req.session.userId
   if(id){
     req.session.userId = null;
-    //res.render("index", {user: null});
-    // res.redirect('/login');
     res.json({messge: "logout"})
-    // res.redirect('/login');
 
   }else {
     res.json({messge: "already log out"})
