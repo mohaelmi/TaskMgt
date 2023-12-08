@@ -51,3 +51,6 @@ The application significantly enhances users' productivity and organization by p
 - cd backend
 - Install all dependencies (using the `npm install` command).
 - Run the development web server using the `npm start` command on Frontend and Backend.
+
+
+!['image'](https://github.com/mohaelmi/TaskMgt/assets/31275085/27dee989-46a0-490d-97c1-fcd78490939b)
