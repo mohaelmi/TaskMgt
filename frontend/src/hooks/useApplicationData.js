@@ -139,7 +139,8 @@ const calculateCategoryCounts = (tasks) => {
 const calculateStatusCounts = (tasks) => {
   const statusCounts = {};
   tasks.forEach((task) => {
-    statusCounts[task.status] = (statusCounts[task.status] || 0) + 1;
+    const status = task.status === 'Closed' ? 'Completed' : task.status
+    statusCounts[status] = (statusCounts[status] || 0) + 1;
   });
   return statusCounts;
 };

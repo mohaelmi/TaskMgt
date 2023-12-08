@@ -158,6 +158,7 @@ function Modal({ task, callback, closeModal, text, title }) {
                   <option value="Leisure">Leisure</option>
                   <option value="House Chores">House Chores</option>
                   <option value="Self Improvement">Self development</option>
+                  <option value="Family Time">Family Time</option>
                 </select>
               </div>
 

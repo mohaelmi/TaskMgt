@@ -36,6 +36,7 @@ function TaskList(props) {
   // };
 
   return (
+  
     <div className='flex gap-16'>
       {statuses?.map((status, index) => (
         <TaskListItem
@@ -53,6 +54,7 @@ function TaskList(props) {
         />
       ))}
     </div>
+ 
   );
 
   //<ul>{renderTasks()}</ul>;
