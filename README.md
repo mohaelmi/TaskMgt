@@ -53,4 +53,4 @@ The application significantly enhances users' productivity and organization by p
 - Run the development web server using the `npm start` command on Frontend and Backend.
 
 
-!['image'](https://github.com/mohaelmi/TaskMgt/assets/31275085/27dee989-46a0-490d-97c1-fcd78490939b)
+[!['image'](https://github.com/mohaelmi/TaskMgt/assets/31275085/27dee989-46a0-490d-97c1-fcd78490939b)](https://github.com/mohaelmi/TaskMgt/assets/31275085/3170720e-d025-4599-be3e-a3fc262dce63)https://github.com/mohaelmi/TaskMgt/assets/31275085/3170720e-d025-4599-be3e-a3fc262dce63
