@@ -3,6 +3,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+import { calculateCategoryCounts, calculateStatusCounts,  creatTimelineData} from "../Helpers/chartsHelper"
+import { timeDifference } from '../Helpers/taskHelper'
+
 const ACTIONS = {
   SET_TASK_DATA: "SET_PHOTO_DATA",
   DELETE_TASK: "DELETE_TASK",
@@ -77,7 +80,6 @@ const reducer = (state, action) => {
       };
 
     case ACTIONS.USER_LOGIN:
-      console.log("user data", action.payload);
 
       return {
         ...state,
@@ -90,17 +92,6 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
-    // case ACTIONS.MOVE_TASK_INTO_PROGRESS:
-      
-    // const filteredTasks = state.taskData.filter(task => task.id !== action.payload.id)
-    // console.log(filteredTasks);
-    // const newTaskData = [...filteredTasks, {...action.payload} ]
-
-
-    //   return {
-    //     ...state,
-    //     taskData: newTaskData,
-    //   };
       //pie chart 1
       case ACTIONS.SET_CATEGORY_COUNTS:
         return {
@@ -126,53 +117,7 @@ const reducer = (state, action) => {
       );
   }
 };
-//function to calculate category counts(pie chart 1)
-const calculateCategoryCounts = (tasks) => {
-  const categoryCounts = {};
-  tasks.forEach((task) => {
-    categoryCounts[task.category] = (categoryCounts[task.category] || 0) + 1;
-  });
-  return categoryCounts;
-};
 
-//function to calculate status counts(pie chart 2)
-const calculateStatusCounts = (tasks) => {
-  const statusCounts = {};
-  tasks.forEach((task) => {
-    const status = task.status === 'Closed' ? 'Completed' : task.status
-    statusCounts[status] = (statusCounts[status] || 0) + 1;
-  });
-  return statusCounts;
-};
-//function to get timeline data(Timeline chart 3):
-// Function to calculate EstimatedEndTime
-const calculateEstimatedEndTime = (startTime, duration) => {
-  const [hours, minutes, seconds] = startTime.split(':').map(Number);
-  const start = new Date().setHours(hours, minutes, seconds);
-
-  const endTime = new Date(start + duration * 60000);
-  const formattedEndTime = endTime.toLocaleTimeString('en-US', {
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
-
-  return formattedEndTime;
-};
-const creatTimelineData = (tasks) => {
-  return tasks.map((task) => {
-    return {
-      id: task.id.toString(),
-      title: task.title,
-      category: task.category,
-      estimatedstarttime: task.estimatedstarttime,
-      estimatedendtime: calculateEstimatedEndTime(task.estimatedstarttime,parseInt(task.duration, 10)), // Convert duration to a number if it's a string
-      actualstart:task.actualstarttime,
-      actualend:task.actualendtime,
-    };
-  });
-};
 
 
 export const useApplicationData = () => {
@@ -182,7 +127,6 @@ export const useApplicationData = () => {
     user = JSON.parse(userInfo);
   }
 
-  // console.log(typeof JSON.parse(userInfo));
   const initialState = {
     taskData: [],
     taskToEdit: {},
@@ -202,7 +146,6 @@ export const useApplicationData = () => {
     axios
       .get("/api/tasks")
       .then((res) => {
-        console.log("data related to user ", res.data);
         if (res.data.emptyUser === 'no user signed') {
           navigate("/login");
         } else {
@@ -213,11 +156,11 @@ export const useApplicationData = () => {
           const categoryCounts = calculateCategoryCounts(res.data);
           const statusCounts = calculateStatusCounts(res.data);
           const tasktimelineData = creatTimelineData(res.data);
-          // console.log('fetch',tasktimelineData);
+
           dispatch({ type: ACTIONS.SET_CATEGORY_COUNTS, payload: categoryCounts });
           dispatch({ type: ACTIONS.SET_STATUS_COUNTS, payload: statusCounts });
           dispatch({ type: ACTIONS.SET_TASK_TIMELINE, payload: tasktimelineData });
-          // console.log('dispatch',tasktimelineData);
+  
         }
       })
       .catch((error) => console.log(error));
@@ -228,7 +171,6 @@ export const useApplicationData = () => {
   }, [state.user]);
 
   const createTask = (task) => {
-    console.log("create task", task);
     axios
       .post("/api/tasks/new", task)
       .then((res) => {
@@ -250,14 +192,12 @@ export const useApplicationData = () => {
   };
 
   const updatedTask = (task) => {
-    console.log("updated task", task);
     axios
       .post(`/api/tasks/edit`, task)
       .then((res) => {
         dispatch({ type: ACTIONS.EDIT_TASK });
         toast.success(res.data.message);
         fetchTasks();
-        console.log("-- edited task", res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -282,19 +222,14 @@ export const useApplicationData = () => {
     axios
       .post("/login", { email, password })
       .then((res) => {
-        console.log("## user", res.data.user);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        // const user = localStorage.getItem("user_id");
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.user });
         navigate("/");
-        console.log("response when login", res.data.user);
-        // console.log("local storage", user);
       })
 
       .catch((error) => {
         navigate("/login");
         toast.error(error.response.data.message, { duration: 3000 });
-        console.log(error.response.data);
       });
   };
 
@@ -302,7 +237,6 @@ export const useApplicationData = () => {
     axios
       .post("/register", userInfo)
       .then((res) => {
-        console.log(res.data.newUser);
         localStorage.setItem("user", JSON.stringify(res.data.newUser));
         dispatch({ type: ACTIONS.USER_LOGIN, payload: res.data.newUser });
         navigate("/");
@@ -318,14 +252,13 @@ export const useApplicationData = () => {
         dispatch({ type: ACTIONS.USER_LOGOUT, payload: null });
         localStorage.setItem("user", null);
         navigate("/login");
-        console.log("log out", res.data);
       })
       .catch((error) => console.log(error));
   };
 
+
+  // drag and drop tasks
   const moveTask = (id, prevStatus, status) => {
-    console.log('prev status', prevStatus);
-    console.log('status',  status);
 
     let date = new Date()
     let hours = date.getHours();
@@ -345,18 +278,15 @@ export const useApplicationData = () => {
         .post("/api/tasks/setStartTime", {taskId: id,  status, time})
         .then((res) => {
           fetchTasks()
-          console.log("task:", res.data.task);
           toast.success(res.data.message)
         })
         .catch((error) => console.log(error));
 
       }else if(prevStatus === 'Closed'){
-        console.log('wwwwwwwww');
         axios
         .post("/api/tasks/setEndTimeToNull", {taskId: id,  status})
         .then((res) => {
           fetchTasks()
-          console.log("task:", res.data.message);
           toast.success(res.data.message)
         })
         .catch((error) => console.log(error));
@@ -366,7 +296,6 @@ export const useApplicationData = () => {
       .post("/api/tasks/setEndTime", {taskId: id,  status, time})
       .then((res) => {
         fetchTasks()
-        console.log("task:", res.data.message);
         toast.success(res.data.message)
       })
       .catch((error) => console.log(error));
@@ -375,7 +304,6 @@ export const useApplicationData = () => {
       .post("/api/tasks/startAgain", {taskId: id,  status})
       .then((res) => {
         fetchTasks()
-        console.log("task:", res.data.message);
         toast.success(res.data.message)
       })
       .catch((error) => console.log(error));
@@ -385,22 +313,7 @@ export const useApplicationData = () => {
   };
 
 
-  // return difference from estimated start time and actual system for alert
-  const timeDifference = (task) => {
-    // gett entire date
-    function getDateFromTime(time) {
-      time = time.split(':');
-      let now = new Date();
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
-    }
-    
-    // dispatch({ type: ACTIONS.SET_ALERT_LENGTH, payload: length });
-    
-    const stimatedTimeInMilliseconds = new Date(getDateFromTime(task.estimatedstarttime)).getTime()
-    const currentTime = new Date().getTime() 
-    const diff = (((stimatedTimeInMilliseconds - currentTime)/1000)/60).toFixed(0)
-    return diff <= 5 ? diff : null
-  }
+
 
   return {
     state,
@@ -414,6 +327,8 @@ export const useApplicationData = () => {
     userSignup,
     moveTask,
     detailsToggleModal, 
-    timeDifference
+    timeDifference,
+    fetchTasks
   };
 };
+
