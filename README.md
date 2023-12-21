@@ -61,3 +61,5 @@ The application significantly enhances users' productivity and organization by p
 ['first-screen-shot'](https://github.com/mohaelmi/TaskMgt/assets/31275085/3170720e-d025-4599-be3e-a3fc262dce63)
 
 ['second-screen-shot'](https://github.com/mohaelmi/TaskMgt/assets/31275085/873ab662-5db4-473b-a4f4-463b5e5b0e71)
+
+![final-main-page](https://github.com/mohaelmi/TaskMgt/assets/31275085/7f1c0c92-6455-40ea-b289-9afadf61ab06)
